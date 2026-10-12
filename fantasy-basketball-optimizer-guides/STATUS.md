@@ -1,13 +1,16 @@
 # STATUS — agent handoff (update on every working session)
 
 **Current stage:** 00 — Repository foundation  
-**State:** Local Python checks verified; owner Git/publication steps pending  
-**Next task:** Owner reruns locked sync and checks after the ROS-plugin fix, then stages, formats tracked C++ files, commits and publishes the approved public repository. Do not begin Stage 01.  
+**State:** Branch-policy documentation prepared on dev_branch-workflow; owner application/protection verification pending.
+
+**Next task:** Owner creates dev from reviewed main and dev_branch-workflow from dev, applies the prepared patch, and integrates it through a pull request into dev. Configure/verify main protection before a separate, fully checked and owner-approved promotion. Do not begin Stage 01.
 **Owner approvals pending:** Public GitHub repository creation and push approved this session; Yahoo access application submission is done by owner.  
 **Last verified checks:** Pinned Python Ruff/format/mypy passed; pytest 5/5 and installed CLI help/status passed. C++ Debug build/clang-tidy and explicit-source clang-format passed; CTest 1/1 with environment-specific leak detection disabled. GitHub CI remains unverified.  
 **Data access:** Yahoo API not confirmed. Fixture-only until authorized.  
 
 ## Current execution plan
+
+Branch-policy update: require dev_<feature> -> dev -> protected main, with checks/review before integration and verified promotion. Root Git writes remain blocked, so perform this documentation change on dev_branch-workflow based on dev in a disposable /tmp clone. Update both agent instruction files, design rules, README and Stage 00 guidance, check the diff and create an applyable patch for the owner. No remote changes or Stage 01 work.
 
 ROS failure continuation: reproduce pytest startup failure, verify pytest 8.4's plugin isolation switch, configure it for this project, rerun pinned Python checks and C++ checks, and refresh the stale lockfile/setup notes. Keep Stage 01 untouched; Git staging/publishing still requires owner terminal if agent .git remains read-only.
 
@@ -30,6 +33,7 @@ Continuation: owner approved public repository creation and push. Workspace Git 
 - Pin Python 3.12.14 and uv 0.12.18; 3.12.15 was requested but the installed uv registry has no download. Python 3.12 is supported; review pins together for the latest security patch when dependencies can be installed.
 - Plain CTest smoke executable is the Stage 00 exception to third-party frameworks; no Python/C++ bindings, storage, Yahoo implementation or pre-commit layer yet.
 - Pytest 8.4 plugin autoload is disabled in project addopts: the sourced ROS PYTHONPATH exposes Python 3.10 launch_testing metadata to Python 3.12, causing pytest startup failure. No YAML/ROS dependency is added; future pytest plugins must be pinned and explicitly enabled.
+- Owner selected dev_<feature> work branches (underscore), dev integration, and protected main. Feature changes merge into dev through reviewed, passing pull requests; main receives only fully verified dev promotions with owner approval. No direct main/dev commits, force pushes, or protection bypass.
 
 ## Work completed this session
 
@@ -39,17 +43,29 @@ Continuation: owner approved public repository creation and push. Workspace Git 
 - Fixed real clang-format diagnostics by formatting the three new C++ files.
 - Owner successfully ran uv sync and generated uv.lock. Reproduced ROS-plugin pytest startup failure; fixed it via --disable-plugin-autoload in project config and verified all pinned Python tools using the populated .venv.
 - Updated README to reflect the real lockfile and document pytest plugin isolation.
+- Updated branch standards in root/guide AGENTS.md, DESIGN_RULES.md, README and Stage 00 guidance on dev_branch-workflow in an isolated /tmp clone based on dev. Root main checkout is preserved. GitHub protection has not been configured or verified by this update.
 
 ## Files changed
+
+Branch-policy change only: root AGENTS.md and README.md; guide AGENTS.md, docs/DESIGN_RULES.md, docs/stages/00-repository-foundation.md and this STATUS.md. All changes are in an isolated checkout and will be handed off as a patch; the original root working tree is unchanged.
 
 - Root: `AGENTS.md` (guide pointer), `README.md`, `pyproject.toml`, `.python-version`, `.gitignore`, `.env.example`, `.editorconfig`, `.clang-format`, `.clang-tidy`.
 - Python: `src/fantasy_optimizer/{__init__,__main__,cli}.py`, `tests/test_smoke.py`.
 - C++: `cpp/CMakeLists.txt`, `cpp/include/fantasy_optimizer/foundation.hpp`, `cpp/src/foundation.cpp`, `cpp/tests/test_foundation.cpp`.
 - CI/application: `.github/workflows/ci.yml`, `docs/API_REQUEST.md`.
-- Handoff: this `STATUS.md`. Other original guide documents are unchanged.
+- Handoff: this `STATUS.md`; original guide engineering instructions and Stage 00 guidance now include the owner-requested branch workflow in the isolated patch.
 - `uv.lock` is now present, generated by owner's successful uv sync. `build/` contains ignored local artifacts; no private data or credentials created.
 
 ## Verification (commands + real outcomes)
+
+Branch-policy session:
+
+- Disposable Git reproduction confirmed dev and dev/feature conflict (branch creation exit 128); owner selected dev_<feature> instead.
+- Workspace git switch -c dev_branch-workflow: exit 128, read-only .git prevents lock-file creation. Inspected .git: zero existing *.lock files; this is a mount permission issue, not a stale lock.
+- Local clone under /tmp, branch dev from main baseline eea46df, then dev_branch-workflow from dev: exit 0. No Git locks removed and no protected branch edited.
+- git diff --check: exit 0; README local links and branch-policy consistency checks: exit 0. Runtime tests are not repeated for this documentation-only change; prior verified checks remain historical evidence, not verification of a future promotion.
+- Generated /tmp/fantasy-branch-workflow.patch; git apply --check against the original checkout: exit 0. Original checkout remains clean on main; the owner must create the work branch before applying the patch.
+- Owner requested stale-lock cleanup and sequential retry. Automatic approval review rejected rm -f .git/index.lock because rm -f-style commands are not permitted. Targeted Python cleanup/check: exit 0, no index.lock or branch lock files existed. Sequential git switch -c dev_branch-workflow retry: exit 128, still read-only .git/refs/heads mount. No lock was removed because none existed.
 
 Latest ROS-fix session (supersedes earlier blocked Python attempts below):
 
@@ -95,9 +111,11 @@ Earlier environment inspection and attempts (historical):
 
 ## Next exact action
 
+Apply the branch-policy patch on dev_branch-workflow based on dev using the owner terminal. Review and open a pull request targeting dev; require passing checks before integration. Verify/configure GitHub main protection before promotion. The earlier Stage 00 completion steps below remain outstanding and must use this branch flow rather than direct commits/pushes to main.
+
 1. Owner runs `uv sync --locked --group dev`, required Ruff/format/mypy/pytest and installed CLI checks from workspace root; the project config now isolates pytest from ROS plugins.
-2. Owner runs standard CMake/build/CTest in their terminal to verify full leak checking, then git add, tracked-source clang-format, status review and initial commit. Agent .git remains read-only; owner publication approval persists.
-3. Create/push public bk-del/fantasy-basketball-optimizer using working gh authentication, replace the API request URL placeholder, verify remote and actual GitHub CI, and record results in this handoff.
+2. Owner runs standard CMake/build/CTest in their terminal to verify full leak checking, then git add, tracked-source clang-format, status review and commit on a dev_<feature> branch. Agent .git remains read-only; owner publication approval persists.
+3. The initial main baseline eea46df and origin URL https://github.com/bk-del/fantasy-basketball-optimizer.git now exist locally. Verify remote publication and actual GitHub CI, replace the API request URL placeholder when confirmed, and record results. Further changes use feature -> dev -> protected main pull requests.
 4. Stop at Stage 00 gate. Stage 01 requires a new owner instruction; it has not been read or implemented.
 
 ## Stage 00 acceptance status
@@ -115,3 +133,4 @@ Earlier environment inspection and attempts (historical):
 - 2026-10-12: Read required instructions and referenced constraints in full. Owner approved project name and root layout. Implemented Stage 00 local scaffold; C++ build/analysis/format and constrained CTest verified; supplementary CLI tests 5/5 passed. Shell DNS and read-only Git metadata block dependency lock/pinned Python validation and Git acceptance. Stop here pending environment repair; exact continuation above.
 - 2026-10-12 continuation: Owner explicitly approved a public repository and push. git status --short now succeeds; main has no commits and no remote. git add of the intended scaffold/docs failed with read-only .git/index.lock (exit 128). uv sync --group dev retried with writable /tmp cache/runtime directories and failed DNS (exit 2); getent hosts github.com pypi.org returned no addresses. gh auth status failed (exit 1), while GitHub connector get_user_login verified bk-del; connector lacks repository creation. Tracked C++ enumeration is empty because staging failed, so no tracked-format success is claimed. No source changes or new test passes this session. Existing blockers remain; authorization persists for completion once session permissions/network are repaired.
 - 2026-10-12 ROS fix: Owner installed pinned environment and generated uv.lock; pytest crashed loading ROS plugins from PYTHONPATH. Reproduced failure, enabled pytest's --disable-plugin-autoload in project config, and verified 5/5 pinned tests plus Ruff/format/mypy/installed CLI. C++ build and constrained CTest also passed. README lockfile note corrected. Continue owner terminal checks, staging and approved publication; no Stage 01 work.
+- 2026-10-12 branch-policy update: Owner requested protected main, dev integration and separate agent branches, then chose dev_<feature> after the Git namespace conflict was demonstrated. Root branch creation remains blocked by read-only .git; zero stale lock files exist. Prepared standards changes on dev_branch-workflow based on dev in a /tmp clone. Do not disable Git locking or remove .git. Owner must apply the patch on the work branch and enforce remote main protection before promotion; no remote settings changed and no Stage 01 work performed.

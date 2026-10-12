@@ -13,6 +13,7 @@ from fantasy_optimizer.audit import audit
 from fantasy_optimizer.forecast_fixture import forecast_fixture
 from fantasy_optimizer.forecasting import MODELS, ForecastError
 from fantasy_optimizer.ingestion import sync_fixture
+from fantasy_optimizer.matchup_fixture import matchup_fixture
 from fantasy_optimizer.storage import StorageError
 from fantasy_optimizer.yahoo import (
     FixtureYahooClient,
@@ -61,15 +62,53 @@ def main(argv: Sequence[str] | None = None) -> int:
     forecast_command.add_argument(
         "--output", type=Path, default=Path("models/weekly-counts-v1")
     )
+    matchup_command = commands.add_parser(
+        "simulate", help="Simulate handmade game fixtures"
+    )
+    matchup_command.add_argument("--fixture", action="store_true")
+    matchup_command.add_argument("--seed", type=int, default=42)
+    matchup_command.add_argument("--scenarios", type=int, default=1000)
+    matchup_command.add_argument("--backend", choices=("python", "cpp"), default="cpp")
+    matchup_command.add_argument("--benchmark", action="store_true")
     args = parser.parse_args(argv)
     if args.command == "status":
-        print("Stage 03: fixture weekly forecasts; optimization is planned.")
+        print(
+            "Stage 04: fixture correlated matchup simulation; optimization is planned."
+        )
         print("Yahoo access is unconfirmed until audited; fixtures are synthetic.")
         return 0
     token_path = Path(os.environ.get("YAHOO_TOKEN_FILE", ".oauth/tokens.json"))
     approved = os.environ.get("YAHOO_ACCESS_APPROVED") == "1"
     try:
-        if args.command == "forecast":
+        if args.command == "simulate":
+            if not args.fixture:
+                print(
+                    json.dumps(
+                        {
+                            "error": "live_simulation_unavailable",
+                            "message": (
+                                "Use --fixture; live game forecasts "
+                                "and rules are unverified."
+                            ),
+                        }
+                    ),
+                    file=sys.stderr,
+                )
+                return 1
+            try:
+                result = matchup_fixture(
+                    seed=args.seed,
+                    scenarios=args.scenarios,
+                    backend=args.backend,
+                    benchmark=args.benchmark,
+                )
+            except (ValueError, ImportError) as error:
+                print(
+                    json.dumps({"error": "simulation_failed", "message": str(error)}),
+                    file=sys.stderr,
+                )
+                return 1
+        elif args.command == "forecast":
             if not args.fixture:
                 print(
                     json.dumps(

@@ -1,14 +1,63 @@
 # STATUS — agent handoff (update on every working session)
 
-**Current stage:** 03 — Baseline forecasting (fixture-only).
-**State:** Fixture implementation and acceptance checks passed directly in the main repository on `dev`; uncommitted. No Stage 04 work.
-**Active baseline:** Recency-weighted weekly count mean, provisional; model `weekly-counts-v1`, forecast contract 1, feature `weekly-aggregates-v1`. Long-run and empirical-Bayes shrinkage comparisons are available.
-**Data constraints:** Yahoo access, game-level/weekly history, schedule, minutes and availability probabilities remain unverified. Forecasts are explicitly synthetic weekly aggregates; no real-world calibration claim.
-**Next exact step:** Owner reviews and commits Stage 03 changes on `dev` using their terminal. Run full CTest outside ptrace and verify actual GitHub CI. Stop at Stage 03; Stage 04 needs new authorization. Before live forecasts, obtain authorized samples and verify comparable point-in-time stat windows.
-**Workflow:** Work directly on `dev`; keep `main` protected and merge only reviewed, verified changes. Workspace Git metadata remains read-only to this session.
-**Storage:** Schema version 1 remains unchanged; no migration or new dependency needed.
+**Current stage:** 04 — Correlated 9-CAT matchup simulation (fixture-only).
+**State:** Implementation committed locally on dev; fixture acceptance and all required local checks passed in the main checkout. Stopped at Stage 04 approval gate.
+**Data constraints:** Yahoo schedule, actual league rules and player-game forecasts remain unverified. Handmade game fixtures are separate from Stage 03 weekly aggregates; probabilities are uncalibrated.
+**Next exact step:** Owner reviews Stage 04 changes and saved benchmarks on dev. Do not merge into main, publish or begin Stage 05 without new approval. Obtain authorized point-in-time samples before any live simulation.
+**Workflow:** Direct dev development; main untouched. No merge, push or external publication.
+**Storage:** Schema version 1 unchanged; no migration, persistent simulator cache or waiver optimizer.
 
-## Completed execution plan and work
+## Stage 04 execution plan (completed 2026-10-12)
+
+Recorded before implementation: validated roster/schedule/eligibility and observed-count inputs; explicit scoring/ties; reusable seeded joint scenarios; Python reference followed by measured C++20/nanobind kernel; arithmetic/constraints/parity/convergence tests; 1k/10k/20k benchmarks; all configured Python/C++ checks, package/CLI verification and this handoff. Stop at Stage 04 gate.
+
+## Stage 04 completed work and changed files
+
+- New src/fantasy_optimizer/simulation.py: typed game forecasts, rules, selection and scenario bank; count/metadata/bounds validation; schedule/roster/eligibility/locks/daily slots/caps/scoring-period checks; exact weighted percentages and TO inversion; selectable scoring/category ties/zero attempts/matchup ties; observed totals plus remaining games only.
+- Completed games are skipped; actively playing games reject full-game forecasts to prevent double-counting. Empty remaining schedules work. Half-credit matchup ties have separate expected credit and SE; they are not mislabeled as full wins.
+- New src/fantasy_optimizer/matchup_fixture.py: 40 handmade player-games, ten fictional players and three joint vectors/game. Unknown minutes/availability probabilities stay null. Stage 03 weekly vectors are not converted to fake games.
+- Stable per-game seeded joint bootstrap, input/scenario/Python-code hashes, model/simulator/rules versions and NumPy version. Reuse the same bank across selections; adding/reordering unrelated games preserves existing RNG streams. Raw batch capped at 256 MiB; selected copies/hashing use additional memory.
+- New cpp/include/fantasy_optimizer/matchup.hpp, cpp/src/matchup_kernel.cpp and cpp/src/matchup.cpp: shared C++20 count/comparison kernel plus batched nanobind binding with contiguous int64 inputs and owned int8 output; no Python calls or RNG inside scenario loops.
+- New cpp/tests/test_matchup.cpp (Catch2 2.13.8 locally), cpp/tests/run_parity.py and tests/test_simulation.py. CTest explicitly loads its freshly built extension because editable-wheel redirection otherwise selects the installed Release module.
+- Updated cpp/CMakeLists.txt, pyproject.toml and uv.lock: pinned NumPy 2.2.6/nanobind 2.9.2; scikit-build-core 0.11.6 builds native wheels. Existing fixtures remain packaged. Sanitized standalone tests exercise the same kernel; the interpreter-loaded binding omits ASan instrumentation.
+- Updated cli.py/tests/test_smoke.py: fixture-only fantasy simulate with seed/scenarios/backend/benchmark and live gating. Updated CI to install tools before native uv build and run offline simulation. Updated README; new docs/SIMULATION.md and docs/benchmarks/stage04.json record contracts, limitations and measured costs.
+- This STATUS.md is the single handoff. No later-stage implementation, system-wide dependency installation, live request, storage schema change or remote operation.
+
+## Stage 04 verification — actual outcomes
+
+Commands ran at project root; uv used UV_CACHE_DIR=/tmp/fantasy-stage01-uv-cache.
+
+- Initial restricted uv add failed DNS; approved elevated uv add installed pinned numpy==2.2.6 and nanobind==2.9.2. Elevated uv sync downloaded the pinned native build backend. Subsequent uv sync --locked --offline --group dev passed (15 resolved/14 checked).
+- uv run --offline --no-sync ruff check .: passed; ruff format --check .: passed (17 files). mypy src: passed (11 source files). Initial formatting/type diagnostics were fixed, not suppressed.
+- uv run --offline --no-sync pytest -q: **77 passed in 8.19 seconds** on the final full check. Tests include weighted FG/FT, exact ratio ties, inverted TO, five-win/half-category/majority scoring, zero attempts, observed partial matchup totals, completed games and active-game rejection, empty schedules, invalid inputs, constraints, shared streams, reproducibility, convergence and exact stochastic/deterministic native parity. No tests skipped.
+- cmake -S cpp -B build/cpp -G Ninja -DCMAKE_BUILD_TYPE=Debug; cmake --build build/cpp: passed. CMake automatically selects root .venv Python when no interpreter override is supplied. Project changed sources compiled with clang-tidy and warnings-as-errors. Third-party nanobind implementation is excluded from project lint policy; its headers use system include treatment.
+- Standard sandbox CTest failed with LeakSanitizer's ptrace limitation. ASAN_OPTIONS=detect_leaks=0 ctest passed 3/3 as a constrained diagnostic. Then **standard ctest --test-dir build/cpp --output-on-failure outside sandbox tracing passed 3/3 in 1.56 seconds**, including final Catch2 ASan/UBSan/leak checks and the just-built Debug native parity tests. Full leak verification is now confirmed locally for these targets.
+- git ls-files -z -- '*.cpp' '*.hpp' | xargs -0 -r clang-format-14 --dry-run --Werror: passed; explicit dry-run of all four new C++ source/header/test files also passed before tracking. git diff --check passed.
+- uv run --offline --no-sync fantasy simulate --fixture --benchmark: passed; saved final 1k/10k/20k timings in docs/benchmarks/stage04.json. A preliminary 1k Python measurement was 0.118 s; final warmed kernel medians below. No production/end-to-end speedup claim.
+- Two installed fantasy simulate --fixture runs produced byte-identical JSON. CLI tests verify live refusal and invalid scenario counts.
+- uv build --offline: passed, sdist and native cp312 Linux wheel produced. Isolated Python -I -S imported both package/native module from an extracted wheel (paths asserted), matched Python/native results and all saved benchmark result/provenance fields, and loaded Stage 03 packaged forecasts successfully.
+- Elevated git add and git commit succeeded for the 18 Stage 04 files on dev; restricted Git metadata did not block the local commit. Tracked formatting and staged diff checks passed; this final handoff update is included in that commit. No main/remote changes.
+- Local README/simulation documentation links and CI YAML parsing passed. Remote GitHub CI not run/claimed. No Yahoo/live calibration tests run because data/settings are unverified.
+
+## Stage 04 measured performance and acceptance
+
+Installed Release wheel, GCC 11.4.0, Python 3.12.14, NumPy 2.2.6, seed 42, 40 synthetic player-games. Warm-up excluded; kernel medians over three repetitions. Preparation measured once separately; final reporting/hashing/CLI startup/I/O excluded.
+
+| Scenarios | Preparation (s) | Python kernel (s) | C++ kernel (s) |
+|---:|---:|---:|---:|
+| 1,000 | 0.025638 | 0.098992 | 0.001273 |
+| 10,000 | 0.171255 | 1.026109 | 0.013294 |
+| 20,000 | 0.321204 | 2.024418 | 0.026835 |
+
+**Fixture acceptance met:** hand-calculated arithmetic/remaining-games/ties/five-win scoring; fixed-seed native repeatability and exact shared-sample Python/native parity; three benchmark sizes and saved regression tests; handoff updated. No runtime thresholds or GPU work.
+
+**Limitations/decisions:** games sampled independently, so within-vector dependence survives but cross-game/player context does not. Monte Carlo SE measures sampling precision; a zero observed SE does not prove certainty. Actual Yahoo scoring/constraints, game forecasts and calibration remain unverified. Partial NBA-game forecasts and verified live adapters are deferred explicitly. All configured local checks passed; actual GitHub CI still unverified. Stage 05, merge and publication await owner approval.
+
+## Archived Stage 03 completion record (historical)
+
+The following prior handoff is preserved as history; its then-current gate and leak-check limitation are superseded by the Stage 04 authorization/results above.
+
+### Completed execution plan and work
 
 - Read required handoff/stage/design/contracts/validation documents; recorded Stage 03 plan before implementation. Initial workspace was clean on dev, preserving the owner's previous commits.
 - Implemented typed seven-day count windows, point-in-time splits, revision selection, duplicate handling and rejection of overlapping or impossible records. Training requires window end, observation and ingestion at/before origin.
@@ -20,13 +69,13 @@
 - Benchmarked all three baselines over 40 rolling-origin cases each, with per-stat MAE, empirical 80% coverage, threshold Brier and probability Monte Carlo SE. No complex ML, matchup simulation or waiver recommendations.
 - Added offline forecasting to CI and documented exact measured results and failure cases in docs/FORECASTING.md.
 
-## Changed files
+### Changed files
 
 - New: src/fantasy_optimizer/forecasting.py, forecast_fixture.py, fixtures/forecast.json; tests/test_forecasting.py; docs/FORECASTING.md.
 - Updated: src/fantasy_optimizer/cli.py, tests/test_smoke.py, .github/workflows/ci.yml, README.md, this STATUS.md.
 - No dependencies, lockfile, DuckDB schema, C++ sources, Git protections or remote publication changed.
 
-## Verification — actual outcomes
+### Verification — actual outcomes
 
 Commands ran at the repository root, with UV_CACHE_DIR=/tmp/fantasy-stage01-uv-cache for uv:
 
@@ -42,7 +91,7 @@ Commands ran at the repository root, with UV_CACHE_DIR=/tmp/fantasy-stage01-uv-c
 - README/forecast local links and offline CI YAML parsing: passed. git diff --check passed before this handoff; final diff check follows its update.
 - No live Yahoo requests, real-history evaluation, remote GitHub CI, merge or push performed.
 
-## Measured synthetic benchmark (40 cases/model)
+### Measured synthetic benchmark (40 cases/model)
 
 | Model | PTS MAE | FGA MAE | TO MAE | PTS 80% coverage | PTS threshold Brier |
 |---|---:|---:|---:|---:|---:|
@@ -58,7 +107,7 @@ unwidened toy intervals undercovered; exposure multipliers were added because
 unknown context requires uncertainty, not tuned to achieve nominal coverage.
 The final overly broad intervals still do not establish calibration.
 
-## Decisions, acceptance and blockers
+### Decisions, acceptance and blockers
 
 - Stage 03 fixture acceptance met: no later-known input enters training, counts/missingness/small samples and shrinkage tested, deterministic forecasts and versioned serialization verified, objective rolling benchmarks documented.
 - Honest granularity fallback: only seven-day aggregate forecasts, not a claimed per-player-game contract backed by absent game history. No verified schedule/availability proxies exist; those assumptions remain unknown.
@@ -87,3 +136,5 @@ The final overly broad intervals still do not establish calibration.
 - 2026-10-12 owner terminal verification: `uv run fantasy sync --fixture` succeeded with 7 changed snapshots, no failed sources, 4,993,024 database bytes and 0.319983 seconds. `uv run fantasy sync --fixture --scenario changed` succeeded with 3 changed snapshots, no failed sources, 7,876,608 bytes and 0.294168 seconds. Both reported synthetic fixture mode and schema version 1. Owner CLI verification is confirmed; full leak checks, remote CI and live Yahoo access remain unverified. Next action: review and commit working-tree changes on dev; no Stage 03 authorization yet.
 
 - 2026-10-12 Stage 03: Owner authorized the next stage. Implemented weekly fixture forecasting directly on dev; all 55 tests, lint/format/mypy, CLI/artifact/wheel verification and constrained CTest passed. Benchmarked 40 synthetic origins per baseline; recency is provisional, intervals uncalibrated. Live forecasts and Stage 04 remain disabled/unimplemented. Next: owner review/commit and stage gate.
+
+- 2026-10-12 Stage 04: Owner authorized only fixture matchup simulation. Implemented Python/C++20/nanobind joint count simulation, explicit synthetic schedule/rules and common scenario banks directly on dev; 77 Python tests and 3/3 full-sanitizer CTest targets passed, with lint/format/mypy/native wheel/CLI verification. Saved 1k/10k/20k benchmark results and limitations. No live Yahoo, merge, publication or Stage 05 work. Stop at Stage 04 gate.

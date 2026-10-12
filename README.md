@@ -1,11 +1,11 @@
 # Fantasy Basketball Optimizer
 
-**Status: fixture audit, storage and weekly forecasts implemented; live access unconfirmed.** Stage 00 provides
+**Status: fixture audit, storage, forecasts and matchup simulation implemented; live access unconfirmed.** Stage 00 provides
 the Python/C++20 foundation. Stage 01 adds local authorization metadata, a
 deterministic synthetic capability audit and a gated read-only live probe client.
 Stage 02 adds DuckDB snapshots and offline incremental ingestion. Live OAuth
 access is unverified. Stage 03 provides baseline weekly fixture forecasts;
-matchup simulation and recommendations are planned. See the [current handoff](fantasy-basketball-optimizer-guides/STATUS.md)
+Stage 04 adds correlated fixture matchup simulation. Recommendations are planned. See the [current handoff](fantasy-basketball-optimizer-guides/STATUS.md)
 for verification results and blockers.
 
 A personal, local tool planned for one initial user in a 14-team Yahoo H2H
@@ -29,9 +29,8 @@ Yahoo (authorized read access only)
                     C++20 only for measured hotspots
 ```
 
-Python owns orchestration and local DuckDB storage. Python/C++ bindings are
-planned for later stages. The present C++ target only
-checks the toolchain; it is not a simulator.
+Python owns orchestration and local DuckDB storage. The nanobind C++20 module aggregates joint
+scenario batches; a Python reference verifies its arithmetic.
 
 ## Local development: WSL2 Ubuntu and native Ubuntu
 
@@ -42,7 +41,7 @@ missing; agents require approval before system-wide installation:
 
 ```bash
 sudo apt-get update
-sudo apt-get install --no-install-recommends g++ cmake ninja-build clang-format-14 clang-tidy-14
+sudo apt-get install --no-install-recommends g++ cmake ninja-build clang-format-14 clang-tidy-14 catch2
 ```
 
 Install [uv](https://docs.astral.sh/uv/getting-started/installation/) version
@@ -68,20 +67,22 @@ ctest --test-dir build/cpp --output-on-failure
 git ls-files -z -- '*.cpp' '*.hpp' | xargs -0 -r clang-format-14 --dry-run --Werror
 ```
 
-CMake runs clang-tidy on both C++ translation units and enables address/undefined
-behavior sanitizers in Debug builds. CTest uses a plain executable, avoiding
-third-party downloads. DuckDB 1.4.5 is the sole runtime dependency; no pre-commit layer is needed.
+CMake runs clang-tidy on project C++ sources and enables address/undefined
+behavior sanitizers in standalone Debug tests. Stage 04 uses Catch2 (2.13.8
+verified locally) and explicitly tests the just-built module against Python.
+NumPy 2.2.6 and nanobind 2.9.2 join DuckDB 1.4.5; scikit-build-core 0.11.6
+builds the native wheel. Install C++ tools before the first uv sync.
 In this restricted agent environment, LeakSanitizer fails under process tracing.
 `ASAN_OPTIONS=detect_leaks=0 ctest --test-dir build/cpp --output-on-failure` passed
 with address and undefined-behavior instrumentation retained. Use the normal
-CTest command on Ubuntu; full leak checking has not been verified here.
+CTest command on Ubuntu; Stage 04 full leak checking also passed outside the restricted sandbox.
 
 The first uv sync requires network access to install Python and download
 development packages. `uv.lock` records the resolved versions; commit it and use
 `uv sync --locked --group dev` to reproduce the environment. Checks then run
 offline from the populated environment; CI has no Yahoo secrets or API calls.
 CI has not yet been verified on GitHub. Ubuntu runner images/system package
-patches may change; C++ dependencies do not require downloads.
+patches may change; the pinned binding/build dependencies require an initial download.
 
 If your home cache is read-only, set `UV_CACHE_DIR` to a writable directory and
 `UV_PYTHON_INSTALL_DIR` to a writable managed-runtime directory before using uv.
@@ -182,3 +183,17 @@ The original guides stay in their own folder. Read
 
 [Yahoo access request draft](docs/API_REQUEST.md). Publication requires owner
 approval; application submission is manual by the owner. Stop at each stage gate.
+
+## Fixture matchup simulation (Stage 04)
+
+```bash
+uv run fantasy simulate --fixture --seed 42 --scenarios 1000
+uv run fantasy simulate --fixture --backend python
+uv run fantasy simulate --fixture --benchmark > /tmp/matchup-benchmark.json
+```
+
+Uses 40 handmade player-game forecasts and explicit synthetic rules, separate
+from Stage 03 weekly aggregates. Live simulation is disabled. Reusable seeded
+joint count scenarios preserve category dependence; weighted percentages,
+turnovers, ties and observed totals use Python/native parity checks. See
+[simulation contracts, limitations and saved timings](docs/SIMULATION.md).

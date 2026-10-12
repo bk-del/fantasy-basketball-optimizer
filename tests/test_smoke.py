@@ -34,6 +34,6 @@ def test_module_status() -> None:
         timeout=10,
     )
     assert result.returncode == 0
-    assert "forecasting and optimization are planned" in result.stdout
+    assert "fixture weekly forecasts; optimization is planned" in result.stdout
     assert "Yahoo access is unconfirmed" in result.stdout
     assert result.stderr == ""

@@ -31,6 +31,7 @@ jobs:
           uv run --offline --no-sync fantasy sync --fixture --database /tmp/yahoo-fixture.duckdb
           uv run --offline --no-sync fantasy sync --fixture --database /tmp/yahoo-fixture.duckdb
           uv run --offline --no-sync fantasy sync --fixture --scenario changed --database /tmp/yahoo-fixture.duckdb
+          uv run --offline --no-sync fantasy forecast --fixture --benchmark --output /tmp/forecast-artifacts > /tmp/weekly-forecast.json
       - name: Install Ubuntu C++ tools
         run: |
           sudo apt-get update

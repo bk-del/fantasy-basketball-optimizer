@@ -1,74 +1,73 @@
 # STATUS — agent handoff (update on every working session)
 
-**Current stage:** 02 — Storage and incremental ingestion (fixture-only).
-**State:** Fixture acceptance criteria verified in the main repository on `dev`; changes are uncommitted. Live Yahoo fields/access remain unverified. No Stage 03 work.
-**Schema version:** 1, DuckDB 1.4.5 pinned with the owner-generated lockfile.
-**Workflow:** Develop directly on `dev`; keep `main` protected and merge only reviewed, verified changes. No feature branches required.
-**Next exact step:** Owner reviews and commits the working-tree changes on `dev` using their terminal (session `.git` is read-only). Verify full CTest and remote CI outside this process-traced session. Stop at Stage 02; Stage 03 needs a new instruction. Any later live sync requires approved Yahoo samples and a verified adapter.
+**Current stage:** 03 — Baseline forecasting (fixture-only).
+**State:** Fixture implementation and acceptance checks passed directly in the main repository on `dev`; uncommitted. No Stage 04 work.
+**Active baseline:** Recency-weighted weekly count mean, provisional; model `weekly-counts-v1`, forecast contract 1, feature `weekly-aggregates-v1`. Long-run and empirical-Bayes shrinkage comparisons are available.
+**Data constraints:** Yahoo access, game-level/weekly history, schedule, minutes and availability probabilities remain unverified. Forecasts are explicitly synthetic weekly aggregates; no real-world calibration claim.
+**Next exact step:** Owner reviews and commits Stage 03 changes on `dev` using their terminal. Run full CTest outside ptrace and verify actual GitHub CI. Stop at Stage 03; Stage 04 needs new authorization. Before live forecasts, obtain authorized samples and verify comparable point-in-time stat windows.
+**Workflow:** Work directly on `dev`; keep `main` protected and merge only reviewed, verified changes. Workspace Git metadata remains read-only to this session.
+**Storage:** Schema version 1 remains unchanged; no migration or new dependency needed.
 
-## Completed work
+## Completed execution plan and work
 
-- Added checksummed transactional schema initialization/migration, compatibility checks, six canonical snapshot tables, fetch watermarks, and sanitized success/failure metadata.
-- Implemented idempotent, resource-atomic ingestion. Duplicate and reordered records do not add snapshots; conflicting duplicates, same-time conflicts and older observations are rejected. Unchanged newer fetches advance watermarks without multiplying entity snapshots.
-- Preserved observation, ingestion, optional event/publication timestamps and provenance hashes. Unknown source timestamps remain null. As-of queries require both observation and ingestion to precede the decision, including late-persistence cases.
-- Added normalized, explicitly handmade baseline/changed fixtures for settings, players, roster membership, availability collection, matchup totals and aggregate stat windows. Removed/empty roster membership is explicit; missing partial collection entries never infer deletion/availability.
-- Implemented `fantasy sync --fixture`, `--scenario changed`, and `--database PATH`. Default fixture DB is ignored `data/fixture.duckdb`. Live sync is disabled, even when live audit approval is declared.
-- Added focused migration, idempotency, failure/retry, rollback, timestamp, credential-metadata and point-in-time tests; updated an obsolete smoke test now that sync exists.
-- Added fixture sync/repeat/changed commands to offline CI; documented schema, recovery, limitations and measured metrics.
+- Read required handoff/stage/design/contracts/validation documents; recorded Stage 03 plan before implementation. Initial workspace was clean on dev, preserving the owner's previous commits.
+- Implemented typed seven-day count windows, point-in-time splits, revision selection, duplicate handling and rejection of overlapping or impossible records. Training requires window end, observation and ingestion at/before origin.
+- Built long-run and half-life-28-day recency means plus approximate empirical-Bayes shrinkage. The prior uses only contemporaneously known other players, equal-player mass, and clipped within/between-player moment estimates (2–20 pseudo-windows). No unsupported prior is invented when peers are absent.
+- Sampled complete joint count vectors, preserving within-player category dependence and makes/attempts constraints. Unknown exposure gets a shared heuristic multiplier; small histories use a wider multiplier. Raw percentages are not independently averaged or forecast. Missing counts remain null; unknown game count, availability probability and minutes stay null.
+- Added per-player running count/decay aggregates, copied as-of feature snapshots, provenance/config hashes, model/code versions, deterministic player RNG streams and content-addressed JSON artifacts under ignored models/weekly-counts-v1.
+- Added 48 explicitly handmade weekly vectors for four fictional players, separate from Stage 02's coarse season aggregate. No season totals were converted to fabricated games/weeks.
+- Implemented fantasy forecast --fixture, --model, --seed, --samples, --benchmark and --output. Live forecasts refuse execution before creating artifacts.
+- Benchmarked all three baselines over 40 rolling-origin cases each, with per-stat MAE, empirical 80% coverage, threshold Brier and probability Monte Carlo SE. No complex ML, matchup simulation or waiver recommendations.
+- Added offline forecasting to CI and documented exact measured results and failure cases in docs/FORECASTING.md.
 
-## Files changed for Stage 02
+## Changed files
 
-- `pyproject.toml`, `uv.lock`: owner installed pinned DuckDB with real dependency resolution; no fabricated lock entries.
-- `src/fantasy_optimizer/storage.py`, `ingestion.py`, `fixtures/ingestion.json`, `cli.py`.
-- `tests/test_storage.py`, `tests/test_smoke.py`.
-- `.github/workflows/ci.yml`, `README.md`, `docs/STORAGE.md`, this handoff.
-- Earlier uncommitted Stage 01 documentation/tests and branch guidance remain intact; do not discard or confuse them with Stage 02-only changes. All relevant implementation is in the main repository, not dependent on the temporary checkout.
+- New: src/fantasy_optimizer/forecasting.py, forecast_fixture.py, fixtures/forecast.json; tests/test_forecasting.py; docs/FORECASTING.md.
+- Updated: src/fantasy_optimizer/cli.py, tests/test_smoke.py, .github/workflows/ci.yml, README.md, this STATUS.md.
+- No dependencies, lockfile, DuckDB schema, C++ sources, Git protections or remote publication changed.
 
-## Decisions and simplifications
+## Verification — actual outcomes
 
-- Fixture-only normalized records exercise proposed internal contracts. No live parser is assumed from these fixtures; availability/eligibility/status support remains unverified.
-- Six entity-specific tables share a small provenance envelope and store versioned canonical JSON payloads. No ORM, storage abstraction layer, Parquet duplicate, raw-response archive, forecast schema or game synthesis.
-- Source batches are individually transactional. Partial fetch failures preserve prior state and allow successful resources to commit; downstream consumers must inspect failures/freshness. Retry upserts operational attempt identity; it is not an append-only backtest history.
-- All clocks require explicit timezones; TIMESTAMPTZ preserves UTC semantics. Reading watermark epochs avoids DuckDB's optional pytz conversion dependency without weakening timestamp checks.
-- Replaying older baseline after changed state is rejected; use a new fixture DB for a fresh replay. Actual CLI ingestion time is recorded, while fixture observation times are clearly synthetic.
-- Strict canonical envelope fields and nested credential/transport metadata rejection keep raw auth responses out of persistence. Only fixed error codes enter failure records.
+Commands ran at the repository root, with UV_CACHE_DIR=/tmp/fantasy-stage01-uv-cache for uv:
 
-## Verification — actual commands and results
+- uv sync --locked --offline --group dev: passed, resolved 13/checked 12 packages.
+- uv run --offline --no-sync ruff check . and ruff format --check .: passed (13 files formatted). Initial import/line-length findings fixed; none suppressed.
+- uv run --offline --no-sync mypy src: passed, 9 source files. Initial Optional-count typing errors fixed using explicit checked count access, preserving missingness.
+- uv run --offline --no-sync pytest -q: **55 passed in 5.60 seconds**. Added point-in-time/future correction/late ingestion tests, missing/zero counts, small samples, invalid makes/points/timestamps, overlap/conflicting revisions, shrinkage/fallback, joint sample integrity, deterministic input ordering/seeds, serialization, incremental aggregates, immutable saved features, rolling-origin metrics, artifact hashes and CLI gating.
+- fantasy forecast --fixture --benchmark --output /tmp/fantasy-stage03-final-artifacts: passed; measured all three baselines with seed 42 and 256 samples. Final numbers below and in docs/FORECASTING.md.
+- Installed CLI rerun twice: byte-identical stdout and one content-addressed artifact; serialized artifact forecasts matched output.
+- uv build --offline: passed, sdist/wheel produced. Isolated Python imported forecast_fixture from the wheel (asserted .whl/ module path), loaded packaged fixtures, and matched all four CLI forecasts and code hash.
+- CMake Debug configure/build: passed, existing targets unchanged. Tracked C++ clang-format-14 dry-run: passed.
+- Standard CTest: failed with LeakSanitizer's ptrace fatal error. ASAN_OPTIONS=detect_leaks=0 ctest --test-dir build/cpp --output-on-failure: passed 1/1; ASan/UBSan retained. Full leak validation remains unverified; no global suppression.
+- README/forecast local links and offline CI YAML parsing: passed. git diff --check passed before this handoff; final diff check follows its update.
+- No live Yahoo requests, real-history evaluation, remote GitHub CI, merge or push performed.
 
-Run at `/home/user/projects/fantasy-basketball-optimizer`, with `UV_CACHE_DIR=/tmp/fantasy-stage01-uv-cache` for uv commands:
+## Measured synthetic benchmark (40 cases/model)
 
-- Agent `uv add duckdb==1.4.5`: failed DNS. Owner ran that exact command successfully: resolved 13 packages and installed DuckDB plus rebuilt project. Owner-generated `uv.lock` retained.
-- `uv sync --locked --offline --group dev`: passed, resolved 13 and checked 12 packages.
-- `uv run --offline --no-sync ruff check .`: passed after correcting real line-length/import findings.
-- `uv run --offline --no-sync ruff format --check .`: passed, 10 files formatted.
-- `uv run --offline --no-sync mypy src`: passed, 7 source files.
-- `uv run --offline --no-sync pytest -q`: **41 passed** in 4.64 seconds. Earlier failures exposed the now-supported sync command in an old smoke test, DuckDB's optional timezone conversion dependency, and two epoch assertions; all fixed before final verification.
-- Migration tests: initialization/reopen, future-version rejection, SQL failure rollback and retry passed. Transaction tests verify rows and watermarks roll back together and fixed failure diagnostics remain retryable.
-- CLI baseline/repeat/changed/repeat: passed with changed-row counts **7, 0, 3, 0**; no source failures. Test assertions verify substantive row counts, roster/player/availability history, aggregate stat coverage, empty rosters, and no later-data leakage.
-- `uv build --offline`: passed, produced sdist and wheel. Isolated Python imported ingestion from the wheel (asserted `.whl/` module path), loaded packaged fixtures, and verified baseline/repeat/changed counts 7/0/3 without importing repository source.
-- `cmake -S cpp -B build/cpp -G Ninja -DCMAKE_BUILD_TYPE=Debug` and `cmake --build build/cpp`: passed; unchanged existing targets required no rebuild.
-- Standard `ctest --test-dir build/cpp --output-on-failure`: **failed**, LeakSanitizer fatal under ptrace. `ASAN_OPTIONS=detect_leaks=0 ctest --test-dir build/cpp --output-on-failure`: **passed 1/1**; ASan/UBSan instrumentation retained. Full leak validation remains unverified; no global suppression added.
-- Tracked-source `clang-format-14 --dry-run --Werror`: passed. No C++ changes.
-- README/storage local links and CI YAML parsing: passed. `git diff --check`: passed before final handoff; final check follows this update.
+| Model | PTS MAE | FGA MAE | TO MAE | PTS 80% coverage | PTS threshold Brier |
+|---|---:|---:|---:|---:|---:|
+| long_run | 9.2438 | 8.4635 | 0.8409 | 1.000 | 0.2802 |
+| recency | 7.7342 | 7.0440 | 0.8644 | 1.000 | 0.2461 |
+| shrinkage | 9.1400 | 7.8606 | 0.9149 | 1.000 | 0.2575 |
 
-## Measured local fixture runs
+Recency reduces PTS/FGA error on the smooth synthetic trend; TO does not improve.
+It is a provisional fixture default, not a proven live winner. Shrinkage improves
+sparse-history behavior but is not promoted as universally superior. Shared
+exposure uncertainty makes intervals conservative on this toy dataset. Earlier
+unwidened toy intervals undercovered; exposure multipliers were added because
+unknown context requires uncertainty, not tuned to achieve nominal coverage.
+The final overly broad intervals still do not establish calibration.
 
-These are measurements of tiny fixtures, not performance guarantees or a claim that unchanged sync leaves physical bytes identical. Snapshot rows remain unchanged; DuckDB metadata/checkpoint allocation can change physical file size.
+## Decisions, acceptance and blockers
 
-| Run | Changed snapshots | Database bytes | Duration seconds |
-|---|---:|---:|---:|
-| Baseline | 7 | 4993024 | 0.348534 |
-| Identical repeat | 0 | 6303744 | 0.238132 |
-| Changed | 3 | 8400896 | 0.302028 |
-| Changed repeat | 0 | 8138752 | 0.268885 |
-
-## Acceptance and remaining blockers
-
-- Stage 02 fixture acceptance criteria: met for schema initialization/compatibility, atomic recovery, change-only ingestion, duplicate input, failure/retry, point-in-time queries and measured local metrics.
-- Live sync, OAuth access, Yahoo sample-backed contracts/source freshness, real historical availability and player-game coverage: unverified and intentionally not implemented from guessed fields.
-- Native Ubuntu/WSL2 owner validation, full leak checking and actual GitHub Actions execution remain external verification tasks; CI configuration alone is not a passing run.
-- Workspace `.git` is read-only for the agent. Files are saved on `dev`, but no commit, merge, push or repository protection change was performed. Earlier user changes are preserved.
-- Stop here. No forecasting, simulator, waiver optimizer or later-stage schema was added.
+- Stage 03 fixture acceptance met: no later-known input enters training, counts/missingness/small samples and shrinkage tested, deterministic forecasts and versioned serialization verified, objective rolling benchmarks documented.
+- Honest granularity fallback: only seven-day aggregate forecasts, not a claimed per-player-game contract backed by absent game history. No verified schedule/availability proxies exist; those assumptions remain unknown.
+- Running aggregates support O(stats) new-window updates; fixture CLI rebuilds its tiny selected history. Persistent incremental caches and live storage adapters are deferred until verified windows justify them.
+- Whole-vector empirical resampling preserves observed within-vector dependence, with shared uncalibrated exposure shocks. No cross-player/teammate absence model or precise tail-support claim.
+- Monte Carlo mean/probability SE concerns finite sampling, not model uncertainty. Coverage's plug-in binomial SE is only a diagnostic with repeated players; zero observed failures do not prove calibrated coverage. Synthetic sample size does not justify a live calibration curve.
+- Yahoo approval/authorized histories, real model quality, full LeakSanitizer and remote CI remain blocked/unverified. No successful live tests are claimed.
+- Files are saved in the main checkout on dev. The session cannot commit because .git is read-only; no temporary branch or bundle workflow is needed.
+- Stop here. Stage 04 requires the owner's next instruction.
 
 ## Session history (append concise dated entries)
 
@@ -87,6 +86,4 @@ These are measurements of tiny fixtures, not performance guarantees or a claim t
 
 - 2026-10-12 owner terminal verification: `uv run fantasy sync --fixture` succeeded with 7 changed snapshots, no failed sources, 4,993,024 database bytes and 0.319983 seconds. `uv run fantasy sync --fixture --scenario changed` succeeded with 3 changed snapshots, no failed sources, 7,876,608 bytes and 0.294168 seconds. Both reported synthetic fixture mode and schema version 1. Owner CLI verification is confirmed; full leak checks, remote CI and live Yahoo access remain unverified. Next action: review and commit working-tree changes on dev; no Stage 03 authorization yet.
 
-- 2026-10-12 push recovery plan: merge origin/dev (8595a3a) into local dev, retain current owner-authorized direct-dev workflow over obsolete remote feature-branch rules, verify the combined committed files, and push normally. Preserve unfinished Stage 03 handoff and forecasting.py outside the merge commit. No main promotion.
-
-- 2026-10-12 push recovery verification: origin/dev 8595a3a contains the obsolete branch-policy PR; merged its history while retaining current owner instructions and local Stage 01/02 implementation. Resolved six workflow documents to current local content. In /tmp/fantasy-push-recovery-check, copied from the resolved Git index: locked offline dev sync, Ruff lint/format (10 files), mypy (7 source files), pytest (41 passed), CMake Debug configure/build and tracked C++ clang-format-14 all passed. Default sandbox CTest failed under ptrace; escalated standard CTest passed 1/1 with full leak checking enabled. git diff --cached --check passed. No C++ changes; configured clang-tidy ran during the clean build. Remote CI remains unverified. Stage 03 changes remain unfinished and excluded from this merge. Next action: commit integration, push dev normally, then resume the existing Stage 03 plan separately; no main promotion.
+- 2026-10-12 Stage 03: Owner authorized the next stage. Implemented weekly fixture forecasting directly on dev; all 55 tests, lint/format/mypy, CLI/artifact/wheel verification and constrained CTest passed. Benchmarked 40 synthetic origins per baseline; recency is provisional, intervals uncalibrated. Live forecasts and Stage 04 remain disabled/unimplemented. Next: owner review/commit and stage gate.

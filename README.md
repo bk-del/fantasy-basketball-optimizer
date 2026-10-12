@@ -1,10 +1,11 @@
 # Fantasy Basketball Optimizer
 
-**Status: fixture audit and storage implemented; live access unconfirmed.** Stage 00 provides
+**Status: fixture audit, storage and weekly forecasts implemented; live access unconfirmed.** Stage 00 provides
 the Python/C++20 foundation. Stage 01 adds local authorization metadata, a
 deterministic synthetic capability audit and a gated read-only live probe client.
 Stage 02 adds DuckDB snapshots and offline incremental ingestion. Live OAuth
-access is unverified; forecasts, simulation and recommendations are planned. See the [current handoff](fantasy-basketball-optimizer-guides/STATUS.md)
+access is unverified. Stage 03 provides baseline weekly fixture forecasts;
+matchup simulation and recommendations are planned. See the [current handoff](fantasy-basketball-optimizer-guides/STATUS.md)
 for verification results and blockers.
 
 A personal, local tool planned for one initial user in a 14-team Yahoo H2H
@@ -132,6 +133,32 @@ collection never imply deletion or availability. Statistical windows remain
 aggregates, without inferred NBA games, dates or unverified scoring categories.
 See [storage schema and recovery](docs/STORAGE.md) for transaction and as-of rules.
 
+## Baseline weekly forecasts (Stage 03)
+
+```bash
+uv run fantasy forecast --fixture
+uv run fantasy forecast --fixture --benchmark
+uv run fantasy forecast --fixture --model shrinkage
+```
+
+The forecast uses 48 handmade weekly vectors for four fictional players, separate
+from the earlier storage fixture's season aggregate. It forecasts the next seven
+days at weekly granularity; it does not reconstruct NBA games or assume a game
+schedule. Live forecasts are disabled pending verified comparable stat windows.
+
+The provisional default is recency weighting. `--model long_run` and `--model
+shrinkage` expose the comparison baselines. Output includes expected raw counts,
+joint integer samples, empirical intervals, missingness, Monte Carlo mean error,
+feature provenance and model/config hashes. Unknown game count, minutes and
+availability probability stay null. Percentages must be computed from raw makes
+and attempts by a later consumer; no independent percentage averaging is used.
+
+Versioned, content-addressed artifacts are written under ignored
+`models/weekly-counts-v1/`; override with `--output DIRECTORY`. Fixed `--seed 42`
+and `--samples 256` reproduce the same report and artifact. See
+[forecast contract and measured benchmarks](docs/FORECASTING.md). These toy
+benchmarks do not demonstrate real-world calibration or recommendation quality.
+
 ## Implementation guides
 
 The original guides stay in their own folder. Read
@@ -144,8 +171,8 @@ The original guides stay in their own folder. Read
 |---|---|
 | [00](fantasy-basketball-optimizer-guides/docs/stages/00-repository-foundation.md) | Repository foundation |
 | [01](fantasy-basketball-optimizer-guides/docs/stages/01-yahoo-api-audit.md) | Yahoo API audit |
-| [02](fantasy-basketball-optimizer-guides/docs/stages/02-storage-and-ingestion.md) | Storage and ingestion (current, fixture-only) |
-| [03](fantasy-basketball-optimizer-guides/docs/stages/03-baseline-forecasting.md) | Baseline forecasting |
+| [02](fantasy-basketball-optimizer-guides/docs/stages/02-storage-and-ingestion.md) | Storage and ingestion |
+| [03](fantasy-basketball-optimizer-guides/docs/stages/03-baseline-forecasting.md) | Baseline forecasting (current, fixture-only) |
 | [04](fantasy-basketball-optimizer-guides/docs/stages/04-matchup-simulator.md) | Matchup simulator |
 | [05](fantasy-basketball-optimizer-guides/docs/stages/05-waiver-optimization.md) | Waiver optimization |
 | [06](fantasy-basketball-optimizer-guides/docs/stages/06-context-and-breakouts.md) | Context and breakout signals |

@@ -10,6 +10,8 @@ from pathlib import Path
 import duckdb
 
 from fantasy_optimizer.audit import audit
+from fantasy_optimizer.forecast_fixture import forecast_fixture
+from fantasy_optimizer.forecasting import MODELS, ForecastError
 from fantasy_optimizer.ingestion import sync_fixture
 from fantasy_optimizer.storage import StorageError
 from fantasy_optimizer.yahoo import (
@@ -48,15 +50,48 @@ def main(argv: Sequence[str] | None = None) -> int:
     sync_command.add_argument(
         "--database", type=Path, default=Path("data/fixture.duckdb")
     )
+    forecast_command = commands.add_parser(
+        "forecast", help="Forecast synthetic weekly counts"
+    )
+    forecast_command.add_argument("--fixture", action="store_true")
+    forecast_command.add_argument("--model", choices=MODELS, default="recency")
+    forecast_command.add_argument("--seed", type=int, default=42)
+    forecast_command.add_argument("--samples", type=int, default=256)
+    forecast_command.add_argument("--benchmark", action="store_true")
+    forecast_command.add_argument(
+        "--output", type=Path, default=Path("models/weekly-counts-v1")
+    )
     args = parser.parse_args(argv)
     if args.command == "status":
-        print("Stage 02: fixture storage; forecasting and optimization are planned.")
+        print("Stage 03: fixture weekly forecasts; optimization is planned.")
         print("Yahoo access is unconfirmed until audited; fixtures are synthetic.")
         return 0
     token_path = Path(os.environ.get("YAHOO_TOKEN_FILE", ".oauth/tokens.json"))
     approved = os.environ.get("YAHOO_ACCESS_APPROVED") == "1"
     try:
-        if args.command == "sync":
+        if args.command == "forecast":
+            if not args.fixture:
+                print(
+                    json.dumps(
+                        {
+                            "error": "live_forecast_unavailable",
+                            "message": (
+                                "Live forecasts require verified stat windows; "
+                                "use --fixture."
+                            ),
+                        }
+                    ),
+                    file=sys.stderr,
+                )
+                return 1
+            result = forecast_fixture(
+                seed=args.seed,
+                samples=args.samples,
+                model=args.model,
+                output=args.output,
+                evaluate=args.benchmark,
+            )
+        elif args.command == "sync":
             if not args.fixture:
                 print(
                     json.dumps(
@@ -88,6 +123,12 @@ def main(argv: Sequence[str] | None = None) -> int:
             result = audit(client)
     except YahooError as error:
         print(json.dumps({"error": error.code, "message": str(error)}), file=sys.stderr)
+        return 1
+    except ForecastError as error:
+        print(
+            json.dumps({"error": "forecast_failed", "message": str(error)}),
+            file=sys.stderr,
+        )
         return 1
     except (StorageError, OSError, ValueError, duckdb.Error) as error:
         message = (

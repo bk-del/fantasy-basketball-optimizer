@@ -93,6 +93,14 @@ development dependency and enabled explicitly with `-p`.
 
 ## Implementation guides
 
+Development follows `dev_<feature>` -> `dev` -> protected `main`. Agents work on
+descriptive branches created from `dev`; reviewed pull requests with passing
+checks integrate into `dev`. A separate promotion pull request reaches `main`
+only after full verification and owner approval. Direct commits to `main` or
+`dev`, force pushes to either, and bypassing protection are prohibited. See the
+[branch and merge rules](fantasy-basketball-optimizer-guides/docs/DESIGN_RULES.md).
+GitHub branch protection must be configured and verified separately.
+
 The original guides stay in their own folder. Read
 [AGENTS.md](fantasy-basketball-optimizer-guides/AGENTS.md),
 [design rules](fantasy-basketball-optimizer-guides/docs/DESIGN_RULES.md),

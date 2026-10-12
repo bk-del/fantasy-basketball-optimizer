@@ -1,0 +1,35 @@
+[build-system]
+requires = ["hatchling==1.27.0"]
+build-backend = "hatchling.build"
+
+[project]
+name = "fantasy-basketball-optimizer"
+version = "0.0.1"
+description = "Planned personal, read-only Yahoo fantasy basketball decision tool"
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+dependencies = []
+
+[project.scripts]
+fantasy = "fantasy_optimizer.cli:main"
+
+[dependency-groups]
+dev = ["mypy==1.16.1", "pytest==8.4.1", "ruff==0.11.13"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/fantasy_optimizer"]
+
+[tool.ruff]
+target-version = "py312"
+line-length = 88
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "--strict-config --strict-markers --disable-plugin-autoload"

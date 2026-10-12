@@ -35,7 +35,7 @@ def test_module_status() -> None:
     )
     assert result.returncode == 0
     assert (
-        "fixture correlated matchup simulation; optimization is planned"
+        "fixture read-only add/drop/HOLD suggestions; live access unverified"
         in result.stdout
     )
     assert "Yahoo access is unconfirmed" in result.stdout

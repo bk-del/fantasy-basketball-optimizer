@@ -1,11 +1,12 @@
 # Fantasy Basketball Optimizer
 
-**Status: fixture audit, storage, forecasts and matchup simulation implemented; live access unconfirmed.** Stage 00 provides
+**Status: fixture forecasts, simulation and read-only add/drop/HOLD suggestions implemented; live access unconfirmed.** Stage 00 provides
 the Python/C++20 foundation. Stage 01 adds local authorization metadata, a
 deterministic synthetic capability audit and a gated read-only live probe client.
 Stage 02 adds DuckDB snapshots and offline incremental ingestion. Live OAuth
 access is unverified. Stage 03 provides baseline weekly fixture forecasts;
-Stage 04 adds correlated fixture matchup simulation. Recommendations are planned. See the [current handoff](fantasy-basketball-optimizer-guides/STATUS.md)
+Stage 04 adds correlated fixture matchup simulation. Stage 05 adds fixture-only
+add/drop/HOLD suggestions with explicit constraints and roster-value protection. See the [current handoff](fantasy-basketball-optimizer-guides/STATUS.md)
 for verification results and blockers.
 
 A personal, local tool planned for one initial user in a 14-team Yahoo H2H
@@ -197,3 +198,19 @@ from Stage 03 weekly aggregates. Live simulation is disabled. Reusable seeded
 joint count scenarios preserve category dependence; weighted percentages,
 turnovers, ties and observed totals use Python/native parity checks. See
 [simulation contracts, limitations and saved timings](docs/SIMULATION.md).
+
+## Read-only fixture optimization (Stage 05)
+
+```bash
+uv run fantasy optimize --fixture
+uv run fantasy optimize --fixture --scenario acquisition_cap
+uv run fantasy optimize --fixture --scenario unknown_settings
+uv run fantasy optimize --fixture --seed 42 --screening-samples 256 --finalist-samples 4096
+```
+
+Ranks legal fixture actions against HOLD using shared 9-CAT scenarios, with
+paired sampling uncertainty, category deltas, active lineups and separate
+long-term value proxies. Unknown settings are unverified; protected players,
+locks, acquisition caps and roster restrictions are respected. No transaction
+is submitted and live optimization is disabled. See [optimization rules and
+limitations](docs/OPTIMIZATION.md). Stop at the Stage 05 gate before later stages.

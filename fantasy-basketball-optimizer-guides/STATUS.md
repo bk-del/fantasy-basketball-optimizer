@@ -1,11 +1,54 @@
 # STATUS — agent handoff (update on every working session)
 
-**Current stage:** 04 — Correlated 9-CAT matchup simulation (fixture-only).
-**State:** Implementation committed locally on dev; fixture acceptance and all required local checks passed in the main checkout. Stopped at Stage 04 approval gate.
-**Data constraints:** Yahoo schedule, actual league rules and player-game forecasts remain unverified. Handmade game fixtures are separate from Stage 03 weekly aggregates; probabilities are uncalibrated.
-**Next exact step:** Owner reviews Stage 04 changes and saved benchmarks on dev. Do not merge into main, publish or begin Stage 05 without new approval. Obtain authorized point-in-time samples before any live simulation.
-**Workflow:** Direct dev development; main untouched. No merge, push or external publication.
-**Storage:** Schema version 1 unchanged; no migration, persistent simulator cache or waiver optimizer.
+**Current stage:** 05 — Waiver add/drop/hold optimizer (fixture-only).
+**State:** Fixture implementation committed locally on dev in the main checkout; all required local checks passed. Stopped at Stage 05 approval gate.
+**Data constraints:** Yahoo transaction settings/ownership/addability, game schedule and live forecasts remain unverified. Fixture suggestions are synthetic and uncalibrated; the live constraints boundary returns unverified settings rather than guessed mappings.
+**Next exact step:** Owner reviews Stage 05 changes and docs/OPTIMIZATION.md on dev. Obtain authorized Yahoo samples before enabling a verified live adapter. Stage 06, merge into main and publication require new approval.
+**Workflow:** Direct dev development; main and remotes untouched. Read-only suggestions only; no transactions submitted or claimed.
+**Storage/dependencies:** No schema migration, decision database, dependency/lockfile change or system-wide install this stage.
+
+## Stage 05 execution plan (completed 2026-10-12)
+
+Recorded before implementation: point-in-time player/transaction contracts and fixture constraints; fail-closed legality and unknown settings; HOLD/add/add-drop enumeration; protected roster value; eligible daily lineups/timing/caps/locks; reusable correlated scenario screening/refinement and paired SE; explanatory fixture CLI; focused acceptance tests; full Python/C++ checks, package/CLI verification, this handoff and a focused dev commit. Stop at Stage 05 gate.
+
+## Stage 05 completed work and changed files
+
+- New src/fantasy_optimizer/optimization.py: typed PlayerSnapshot, TransactionRules, Action/Assessment and SearchConfig; observed/ingested-at validation, ownership/roster consistency, bounded enumeration and explicit constraint provenance.
+- Enumerates HOLD, no-drop adds and one-add/one-drop pairs. Known ownership/addability, positions, droppability/protected players, IR restrictions, locks, roster capacity, acquisition caps and budget violations reject; absent required settings produce unverified actions. No hardcoded live slot/budget defaults.
+- Live Yahoo adapter cannot be verified without authorized settings/samples. Added yahoo_constraints_unverified boundary with null settings and unverified source. CLI live optimization refuses before any requests; unknown data is not presented as feasible.
+- Deterministic maximum-cardinality daily eligible matching, preserved locks, fixed validated opponent selections, explicit acquisition effective time and earliest-game remaining-cap policy. Completed games excluded from future starts; active partial games, unknown IR state or multiple same-day games/player require verified semantics and return unverified planning. This is a documented lineup heuristic, not exhaustive lineup optimization.
+- Reuses one seeded full scenario bank and common screening prefixes across actions. Default 256-sample screen/4096-sample finalists; HOLD always refined. Matchup credit gain uses paired SE; category deltas are explanatory, not summed Z-scores. Only refined positive gains exceeding two paired SEs within the explicit value-loss guard can outrank HOLD. Adaptive screening is a heuristic and can miss improvements.
+- Reports before/after win chance and tie-adjusted credit, category win/tie deltas, active lineups, legal/rejection/unverified reasons, roster changes and separate added/dropped long-term proxies/loss. Default loss guard zero; missing value is not invented; protected players always retained. No fitted penalty weights or transactions.
+- New src/fantasy_optimizer/optimization_fixture.py: 8 fictional players, 24 handmade game forecasts, explicit synthetic rules and six scenario variants. Separate from weekly aggregates and Stage 04 fixture. New tests/test_optimization.py: 35 focused acceptance cases.
+- Updated simulation.py: extracted evaluate_scenarios for shared outcomes/credit without changing arithmetic or existing simulate results except its source hash. Updated cli.py and tests/test_smoke.py for fantasy optimize --fixture and Stage 05 status; CI includes offline optimization. Updated README; new docs/OPTIMIZATION.md and docs/benchmarks/stage05.json record limits and measured fixture results.
+- This STATUS.md remains the single handoff; archived previous-stage evidence is preserved below. No Stage 06 work, C++ source change, merge/push/publication or live Yahoo data.
+
+## Stage 05 verification — actual outcomes
+
+Commands ran at project root; uv used UV_CACHE_DIR=/tmp/fantasy-stage01-uv-cache.
+
+- uv sync --locked --offline --group dev: passed, 15 resolved/14 checked; no new dependency downloads or installs.
+- uv run --offline --no-sync ruff check .: passed; ruff format --check .: passed, 20 files. mypy src: passed, 13 source files. Initial formatting/type/closure findings fixed; no diagnostics suppressed.
+- uv run --offline --no-sync pytest -q: **112 passed in 6.53 seconds**. Focused tests/test_optimization.py: **35 passed in 0.89 seconds** before full verification. No tests skipped. An initial cap test expected a later target start with only two earliest-game slots; corrected its explicit cap to three, consistent with the documented policy rather than changing code to force an outcome.
+- Acceptance coverage: empty available pool/no addability, full roster/no-drop rejection, protected/locked drops, invalid positions, acquisitions/budgets, ownership/IR/waiver/unknown settings, vacancies, timing/game caps/completed games, flexible-position matching, hand-calculated fifth marginal category, impossible comeback, HOLD above harmful/uncertain moves, explicit long-term guard/tradeoff, tie credit, shortlist refinement, seed/input-order/Python/native parity and paired arithmetic. Future observed/ingested player/settings snapshots reject; no point-in-time leakage claims beyond these fixture inputs.
+- cmake -S cpp -B build/cpp -G Ninja -DCMAKE_BUILD_TYPE=Debug and cmake --build build/cpp: passed, existing targets current. No changed C++ required new analysis; wheel rebuild also ran the configured project clang-tidy checks.
+- Standard ctest --test-dir build/cpp --output-on-failure **outside sandbox tracing: passed 3/3 in 1.50 seconds**, retaining ASan/UBSan/leak checks and explicit just-built Debug native/reference parity. No sanitizer suppression needed this stage.
+- git ls-files -z -- '*.cpp' '*.hpp' | xargs -0 -r clang-format-14 --dry-run --Werror: passed. git diff --check and staged diff checks passed. Elevated git add/git commit succeeded for the 11 Stage 05 files on dev; this final observed handoff is included in that local commit. Main/remotes untouched.
+- Installed fantasy optimize --fixture run twice: byte-identical JSON. CLI tests verify live refusal/invalid configuration. All six fixture variants executed and saved measured results; baseline recommendation ADD:target/DROP:streamer, other variants HOLD.
+- uv build --offline: passed, source distribution and native cp312 Linux wheel. Isolated Python -I -S imported package/native module from extracted wheel with paths asserted, matched full installed optimizer output/provenance, matched Python/native ranked actions and loaded prior simulation/forecast fixtures.
+- README/optimization local links, CI YAML parse and saved code/simulator/scenario provenance consistency checks: passed. Remote GitHub CI not run or claimed. Live adapter/calibration/transaction behavior not tested because settings/access remain unverified and auto-execution is out of scope.
+
+## Stage 05 measured fixture result, decisions and gate
+
+Saved docs/benchmarks/stage05.json uses seed 42, 256 screening/4096 finalist scenarios and the installed Release native module. Default enumerates 13 actions, screens 3 legal actions and refines 2. Baseline HOLD win chance 0; target-for-streamer 0.1298828125; paired gain SE 0.0052533673; long-term proxy loss 0 (add value 2, drop value 1). This is a toy result, not calibrated Yahoo advice.
+
+One raw scenario cube is 8,650,752 bytes; validation/copies/results/hashing require additional memory. Single in-process runs of the six fixtures measured 0.035–0.100 seconds locally. No production speedup, calibrated uncertainty or optimal lineup-search claim. Ordinal long-term proxies are reported separately; default refuses their loss. Sampling the full bank upfront preserves common prefixes; screening reduces action evaluation cost, not bank allocation. Action/scenario budgets fail explicitly instead of silently truncating.
+
+**Fixture acceptance met:** legal/unverified filters, all specified rejection/HOLD/marginal-category/impossible-comeback tests, reproducible ranked fixture CLI, read-only explanations and handoff checks. **Live portion blocked/unverified:** cannot construct a verified actual-Yahoo rules adapter without authorized samples; explicit fixture/unverified adapters are the mandatory fallback. Waiver priority/FAB claims and full Yahoo bench/IR transitions are not assumed. No configured tests skipped; remote CI remains unverified. Stop at Stage 05; owner review/new authorization is next.
+
+## Archived Stage 04 completion record
+
+Owner authorized Stage 05 after these verified Stage 04 results; its historical gate is superseded for Stage 05 only.
 
 ## Stage 04 execution plan (completed 2026-10-12)
 
@@ -138,3 +181,5 @@ The final overly broad intervals still do not establish calibration.
 - 2026-10-12 Stage 03: Owner authorized the next stage. Implemented weekly fixture forecasting directly on dev; all 55 tests, lint/format/mypy, CLI/artifact/wheel verification and constrained CTest passed. Benchmarked 40 synthetic origins per baseline; recency is provisional, intervals uncalibrated. Live forecasts and Stage 04 remain disabled/unimplemented. Next: owner review/commit and stage gate.
 
 - 2026-10-12 Stage 04: Owner authorized only fixture matchup simulation. Implemented Python/C++20/nanobind joint count simulation, explicit synthetic schedule/rules and common scenario banks directly on dev; 77 Python tests and 3/3 full-sanitizer CTest targets passed, with lint/format/mypy/native wheel/CLI verification. Saved 1k/10k/20k benchmark results and limitations. No live Yahoo, merge, publication or Stage 05 work. Stop at Stage 04 gate.
+
+- 2026-10-12 Stage 05: Owner authorized the next stage. Implemented fixture-only legal add/drop/HOLD search, deterministic eligible lineups, shared correlated sample screening/refinement, paired uncertainty and explicit long-term value protection directly on dev. 112 Python tests and 3/3 full-sanitizer CTest targets passed, with lint/format/mypy/package/CLI checks and saved six-variant results. Live Yahoo constraints remain unverified; no transactions, Stage 06, merge or publication. Stop at Stage 05 approval gate.

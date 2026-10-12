@@ -271,7 +271,7 @@ def reference_outcomes(
     return output
 
 
-def simulate(
+def evaluate_scenarios(
     forecasts: tuple[GameForecast, ...],
     bank: ScenarioBank,
     selections: tuple[Selection, ...],
@@ -280,7 +280,7 @@ def simulate(
     observed: tuple[Counts, Counts],
     *,
     backend: Literal["python", "cpp"] = "python",
-) -> dict[str, object]:
+) -> tuple[NDArray[np.int8], NDArray[np.float64]]:
     values, teams, totals = prepare(forecasts, bank, selections, rules, as_of, observed)
     if backend == "python":
         outcomes = reference_outcomes(
@@ -302,6 +302,23 @@ def simulate(
         utility += (wins == losses) * {"loss": 0, "half": 0.5, "win": 1}[
             rules.matchup_ties
         ]
+    return outcomes, utility
+
+
+def simulate(
+    forecasts: tuple[GameForecast, ...],
+    bank: ScenarioBank,
+    selections: tuple[Selection, ...],
+    rules: Rules,
+    as_of: datetime,
+    observed: tuple[Counts, Counts],
+    *,
+    backend: Literal["python", "cpp"] = "python",
+) -> dict[str, object]:
+    outcomes, utility = evaluate_scenarios(
+        forecasts, bank, selections, rules, as_of, observed, backend=backend
+    )
+    wins = (outcomes == 1).sum(axis=1)
     n = len(utility)
     outright_wins = (utility == 1).astype(float)
     return {

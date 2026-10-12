@@ -14,6 +14,7 @@ from fantasy_optimizer.forecast_fixture import forecast_fixture
 from fantasy_optimizer.forecasting import MODELS, ForecastError
 from fantasy_optimizer.ingestion import sync_fixture
 from fantasy_optimizer.matchup_fixture import matchup_fixture
+from fantasy_optimizer.optimization_fixture import SCENARIOS, optimize_fixture
 from fantasy_optimizer.storage import StorageError
 from fantasy_optimizer.yahoo import (
     FixtureYahooClient,
@@ -70,17 +71,56 @@ def main(argv: Sequence[str] | None = None) -> int:
     matchup_command.add_argument("--scenarios", type=int, default=1000)
     matchup_command.add_argument("--backend", choices=("python", "cpp"), default="cpp")
     matchup_command.add_argument("--benchmark", action="store_true")
+    optimize_command = commands.add_parser(
+        "optimize", help="Read-only handmade add/drop/HOLD suggestions"
+    )
+    optimize_command.add_argument("--fixture", action="store_true")
+    optimize_command.add_argument("--seed", type=int, default=42)
+    optimize_command.add_argument("--screening-samples", type=int, default=256)
+    optimize_command.add_argument("--finalist-samples", type=int, default=4096)
+    optimize_command.add_argument("--scenario", choices=SCENARIOS, default="baseline")
+    optimize_command.add_argument("--backend", choices=("python", "cpp"), default="cpp")
     args = parser.parse_args(argv)
     if args.command == "status":
         print(
-            "Stage 04: fixture correlated matchup simulation; optimization is planned."
+            "Stage 05: fixture read-only add/drop/HOLD "
+            "suggestions; live access unverified."
         )
         print("Yahoo access is unconfirmed until audited; fixtures are synthetic.")
         return 0
     token_path = Path(os.environ.get("YAHOO_TOKEN_FILE", ".oauth/tokens.json"))
     approved = os.environ.get("YAHOO_ACCESS_APPROVED") == "1"
     try:
-        if args.command == "simulate":
+        if args.command == "optimize":
+            if not args.fixture:
+                print(
+                    json.dumps(
+                        {
+                            "error": "live_optimization_unavailable",
+                            "message": (
+                                "Use --fixture; Yahoo transaction rules "
+                                "and forecasts are unverified."
+                            ),
+                        }
+                    ),
+                    file=sys.stderr,
+                )
+                return 1
+            try:
+                result = optimize_fixture(
+                    seed=args.seed,
+                    screening_samples=args.screening_samples,
+                    finalist_samples=args.finalist_samples,
+                    scenario=args.scenario,
+                    backend=args.backend,
+                )
+            except (ValueError, ImportError) as error:
+                print(
+                    json.dumps({"error": "optimization_failed", "message": str(error)}),
+                    file=sys.stderr,
+                )
+                return 1
+        elif args.command == "simulate":
             if not args.fixture:
                 print(
                     json.dumps(

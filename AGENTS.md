@@ -7,3 +7,6 @@ inside `fantasy-basketball-optimizer-guides/`; build/check commands run here at 
 project root. Update that existing STATUS.md as the single handoff document.
 
 Implement only the current authorized stage and stop at its approval gate.
+
+Work directly on `dev`; no feature branches are required. Keep `main` protected
+and merge verified changes from `dev` only after the required checks pass.

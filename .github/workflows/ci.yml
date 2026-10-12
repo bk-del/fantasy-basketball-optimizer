@@ -26,6 +26,11 @@ jobs:
           uv run --offline --no-sync pytest -q
           uv run --offline --no-sync fantasy --help
           uv run --offline --no-sync fantasy status
+          uv run --offline --no-sync fantasy auth status
+          uv run --offline --no-sync fantasy audit --fixture > /tmp/yahoo-fixture-audit.json
+          uv run --offline --no-sync fantasy sync --fixture --database /tmp/yahoo-fixture.duckdb
+          uv run --offline --no-sync fantasy sync --fixture --database /tmp/yahoo-fixture.duckdb
+          uv run --offline --no-sync fantasy sync --fixture --scenario changed --database /tmp/yahoo-fixture.duckdb
       - name: Install Ubuntu C++ tools
         run: |
           sudo apt-get update

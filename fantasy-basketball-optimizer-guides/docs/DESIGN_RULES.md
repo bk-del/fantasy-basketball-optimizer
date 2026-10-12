@@ -49,3 +49,10 @@ Yahoo-only is binding. Yahoo fantasy fields may provide scoring totals and playe
 ## Scope control
 
 For each stage, commit: smallest implementation + focused tests + docs/status update. Prefer an explicit error with actionable diagnostics over silent fallback. Document every deliberate simplification.
+
+## Git workflow
+
+- Use only `dev` and `main` for ongoing development. Work directly on `dev`; feature branches are not required.
+- Keep `main` protected. Merge `dev` into `main` only after reviewing the changes and passing the required build, formatting, linting, and test checks. Report any unverified checks or blockers before merging.
+- Make small, focused commits on `dev`. Do not implement later stages without authorization.
+- Request approval before external publication unless the owner has already authorized that action. Do not change repository protection settings without authorization.

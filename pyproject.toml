@@ -8,7 +8,9 @@ version = "0.0.1"
 description = "Planned personal, read-only Yahoo fantasy basketball decision tool"
 readme = "README.md"
 requires-python = ">=3.12,<3.13"
-dependencies = []
+dependencies = [
+    "duckdb==1.4.5",
+]
 
 [project.scripts]
 fantasy = "fantasy_optimizer.cli:main"

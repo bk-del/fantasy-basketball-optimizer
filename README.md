@@ -1,8 +1,10 @@
 # Fantasy Basketball Optimizer
 
-**Status: planned.** Stage 00 provides a Python CLI and a C++20 build smoke target.
-Yahoo integration, storage, forecasts, simulation and recommendations are not
-implemented. See the [current handoff](fantasy-basketball-optimizer-guides/STATUS.md)
+**Status: fixture audit and storage implemented; live access unconfirmed.** Stage 00 provides
+the Python/C++20 foundation. Stage 01 adds local authorization metadata, a
+deterministic synthetic capability audit and a gated read-only live probe client.
+Stage 02 adds DuckDB snapshots and offline incremental ingestion. Live OAuth
+access is unverified; forecasts, simulation and recommendations are planned. See the [current handoff](fantasy-basketball-optimizer-guides/STATUS.md)
 for verification results and blockers.
 
 A personal, local tool planned for one initial user in a 14-team Yahoo H2H
@@ -26,8 +28,8 @@ Yahoo (authorized read access only)
                     C++20 only for measured hotspots
 ```
 
-Python owns orchestration and the initial reference implementation. Storage and
-Python/C++ bindings are planned for later stages. The present C++ target only
+Python owns orchestration and local DuckDB storage. Python/C++ bindings are
+planned for later stages. The present C++ target only
 checks the toolchain; it is not a simulator.
 
 ## Local development: WSL2 Ubuntu and native Ubuntu
@@ -67,7 +69,7 @@ git ls-files -z -- '*.cpp' '*.hpp' | xargs -0 -r clang-format-14 --dry-run --Wer
 
 CMake runs clang-tidy on both C++ translation units and enables address/undefined
 behavior sanitizers in Debug builds. CTest uses a plain executable, avoiding
-third-party downloads. No pre-commit layer or Python runtime dependency is needed.
+third-party downloads. DuckDB 1.4.5 is the sole runtime dependency; no pre-commit layer is needed.
 In this restricted agent environment, LeakSanitizer fails under process tracing.
 `ASAN_OPTIONS=detect_leaks=0 ctest --test-dir build/cpp --output-on-failure` passed
 with address and undefined-behavior instrumentation retained. Use the normal
@@ -83,13 +85,52 @@ patches may change; C++ dependencies do not require downloads.
 If your home cache is read-only, set `UV_CACHE_DIR` to a writable directory and
 `UV_PYTHON_INSTALL_DIR` to a writable managed-runtime directory before using uv.
 No credentials are needed for Stage 00. `.env.example` lists reserved names only;
-OAuth loading and fixture parsing are not yet implemented. Keep private data in
+Stage 01 reads private token files only for local metadata or approved live probes.
+Keep private data in
 ignored `data/`, credentials in ignored local paths, and never commit tokens.
 
 Pytest disables automatic third-party plugin discovery for this project. This
 keeps a ROS-sourced shell from importing Python 3.10 ROS plugins into the pinned
 Python 3.12 test environment. Any future test plugin must be declared as a
 development dependency and enabled explicitly with `-p`.
+
+## Yahoo capability audit (Stage 01)
+
+```bash
+uv run fantasy auth status
+uv run fantasy audit --fixture
+```
+
+Fixture mode is offline and labels all evidence as synthetic. Live `fantasy audit`
+refuses undeclared approval, missing/unsafe/expired credentials and denied access.
+It performs only bounded GET requests; it never adds/drops players. OAuth login
+and automatic refresh remain owner-run pending approved access. See
+[capabilities and auth setup](docs/YAHOO_CAPABILITIES.md) for resource coverage,
+freshness limits, official references and the point-in-time missing-data policy.
+
+## Fixture storage and ingestion (Stage 02)
+
+```bash
+uv run fantasy sync --fixture
+uv run fantasy sync --fixture
+uv run fantasy sync --fixture --scenario changed
+```
+
+These commands use ignored `data/fixture.duckdb`. The first run creates seven
+snapshots, the second creates none, and the changed scenario creates three.
+Use `--database PATH` for a fresh scenario replay. Replaying baseline after the
+changed scenario is rejected as an older observation; it cannot revert state.
+Every output reports schema version, changed rows, fetch failures, actual database
+size and elapsed time. Live `fantasy sync` is disabled pending verified samples.
+
+Fixture observation dates are synthetic; ingestion records the actual local UTC
+time. Historical queries require **both** timestamps to precede the decision.
+Roster membership and availability collections are stored when changed, including
+explicit empty rosters. Availability and player status fixtures exercise proposed
+contracts and do not demonstrate Yahoo support. Missing players in a partial
+collection never imply deletion or availability. Statistical windows remain
+aggregates, without inferred NBA games, dates or unverified scoring categories.
+See [storage schema and recovery](docs/STORAGE.md) for transaction and as-of rules.
 
 ## Implementation guides
 
@@ -101,9 +142,9 @@ The original guides stay in their own folder. Read
 
 | Stage | Purpose |
 |---|---|
-| [00](fantasy-basketball-optimizer-guides/docs/stages/00-repository-foundation.md) | Repository foundation (current) |
+| [00](fantasy-basketball-optimizer-guides/docs/stages/00-repository-foundation.md) | Repository foundation |
 | [01](fantasy-basketball-optimizer-guides/docs/stages/01-yahoo-api-audit.md) | Yahoo API audit |
-| [02](fantasy-basketball-optimizer-guides/docs/stages/02-storage-and-ingestion.md) | Storage and ingestion |
+| [02](fantasy-basketball-optimizer-guides/docs/stages/02-storage-and-ingestion.md) | Storage and ingestion (current, fixture-only) |
 | [03](fantasy-basketball-optimizer-guides/docs/stages/03-baseline-forecasting.md) | Baseline forecasting |
 | [04](fantasy-basketball-optimizer-guides/docs/stages/04-matchup-simulator.md) | Matchup simulator |
 | [05](fantasy-basketball-optimizer-guides/docs/stages/05-waiver-optimization.md) | Waiver optimization |

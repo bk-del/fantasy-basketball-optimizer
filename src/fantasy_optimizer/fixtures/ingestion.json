@@ -1,0 +1,325 @@
+{
+  "synthetic": true,
+  "baseline": [
+    {
+      "source": "fixture:settings",
+      "observed_at": "2026-10-12T12:00:00+00:00",
+      "records": [
+        {
+          "kind": "league",
+          "league_key": "fixture.l.1",
+          "entity_key": "fixture.l.1",
+          "payload": {
+            "season": "2026",
+            "scoring_type": "head",
+            "stat_categories": [
+              {
+                "stat_id": "12",
+                "name": "PTS"
+              }
+            ],
+            "roster_positions": [
+              {
+                "position": "PG",
+                "count": 1
+              }
+            ]
+          },
+          "event_at": null,
+          "source_updated_at": null
+        }
+      ]
+    },
+    {
+      "source": "fixture:players",
+      "observed_at": "2026-10-12T12:00:00+00:00",
+      "records": [
+        {
+          "kind": "player",
+          "league_key": "fixture.l.1",
+          "entity_key": "fixture.p.1",
+          "payload": {
+            "display_name": "Fixture One",
+            "team": null,
+            "eligible_positions": [
+              "PG"
+            ],
+            "status": null
+          },
+          "event_at": null,
+          "source_updated_at": null
+        },
+        {
+          "kind": "player",
+          "league_key": "fixture.l.1",
+          "entity_key": "fixture.p.2",
+          "payload": {
+            "display_name": "Fixture Two",
+            "team": null,
+            "eligible_positions": [
+              "PG"
+            ],
+            "status": null
+          },
+          "event_at": null,
+          "source_updated_at": null
+        }
+      ]
+    },
+    {
+      "source": "fixture:roster",
+      "observed_at": "2026-10-12T12:00:00+00:00",
+      "records": [
+        {
+          "kind": "roster",
+          "league_key": "fixture.l.1",
+          "entity_key": "fixture.l.1.t.1",
+          "payload": {
+            "player_keys": [
+              "fixture.p.1"
+            ],
+            "coverage_type": "date",
+            "coverage_value": "2026-10-12"
+          },
+          "event_at": null,
+          "source_updated_at": null
+        }
+      ]
+    },
+    {
+      "source": "fixture:availability",
+      "observed_at": "2026-10-12T12:00:00+00:00",
+      "records": [
+        {
+          "kind": "availability",
+          "league_key": "fixture.l.1",
+          "entity_key": "fixture.l.1",
+          "payload": {
+            "players": [
+              {
+                "player_key": "fixture.p.2",
+                "availability": "unknown"
+              }
+            ],
+            "complete": false
+          },
+          "event_at": null,
+          "source_updated_at": null
+        }
+      ]
+    },
+    {
+      "source": "fixture:scoreboard",
+      "observed_at": "2026-10-12T12:00:00+00:00",
+      "records": [
+        {
+          "kind": "matchup",
+          "league_key": "fixture.l.1",
+          "entity_key": "fixture.l.1:week:1",
+          "payload": {
+            "coverage_type": "week",
+            "coverage_value": "1",
+            "teams": [
+              {
+                "team_key": "fixture.l.1.t.1",
+                "stats": {
+                  "12": "10"
+                }
+              },
+              {
+                "team_key": "fixture.l.1.t.2",
+                "stats": {
+                  "12": "12"
+                }
+              }
+            ]
+          },
+          "event_at": null,
+          "source_updated_at": null
+        }
+      ]
+    },
+    {
+      "source": "fixture:stats",
+      "observed_at": "2026-10-12T12:00:00+00:00",
+      "records": [
+        {
+          "kind": "stat_window",
+          "league_key": "fixture.l.1",
+          "entity_key": "fixture.p.1:season:2026",
+          "payload": {
+            "player_key": "fixture.p.1",
+            "coverage_type": "season",
+            "coverage_value": "2026",
+            "stats": {
+              "12": "10"
+            }
+          },
+          "event_at": null,
+          "source_updated_at": null
+        }
+      ]
+    }
+  ],
+  "changed": [
+    {
+      "source": "fixture:settings",
+      "observed_at": "2026-10-12T13:00:00+00:00",
+      "records": [
+        {
+          "kind": "league",
+          "league_key": "fixture.l.1",
+          "entity_key": "fixture.l.1",
+          "payload": {
+            "season": "2026",
+            "scoring_type": "head",
+            "stat_categories": [
+              {
+                "stat_id": "12",
+                "name": "PTS"
+              }
+            ],
+            "roster_positions": [
+              {
+                "position": "PG",
+                "count": 1
+              }
+            ]
+          },
+          "event_at": null,
+          "source_updated_at": null
+        }
+      ]
+    },
+    {
+      "source": "fixture:players",
+      "observed_at": "2026-10-12T13:00:00+00:00",
+      "records": [
+        {
+          "kind": "player",
+          "league_key": "fixture.l.1",
+          "entity_key": "fixture.p.1",
+          "payload": {
+            "display_name": "Fixture One",
+            "team": null,
+            "eligible_positions": [
+              "PG"
+            ],
+            "status": "DTD"
+          },
+          "event_at": null,
+          "source_updated_at": null
+        },
+        {
+          "kind": "player",
+          "league_key": "fixture.l.1",
+          "entity_key": "fixture.p.2",
+          "payload": {
+            "display_name": "Fixture Two",
+            "team": null,
+            "eligible_positions": [
+              "PG"
+            ],
+            "status": null
+          },
+          "event_at": null,
+          "source_updated_at": null
+        }
+      ]
+    },
+    {
+      "source": "fixture:roster",
+      "observed_at": "2026-10-12T13:00:00+00:00",
+      "records": [
+        {
+          "kind": "roster",
+          "league_key": "fixture.l.1",
+          "entity_key": "fixture.l.1.t.1",
+          "payload": {
+            "player_keys": [
+              "fixture.p.2"
+            ],
+            "coverage_type": "date",
+            "coverage_value": "2026-10-12"
+          },
+          "event_at": null,
+          "source_updated_at": null
+        }
+      ]
+    },
+    {
+      "source": "fixture:availability",
+      "observed_at": "2026-10-12T13:00:00+00:00",
+      "records": [
+        {
+          "kind": "availability",
+          "league_key": "fixture.l.1",
+          "entity_key": "fixture.l.1",
+          "payload": {
+            "players": [
+              {
+                "player_key": "fixture.p.1",
+                "availability": "unknown"
+              }
+            ],
+            "complete": false
+          },
+          "event_at": null,
+          "source_updated_at": null
+        }
+      ]
+    },
+    {
+      "source": "fixture:scoreboard",
+      "observed_at": "2026-10-12T13:00:00+00:00",
+      "records": [
+        {
+          "kind": "matchup",
+          "league_key": "fixture.l.1",
+          "entity_key": "fixture.l.1:week:1",
+          "payload": {
+            "coverage_type": "week",
+            "coverage_value": "1",
+            "teams": [
+              {
+                "team_key": "fixture.l.1.t.1",
+                "stats": {
+                  "12": "10"
+                }
+              },
+              {
+                "team_key": "fixture.l.1.t.2",
+                "stats": {
+                  "12": "12"
+                }
+              }
+            ]
+          },
+          "event_at": null,
+          "source_updated_at": null
+        }
+      ]
+    },
+    {
+      "source": "fixture:stats",
+      "observed_at": "2026-10-12T13:00:00+00:00",
+      "records": [
+        {
+          "kind": "stat_window",
+          "league_key": "fixture.l.1",
+          "entity_key": "fixture.p.1:season:2026",
+          "payload": {
+            "player_key": "fixture.p.1",
+            "coverage_type": "season",
+            "coverage_value": "2026",
+            "stats": {
+              "12": "10"
+            }
+          },
+          "event_at": null,
+          "source_updated_at": null
+        }
+      ]
+    }
+  ]
+}

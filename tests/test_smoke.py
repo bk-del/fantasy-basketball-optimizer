@@ -15,7 +15,7 @@ def test_help(capsys: pytest.CaptureFixture[str]) -> None:
     assert "status" in capsys.readouterr().out
 
 
-@pytest.mark.parametrize("args", [[], ["sync"], ["status", "--unknown"]])
+@pytest.mark.parametrize("args", [[], ["not-a-command"], ["status", "--unknown"]])
 def test_invalid_arguments(args: list[str], capsys: pytest.CaptureFixture[str]) -> None:
     with pytest.raises(SystemExit) as exc:
         main(args)

@@ -1,113 +1,74 @@
 # STATUS — agent handoff (update on every working session)
 
-**Current stage:** 00 — Repository foundation  
-**State:** Local Python checks verified; owner Git/publication steps pending  
-**Next task:** Owner reruns locked sync and checks after the ROS-plugin fix, then stages, formats tracked C++ files, commits and publishes the approved public repository. Do not begin Stage 01.  
-**Owner approvals pending:** Public GitHub repository creation and push approved this session; Yahoo access application submission is done by owner.  
-**Last verified checks:** Pinned Python Ruff/format/mypy passed; pytest 5/5 and installed CLI help/status passed. C++ Debug build/clang-tidy and explicit-source clang-format passed; CTest 1/1 with environment-specific leak detection disabled. GitHub CI remains unverified.  
-**Data access:** Yahoo API not confirmed. Fixture-only until authorized.  
+**Current stage:** 02 — Storage and incremental ingestion (fixture-only).
+**State:** Fixture acceptance criteria verified in the main repository on `dev`; changes are uncommitted. Live Yahoo fields/access remain unverified. No Stage 03 work.
+**Schema version:** 1, DuckDB 1.4.5 pinned with the owner-generated lockfile.
+**Workflow:** Develop directly on `dev`; keep `main` protected and merge only reviewed, verified changes. No feature branches required.
+**Next exact step:** Owner reviews and commits the working-tree changes on `dev` using their terminal (session `.git` is read-only). Verify full CTest and remote CI outside this process-traced session. Stop at Stage 02; Stage 03 needs a new instruction. Any later live sync requires approved Yahoo samples and a verified adapter.
 
-## Current execution plan
+## Completed work
 
-ROS failure continuation: reproduce pytest startup failure, verify pytest 8.4's plugin isolation switch, configure it for this project, rerun pinned Python checks and C++ checks, and refresh the stale lockfile/setup notes. Keep Stage 01 untouched; Git staging/publishing still requires owner terminal if agent .git remains read-only.
+- Added checksummed transactional schema initialization/migration, compatibility checks, six canonical snapshot tables, fetch watermarks, and sanitized success/failure metadata.
+- Implemented idempotent, resource-atomic ingestion. Duplicate and reordered records do not add snapshots; conflicting duplicates, same-time conflicts and older observations are rejected. Unchanged newer fetches advance watermarks without multiplying entity snapshots.
+- Preserved observation, ingestion, optional event/publication timestamps and provenance hashes. Unknown source timestamps remain null. As-of queries require both observation and ingestion to precede the decision, including late-persistence cases.
+- Added normalized, explicitly handmade baseline/changed fixtures for settings, players, roster membership, availability collection, matchup totals and aggregate stat windows. Removed/empty roster membership is explicit; missing partial collection entries never infer deletion/availability.
+- Implemented `fantasy sync --fixture`, `--scenario changed`, and `--database PATH`. Default fixture DB is ignored `data/fixture.duckdb`. Live sync is disabled, even when live audit approval is declared.
+- Added focused migration, idempotency, failure/retry, rollback, timestamp, credential-metadata and point-in-time tests; updated an obsolete smoke test now that sync exists.
+- Added fixture sync/repeat/changed commands to offline CI; documented schema, recovery, limitations and measured metrics.
 
-Continuation: owner approved public repository creation and push. Workspace Git now exists (`git status --short` works); gh shell authentication still fails. Recheck network with uv sync, complete pinned checks and lockfile if available, review/stage local artifacts, then publish using authenticated GitHub tooling if possible. No Stage 01 work.
+## Files changed for Stage 02
 
-1. Use the workspace root as repository root, preserve all guides in their existing folder, and use owner-approved name fantasy-basketball-optimizer.
-2. Add a pinned uv-managed Python runtime, argparse CLI, focused smoke tests, and Python quality configuration.
-3. Add a dependency-free C++20 library and CTest smoke executable with warnings, Debug sanitizers, formatting and clang-tidy.
-4. Add ignore/editor configuration, truthful README/API request text, and Linux CI using locked dependencies with no Yahoo credentials.
-5. Initialize local Git (no commit or publication), run the declared uv/Ruff/mypy/pytest/CMake/CTest/Clang checks, fix failures, and record evidence and handoff.
+- `pyproject.toml`, `uv.lock`: owner installed pinned DuckDB with real dependency resolution; no fabricated lock entries.
+- `src/fantasy_optimizer/storage.py`, `ingestion.py`, `fixtures/ingestion.json`, `cli.py`.
+- `tests/test_storage.py`, `tests/test_smoke.py`.
+- `.github/workflows/ci.yml`, `README.md`, `docs/STORAGE.md`, this handoff.
+- Earlier uncommitted Stage 01 documentation/tests and branch guidance remain intact; do not discard or confuse them with Stage 02-only changes. All relevant implementation is in the main repository, not dependent on the temporary checkout.
 
-## Decisions and constraints
+## Decisions and simplifications
 
-- Personal, 14-team Yahoo H2H 9-CAT basketball league; roster/transaction settings unknown.
-- Only Yahoo data as runtime input, read-only recommendations, no paid inference.
-- WSL2 now; portable to Ubuntu dual boot; Python + optional C++20.
-- Manual execution initially; scheduling later.
-- Strictly point-in-time training and reproducible simulated decisions.
-- Owner approved fantasy-basketball-optimizer as the name and clarified that the workspace is the project root; preserve the guides folder.
-- Pin Python 3.12.14 and uv 0.12.18; 3.12.15 was requested but the installed uv registry has no download. Python 3.12 is supported; review pins together for the latest security patch when dependencies can be installed.
-- Plain CTest smoke executable is the Stage 00 exception to third-party frameworks; no Python/C++ bindings, storage, Yahoo implementation or pre-commit layer yet.
-- Pytest 8.4 plugin autoload is disabled in project addopts: the sourced ROS PYTHONPATH exposes Python 3.10 launch_testing metadata to Python 3.12, causing pytest startup failure. No YAML/ROS dependency is added; future pytest plugins must be pinned and explicitly enabled.
+- Fixture-only normalized records exercise proposed internal contracts. No live parser is assumed from these fixtures; availability/eligibility/status support remains unverified.
+- Six entity-specific tables share a small provenance envelope and store versioned canonical JSON payloads. No ORM, storage abstraction layer, Parquet duplicate, raw-response archive, forecast schema or game synthesis.
+- Source batches are individually transactional. Partial fetch failures preserve prior state and allow successful resources to commit; downstream consumers must inspect failures/freshness. Retry upserts operational attempt identity; it is not an append-only backtest history.
+- All clocks require explicit timezones; TIMESTAMPTZ preserves UTC semantics. Reading watermark epochs avoids DuckDB's optional pytz conversion dependency without weakening timestamp checks.
+- Replaying older baseline after changed state is rejected; use a new fixture DB for a fresh replay. Actual CLI ingestion time is recorded, while fixture observation times are clearly synthetic.
+- Strict canonical envelope fields and nested credential/transport metadata rejection keep raw auth responses out of persistence. Only fixed error codes enter failure records.
 
-## Work completed this session
+## Verification — actual commands and results
 
-- Read AGENTS.md, STATUS.md, Stage 00, and referenced design/contracts/validation documents in full.
-- Inspected available tools without installing system software or changing authentication.
-- Created root Python/C++20 scaffolding, focused CLI tests, tooling, CI, public README and Yahoo application draft. Original guides remain in place; root AGENTS.md points agents to them.
-- Fixed real clang-format diagnostics by formatting the three new C++ files.
-- Owner successfully ran uv sync and generated uv.lock. Reproduced ROS-plugin pytest startup failure; fixed it via --disable-plugin-autoload in project config and verified all pinned Python tools using the populated .venv.
-- Updated README to reflect the real lockfile and document pytest plugin isolation.
+Run at `/home/user/projects/fantasy-basketball-optimizer`, with `UV_CACHE_DIR=/tmp/fantasy-stage01-uv-cache` for uv commands:
 
-## Files changed
+- Agent `uv add duckdb==1.4.5`: failed DNS. Owner ran that exact command successfully: resolved 13 packages and installed DuckDB plus rebuilt project. Owner-generated `uv.lock` retained.
+- `uv sync --locked --offline --group dev`: passed, resolved 13 and checked 12 packages.
+- `uv run --offline --no-sync ruff check .`: passed after correcting real line-length/import findings.
+- `uv run --offline --no-sync ruff format --check .`: passed, 10 files formatted.
+- `uv run --offline --no-sync mypy src`: passed, 7 source files.
+- `uv run --offline --no-sync pytest -q`: **41 passed** in 4.64 seconds. Earlier failures exposed the now-supported sync command in an old smoke test, DuckDB's optional timezone conversion dependency, and two epoch assertions; all fixed before final verification.
+- Migration tests: initialization/reopen, future-version rejection, SQL failure rollback and retry passed. Transaction tests verify rows and watermarks roll back together and fixed failure diagnostics remain retryable.
+- CLI baseline/repeat/changed/repeat: passed with changed-row counts **7, 0, 3, 0**; no source failures. Test assertions verify substantive row counts, roster/player/availability history, aggregate stat coverage, empty rosters, and no later-data leakage.
+- `uv build --offline`: passed, produced sdist and wheel. Isolated Python imported ingestion from the wheel (asserted `.whl/` module path), loaded packaged fixtures, and verified baseline/repeat/changed counts 7/0/3 without importing repository source.
+- `cmake -S cpp -B build/cpp -G Ninja -DCMAKE_BUILD_TYPE=Debug` and `cmake --build build/cpp`: passed; unchanged existing targets required no rebuild.
+- Standard `ctest --test-dir build/cpp --output-on-failure`: **failed**, LeakSanitizer fatal under ptrace. `ASAN_OPTIONS=detect_leaks=0 ctest --test-dir build/cpp --output-on-failure`: **passed 1/1**; ASan/UBSan instrumentation retained. Full leak validation remains unverified; no global suppression added.
+- Tracked-source `clang-format-14 --dry-run --Werror`: passed. No C++ changes.
+- README/storage local links and CI YAML parsing: passed. `git diff --check`: passed before final handoff; final check follows this update.
 
-- Root: `AGENTS.md` (guide pointer), `README.md`, `pyproject.toml`, `.python-version`, `.gitignore`, `.env.example`, `.editorconfig`, `.clang-format`, `.clang-tidy`.
-- Python: `src/fantasy_optimizer/{__init__,__main__,cli}.py`, `tests/test_smoke.py`.
-- C++: `cpp/CMakeLists.txt`, `cpp/include/fantasy_optimizer/foundation.hpp`, `cpp/src/foundation.cpp`, `cpp/tests/test_foundation.cpp`.
-- CI/application: `.github/workflows/ci.yml`, `docs/API_REQUEST.md`.
-- Handoff: this `STATUS.md`. Other original guide documents are unchanged.
-- `uv.lock` is now present, generated by owner's successful uv sync. `build/` contains ignored local artifacts; no private data or credentials created.
+## Measured local fixture runs
 
-## Verification (commands + real outcomes)
+These are measurements of tiny fixtures, not performance guarantees or a claim that unchanged sync leaves physical bytes identical. Snapshot rows remain unchanged; DuckDB metadata/checkpoint allocation can change physical file size.
 
-Latest ROS-fix session (supersedes earlier blocked Python attempts below):
+| Run | Changed snapshots | Database bytes | Duration seconds |
+|---|---:|---:|---:|
+| Baseline | 7 | 4993024 | 0.348534 |
+| Identical repeat | 0 | 6303744 | 0.238132 |
+| Changed | 3 | 8400896 | 0.302028 |
+| Changed repeat | 0 | 8138752 | 0.268885 |
 
-- Owner-provided uv sync output: CPython 3.12.14, resolved 12 packages, built the project and installed 11 packages; Ruff/format/mypy passed, pytest failed at startup importing ROS launch_testing (missing yaml).
-- Agent reproduced UV_CACHE_DIR=/tmp/fantasy-uv-cache uv run --offline --no-sync pytest -q: exit 1 with the same ROS traceback.
-- Trial pytest --disable-plugin-autoload -q: exit 0, 5/5 passed. Added that switch to project addopts using the pinned pytest 8.4 feature.
-- After the fix, uv run --offline --no-sync pytest -q: exit 0, 5/5 passed; Ruff check and format --check: exit 0 (4 files formatted); mypy src: exit 0 (3 source files).
-- Repeated CMake Debug configure and build: exit 0; ASAN_OPTIONS=detect_leaks=0 ctest --test-dir build/cpp --output-on-failure: exit 0, 1/1 passed. Original full leak-check failure remains an agent-environment limitation.
-- uv sync --locked --offline --group dev using the agent /tmp cache: exit 1 rebuilding editable package because hatchling 1.27.0 is absent from that cache. Existing populated environment remains usable with --no-sync. Owner should rerun normal locked sync using their populated cache/network before committing.
-- Installed fantasy help/status and explicit-source C++ format recheck: exit 0.
+## Acceptance and remaining blockers
 
-Earlier environment inspection and attempts (historical):
-
-- Environment: Python executable absent; system python3 is 3.10.12; uv 0.12.18; CMake 3.22.1; Ninja 1.10.1; clang-format/clang-tidy 14; GCC 11.4.0.
-- Workspace .git is an empty read-only environment mount; inspect whether local Git initialization is possible without escalation.
-- Default uv cache is read-only; use a writable /tmp cache and project-local managed Python directory for this session.
-- gh auth status failed: stored authentication invalid. No authentication or publishing attempted.
-- uv python install 3.12.15: failed (no registry download); uv python install 3.12.14: failed (DNS/network unavailable).
-- uv sync --group dev with writable /tmp cache/runtime paths: exit 2, managed Python download failed due to DNS.
-- UV_PYTHON_DOWNLOADS=never uv lock: exit 2, pinned interpreter unavailable. No lockfile fabricated.
-- cmake -S cpp -B build/cpp -G Ninja -DCMAKE_BUILD_TYPE=Debug: exit 0 (GCC 11.4.0).
-- Initial clang-format dry-run found foundation.cpp formatting errors; fixed with clang-format-14 -i. Final explicit-source clang-format-14 --dry-run --Werror on all three new C++ files: exit 0.
-- PYTHONPATH=src python3 -m pytest -q: exit 0, 5 tests passed (system Python 3.10.12 / pytest 6.2.5; supplementary only, not the required pinned environment).
-- System Python TOML/YAML parsing, local README link checks and no CI secrets references: exit 0 (supplementary static checks).
-- cmake --build build/cpp: exit 0, all four compile/link steps passed. Ninja commands confirm clang-tidy-14 on both translation units, C++20, warnings as errors and address/undefined-behavior sanitizers.
-- ctest --test-dir build/cpp --output-on-failure: exit 8, LeakSanitizer cannot run under this environment's process tracing.
-- ASAN_OPTIONS=detect_leaks=0 ctest --test-dir build/cpp --output-on-failure: exit 0, 1/1 passed. Only leak detection was disabled for this command; ASan/UBSan remain compiled and linked. Full leak validation is unverified; no global suppression added.
-- uv run ruff check ., uv run ruff format --check ., uv run mypy src, uv run pytest -q: each exit 2, pinned interpreter unavailable. These attempts used UV_PYTHON_DOWNLOADS=never after the observed download/DNS failure to avoid redundant downloads. They did not execute their check tools and are NOT passing checks.
-- All uv attempts used UV_CACHE_DIR=/tmp/fantasy-uv-cache and UV_PYTHON_INSTALL_DIR=/tmp/fantasy-python; normal home cache is read-only.
-- PYTHONPATH=src python3 -m fantasy_optimizer --help and status: each exit 0. Installed `fantasy` console entry point remains unverified until uv sync succeeds.
-- Disposable /tmp Git metadata with workspace .gitignore: audit exit 0; private/cache/data paths ignored, .env.example and source/tests retained. This does not initialize the workspace repository.
-- git init: exit 1 (read-only .git); git status --short and git ls-files -- '*.cpp' '*.hpp': exit 128 (not a usable repository). Tracked-source formatting is blocked; explicit checks covered all three authored C++ files instead.
-- GitHub Actions not executed: unpublished repository, invalid gh authentication, missing uv.lock. Workflow is configured to enforce locked dependencies and offline checks, so it will not pass until the lockfile is generated.
-
-## Blockers / open questions
-
-- Yahoo API approval and exact available endpoints/fields.
-- Roster lineup sizes, waiver rules, weekly acquisition limits, games caps, season/playoff format.
-- Public repository creation and push explicitly approved by owner in the continuation session. No further publication approval is needed for bk-del/fantasy-basketball-optimizer. No remote creation, push or commit performed.
-- Agent shell network remains unavailable and its separate writable cache lacks Hatchling for rebuilding the editable install. Owner network/cache successfully installed Python and dependencies; lockfile exists and pinned Python checks are now verified.
-- Workspace Git now exists and git status works, but the agent mount still makes .git read-only: git add failed (exit 128), unable to create .git/index.lock. Cannot stage or commit. No permission bypass attempted.
-- GitHub connector is authenticated as bk-del (verified get_user_login); available connector tools cannot create repositories. gh auth status still fails; shell DNS may prevent authentication verification, so expired credentials have not been independently confirmed.
-
-## Next exact action
-
-1. Owner runs `uv sync --locked --group dev`, required Ruff/format/mypy/pytest and installed CLI checks from workspace root; the project config now isolates pytest from ROS plugins.
-2. Owner runs standard CMake/build/CTest in their terminal to verify full leak checking, then git add, tracked-source clang-format, status review and initial commit. Agent .git remains read-only; owner publication approval persists.
-3. Create/push public bk-del/fantasy-basketball-optimizer using working gh authentication, replace the API request URL placeholder, verify remote and actual GitHub CI, and record results in this handoff.
-4. Stop at Stage 00 gate. Stage 01 requires a new owner instruction; it has not been read or implemented.
-
-## Stage 00 acceptance status
-
-- Clean Python/C++ structure, WSL2/Ubuntu setup documentation and truthful public/application descriptions: implemented; README local links checked.
-- Python dependency resolution/lockfile: owner installed successfully; pinned lint/format/type/tests and installed CLI: **passed** after ROS plugin fix. Owner rerun of locked sync recommended after configuration edit.
-- C++ target: configured and built with clang-tidy; 1/1 CTest passed with documented environment-specific leak limitation.
-- CI local-only/no Yahoo secrets: configured and statically parsed; lockfile now present, **not executed on GitHub**.
-- Secret ignore policy: disposable Git audit passed; actual workspace git status shows only intended public artifacts including uv.lock. Staging/tracked formatting/commit still require owner terminal due to agent read-only .git.
-- Handoff and stop gate: updated. **Stage 00 is not complete**; no Stage 01 work or publication performed.
+- Stage 02 fixture acceptance criteria: met for schema initialization/compatibility, atomic recovery, change-only ingestion, duplicate input, failure/retry, point-in-time queries and measured local metrics.
+- Live sync, OAuth access, Yahoo sample-backed contracts/source freshness, real historical availability and player-game coverage: unverified and intentionally not implemented from guessed fields.
+- Native Ubuntu/WSL2 owner validation, full leak checking and actual GitHub Actions execution remain external verification tasks; CI configuration alone is not a passing run.
+- Workspace `.git` is read-only for the agent. Files are saved on `dev`, but no commit, merge, push or repository protection change was performed. Earlier user changes are preserved.
+- Stop here. No forecasting, simulator, waiver optimizer or later-stage schema was added.
 
 ## Session history (append concise dated entries)
 
@@ -115,3 +76,13 @@ Earlier environment inspection and attempts (historical):
 - 2026-10-12: Read required instructions and referenced constraints in full. Owner approved project name and root layout. Implemented Stage 00 local scaffold; C++ build/analysis/format and constrained CTest verified; supplementary CLI tests 5/5 passed. Shell DNS and read-only Git metadata block dependency lock/pinned Python validation and Git acceptance. Stop here pending environment repair; exact continuation above.
 - 2026-10-12 continuation: Owner explicitly approved a public repository and push. git status --short now succeeds; main has no commits and no remote. git add of the intended scaffold/docs failed with read-only .git/index.lock (exit 128). uv sync --group dev retried with writable /tmp cache/runtime directories and failed DNS (exit 2); getent hosts github.com pypi.org returned no addresses. gh auth status failed (exit 1), while GitHub connector get_user_login verified bk-del; connector lacks repository creation. Tracked C++ enumeration is empty because staging failed, so no tracked-format success is claimed. No source changes or new test passes this session. Existing blockers remain; authorization persists for completion once session permissions/network are repaired.
 - 2026-10-12 ROS fix: Owner installed pinned environment and generated uv.lock; pytest crashed loading ROS plugins from PYTHONPATH. Reproduced failure, enabled pytest's --disable-plugin-autoload in project config, and verified 5/5 pinned tests plus Ruff/format/mypy/installed CLI. C++ build and constrained CTest also passed. README lockfile note corrected. Continue owner terminal checks, staging and approved publication; no Stage 01 work.
+
+- 2026-10-12 workflow simplification: Owner replaced feature branches with direct development on dev and verified merges into protected main. Updated all active guidance and preserved the Stage 01 implementation; integration remains the next action.
+
+- 2026-10-12 integration: Copied the ten Stage 01 implementation files from the temporary checkout into the main workspace on dev, preserving the simplified branch guidance. No Git metadata or private credentials copied; verification is being rerun.
+
+- 2026-10-12 workspace verification: uv sync --locked --offline --group dev passed; Ruff lint and format passed (7 files); mypy passed (5 source files); pytest passed 29/29. CMake Debug configure/build passed; CTest passed 1/1 with ASAN_OPTIONS=detect_leaks=0 (full leak checking remains unverified). Tracked C++ clang-format-14 dry-run and git diff --check passed. Installed fantasy auth status and fantasy audit --fixture passed without credentials. No live Yahoo access or remote CI verified.
+
+- 2026-10-12 Stage 02: Owner authorized continuation and installed DuckDB 1.4.5. Implemented and verified fixture-only version-1 storage/ingestion directly in the main dev checkout. 41 tests, lint, formatting, mypy, package/CLI checks and constrained CTest passed; standard LeakSanitizer and live Yahoo/remote CI remain unverified. Owner review/commit and the Stage 02 stop gate are next.
+
+- 2026-10-12 owner terminal verification: `uv run fantasy sync --fixture` succeeded with 7 changed snapshots, no failed sources, 4,993,024 database bytes and 0.319983 seconds. `uv run fantasy sync --fixture --scenario changed` succeeded with 3 changed snapshots, no failed sources, 7,876,608 bytes and 0.294168 seconds. Both reported synthetic fixture mode and schema version 1. Owner CLI verification is confirmed; full leak checks, remote CI and live Yahoo access remain unverified. Next action: review and commit working-tree changes on dev; no Stage 03 authorization yet.

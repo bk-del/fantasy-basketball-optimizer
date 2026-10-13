@@ -1,11 +1,52 @@
 # STATUS — agent handoff (update on every working session)
 
-**Current stage:** 06 — Context and breakout detection (fixture-only).
-**State:** Fixture diagnostic/label implementation committed locally on dev in the main checkout; required local checks passed. Stopped at Stage 06 approval gate.
-**Data constraints:** Zero authorized Yahoo histories/context/exposure samples; zero usable fixture labels. No role/injury narrative, fitted model, calibrated breakout probability or live improvement claim.
-**Active baseline:** Stage 03 weekly-counts-v1 recency remains provisional and unchanged, including its existing exposure/small-history uncertainty widening.
-**Next exact step:** Owner reviews Stage 06 protocol/results on dev. Obtain authorized point-in-time counts/exposure/context and strictly later evaluation periods before fitting/promoting a model. Stage 07, merge into main and publication require new approval.
-**Workflow/storage:** Direct dev development; main/remotes untouched. No transactions, storage migration, new dependencies, C++ changes or system-wide installs.
+**Current stage:** 07 — Retraining, registry and walk-forward evaluation (fixture-only).
+**State:** Fixture implementation committed locally on dev in main checkout; all required local checks passed. Stopped at Stage 07 approval gate.
+**Data constraints:** No authorized Yahoo histories/context/exposure/availability; synthetic weekly forecasting replay only. Live calibration and decision counterfactuals remain unverified.
+**Next exact step:** Owner reviews Stage 07 registry/replay/results on dev. Obtain verified point-in-time histories and outcomes before live training/calibration. Stage 08, main merge and publication require new approval.
+
+## Stage 07 execution plan (completed 2026-10-12)
+
+Recorded before implementation: small atomic active/candidate/archived registry with provenance and guarded promotion/rollback; explicit budgeted baseline training separate from read-only daily forecast runs; point-in-time weekly replay with separate chronological calibration/validation and protected final holdout; fixture CLI train/backtest/model status/promotion/rollback/run; compact outcome/uncertainty log contract with counterfactual limitations; meaningful leakage/registry/calibration/runtime tests; measured duration/storage, docs/CI, full Python/C++ and package checks, focused dev commit and approval gate. No LightGBM/ensemble/Optuna without adequate real data or demonstrated benefit.
+
+## Stage 07 completed work and changed files
+
+- New src/fantasy_optimizer/learning.py: bounded TrainingBudget, strictly ordered ReplayPlan, weekly as-of replay using existing known_windows/forecast contracts, separate origin/outcome hashes, chronological residual-quantile interval calibration and per-count validation metrics for all three baselines.
+- New learning_fixture.py: explicit budgeted baseline training, stable model/code/config/selection-watermark metadata, six-week initial history, two-week calibration, two-week validation and two-week protected final holdout. Training hashes/selects only pre-holdout rows. Default recency incumbent retained; no auto-promotion. Daily run reads active model/seed/sample budget and writes no registry/artifacts, reusing existing running-stat forecasting.
+- New registry.py: small single-writer local active/candidate/archived registry, atomic flushed/fsynced temporary-file replacement, guarded explicit promotion and rollback, idempotent model registration and compact proposed decision-outcome/uncertainty/confounder log. Outcome results never drive promotion. Bad/nonfinite state refuses overwrite; interrupted replacement leaves prior registry intact.
+- Final holdout reserved before exposure, one use per registry/period. Requires frozen code/data/protocol/budget; further training/promotion refused after opening. Rollback remains an operational recovery path. Local guard assumes retained single-writer registry, not an adversarial security boundary.
+- Promotion requires same dataset/code/evaluation config, strictly lower later validation PTS MAE than incumbent and no worse than the best baseline. Fixed PTS metric is a synthetic single-stat criterion, not live matchup-policy optimization. All current candidates fail to improve incumbent; successful promotion/rollback tests use separate handmade comparative records.
+- Updated cli.py: fantasy train/backtest/run --fixture and fantasy model status/promote/rollback/log-outcome --fixture. Live learning gated before requests/files. Added tests/test_learning.py (19 cases), updated tests/test_smoke.py; CI adds offline lifecycle commands. New docs/LEARNING.md and docs/benchmarks/stage07.json; README updated. Existing STATUS remains single handoff with prior records preserved.
+- No data/dependency/lockfile/storage migration/C++ changes, live requests, transactions, Stage 08 operations framework, merge or publication. LightGBM/full retraining, probability calibration, ensemble and policy tuning explicitly skipped because verified histories/labels/outcomes remain insufficient. Closed-form baseline fits do not require iterative early stopping; hard sample/case/candidate budgets bound work.
+
+## Stage 07 verification — actual outcomes
+
+All commands at root; uv uses UV_CACHE_DIR=/tmp/fantasy-stage01-uv-cache.
+
+- uv sync --locked --offline --group dev: passed, 15 resolved/14 checked; no new installs/dependency changes.
+- uv run --offline --no-sync ruff check .: passed. ruff format --check .: passed, 27 files. mypy src: passed, 18 source files. Initial import/line-length/default-call findings fixed without suppression.
+- uv run --offline --no-sync pytest -q: final **139 passed in 13.88 seconds**. Initial full run 138/138 also passed; final rerun follows additional invalid-budget/nonfinite-state coverage. Focused initial learning tests 16/16 passed; final suite includes 19 learning cases. No configured tests skipped.
+- Tests verify future correction/late ingestion/order independence; final outcome removal cannot change training identity/registry bytes; calibration quantile/minimum cases and later validation boundaries; idempotent train/read-only repeated run/frozen seed; worse candidate rejection; successful API/CLI promotion/rollback; interrupted atomic replacement; incomparable evaluations/budgets; one-use holdout and post-opening tuning refusal; changed code/budget refusal before consuming holdout; outcome uncertainty/idempotency/conflict/order and no selection changes; live CLI gating and bad registry/budget rejection.
+- cmake -S cpp -B build/cpp -G Ninja -DCMAKE_BUILD_TYPE=Debug and cmake --build build/cpp: passed, existing targets current. No changed C++ requires fresh lint; wheel rebuild exercised configured project clang-tidy.
+- ctest --test-dir build/cpp --output-on-failure outside sandbox tracing: **3/3 passed in 1.57 seconds**, full ASan/UBSan/leak checking and explicitly just-built native parity retained. No suppression this stage.
+- git ls-files -z -- '*.cpp' '*.hpp' | xargs -0 -r clang-format-14 --dry-run --Werror: passed. git diff --check and staged diff checks passed. Elevated local git add/commit succeeded for the 11 Stage 07 files on dev; this final observed handoff is included in that commit. Main/remotes untouched.
+- Installed fantasy train/backtest/model status/run/log-outcome --fixture through /tmp/fantasy-stage07-cli-check.py: passed. Repeated run/backtest outputs equal, registry bytes unchanged by run, logged loss leaves active model unchanged. Two independent installed backtest outputs also byte-identical by cmp. Source-helper benchmark in /tmp/fantasy-stage07-report.py saved reproducible scores/hash/selection and measured cost in docs/benchmarks/stage07.json; final holdout not opened by benchmark.
+- uv build --offline: passed, sdist and native cp312 Linux wheel. .venv/bin/python -I -S /tmp/fantasy-stage07-wheel-check.py "$PWD": passed, actual extracted package/native paths asserted, model identity/code hash/validation metrics equal saved report, active recency forecast leaves registry unchanged, prior native optimizer works. Initial smoke-script assumptions about prior optimizer arguments/report key corrected; final isolation passed without source workaround.
+- README/learning local links and CI YAML parsing: passed. Remote GitHub CI unverified. Live full-model retraining, probability calibration, real decision replay/outcomes and live promotion not run because verified data does not exist; these are explicit data-dependent skips, not successful evaluations.
+
+## Stage 07 measured results, decisions and acceptance
+
+Saved seed-42/256-sample fixture report: eight calibration and eight later validation cases per baseline. Validation PTS MAE: recency **6.7560294943**, shrinkage **7.2909124851**, long-run **9.2361111111**. Incumbent reason: provisional recency fixture incumbent; long-run candidate explicitly rejected. PTS calibrated half-widths: recency 11.2850834636, shrinkage 16.8170611864, long-run 12.7142857143; all cover 8/8 validation outcomes. Synthetic repeated players and small samples do not establish calibration.
+
+One local explicit training/evaluation/registration invocation measured **0.299864567 seconds** and **8,773 registry bytes** for incumbent plus long-run candidate. CLI startup/reporting and ongoing outcome growth excluded. No performance threshold or production speed claim. Timing is informational and excluded from model hashes. Tiny fixture baseline refits are adequate; no expensive learner or persistent feature cache justified.
+
+**Fixture acceptance met:** train/backtest/model status/promotion/rollback work offline; repeated normal run leaves models unchanged; worse candidate not promoted; atomic promotion/rollback and holdout/leakage controls tested; training cost/storage/active selection reason reported; required checks passed and STATUS updated.
+
+**Limitations:** decision replay is incomplete without historical availability/ownership; interval calibration is marginal diagnostic and does not alter the joint sampler; probabilities/live quality unsupported. Registry is single-writer and audit protection depends on retaining it (new paths/deletion can bypass the local holdout record). No real final holdout or independent live evidence exists. Stop at Stage 07; owner review/new authorization is next.
+
+## Archived Stage 06 completion record
+
+Owner authorized Stage 07 after the following Stage 06 results; prior gate statements are historical.
 
 ## Stage 06 execution plan (completed 2026-10-12)
 
@@ -227,3 +268,5 @@ The final overly broad intervals still do not establish calibration.
 - 2026-10-12 Stage 05: Owner authorized the next stage. Implemented fixture-only legal add/drop/HOLD search, deterministic eligible lineups, shared correlated sample screening/refinement, paired uncertainty and explicit long-term value protection directly on dev. 112 Python tests and 3/3 full-sanitizer CTest targets passed, with lint/format/mypy/package/CLI checks and saved six-variant results. Live Yahoo constraints remain unverified; no transactions, Stage 06, merge or publication. Stop at Stage 05 approval gate.
 
 - 2026-10-12 Stage 06: Owner authorized context/breakout stage. Added fixture-only sustained weekly count-shift diagnostics, pre-registered future-label/exposure contract and explicit context/model/calibration/uplift skips; Stage 03 baseline retained. 120 Python tests and 3/3 full-sanitizer CTest targets plus lint/format/mypy/package/CLI checks passed on dev. Zero usable labels and live Yahoo evidence insufficient; no fitted model, injury narrative, Stage 07, merge or publication. Stop at Stage 06 gate.
+
+- 2026-10-12 Stage 07: Owner authorized next stage. Added fixture-only budgeted baseline training, atomic model registry/promotion/rollback, chronological calibration/validation and protected final holdout, read-only run and proposed uncertainty/outcome logging on dev. 139 Python tests, 3/3 full-sanitizer CTest targets, lint/format/mypy/package/CLI checks passed; measured 0.300s/8,773 bytes, recency retained. No live model, Stage 08, main merge or publication. Stop at Stage 07 gate.

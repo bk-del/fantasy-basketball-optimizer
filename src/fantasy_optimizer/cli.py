@@ -14,8 +14,15 @@ from fantasy_optimizer.context_fixture import context_fixture
 from fantasy_optimizer.forecast_fixture import forecast_fixture
 from fantasy_optimizer.forecasting import MODELS, ForecastError
 from fantasy_optimizer.ingestion import sync_fixture
+from fantasy_optimizer.learning import TrainingBudget
+from fantasy_optimizer.learning_fixture import (
+    backtest_fixture,
+    run_fixture,
+    train_fixture,
+)
 from fantasy_optimizer.matchup_fixture import matchup_fixture
 from fantasy_optimizer.optimization_fixture import SCENARIOS, optimize_fixture
+from fantasy_optimizer.registry import Registry, RegistryError
 from fantasy_optimizer.storage import StorageError
 from fantasy_optimizer.yahoo import (
     FixtureYahooClient,
@@ -85,10 +92,31 @@ def main(argv: Sequence[str] | None = None) -> int:
         "context", help="Fixture count-shift diagnostics and data gaps"
     )
     context_command.add_argument("--fixture", action="store_true")
+    for name in ("train", "backtest", "run", "model"):
+        command = commands.add_parser(name, help="Offline fixture model lifecycle")
+        command.add_argument("--fixture", action="store_true")
+        command.add_argument(
+            "--registry", type=Path, default=Path("models/fixture-registry.json")
+        )
+        if name in ("train", "backtest"):
+            command.add_argument("--seed", type=int, default=42)
+            command.add_argument("--samples", type=int, default=256)
+            command.add_argument("--max-cases", type=int, default=32)
+            command.add_argument("--max-candidates", type=int, default=3)
+        if name == "train":
+            command.add_argument("--model", choices=MODELS, default="recency")
+        elif name == "backtest":
+            command.add_argument("--final-holdout", action="store_true")
+        elif name == "model":
+            command.add_argument(
+                "operation", choices=("status", "promote", "rollback", "log-outcome")
+            )
+            command.add_argument("--id")
+            command.add_argument("--outcome", type=Path)
     args = parser.parse_args(argv)
     if args.command == "status":
         print(
-            "Stage 06: fixture context diagnostics; "
+            "Stage 07: fixture model registry; "
             "recency baseline retained; live access unverified."
         )
         print("Yahoo access is unconfirmed until audited; fixtures are synthetic.")
@@ -96,7 +124,52 @@ def main(argv: Sequence[str] | None = None) -> int:
     token_path = Path(os.environ.get("YAHOO_TOKEN_FILE", ".oauth/tokens.json"))
     approved = os.environ.get("YAHOO_ACCESS_APPROVED") == "1"
     try:
-        if args.command == "context":
+        if args.command in ("train", "backtest", "run", "model"):
+            if not args.fixture:
+                print(
+                    json.dumps(
+                        {
+                            "error": "live_learning_unavailable",
+                            "message": "Use --fixture; Yahoo histories are unverified.",
+                        }
+                    ),
+                    file=sys.stderr,
+                )
+                return 1
+            registry = Registry(args.registry)
+            if args.command in ("train", "backtest"):
+                try:
+                    budget = TrainingBudget(
+                        args.seed, args.samples, args.max_cases, args.max_candidates
+                    )
+                except ValueError as error:
+                    raise RegistryError(str(error)) from error
+                if args.command == "train":
+                    result = train_fixture(registry, model=args.model, budget=budget)
+                else:
+                    result = backtest_fixture(
+                        registry, final=args.final_holdout, budget=budget
+                    )
+            elif args.command == "run":
+                result = run_fixture(registry)
+            elif args.operation == "status":
+                result = registry.read()
+            elif args.operation == "rollback":
+                result = registry.rollback()
+            elif args.operation == "promote":
+                if not args.id:
+                    raise RegistryError("Promotion requires --id from train output.")
+                result = registry.promote(args.id)
+            else:
+                if args.outcome is None:
+                    raise RegistryError("Logging requires --outcome JSON file.")
+                result = {
+                    "logged": registry.log_outcome(
+                        json.loads(args.outcome.read_text())
+                    ),
+                    "policy_evidence": "One outcome does not establish policy quality.",
+                }
+        elif args.command == "context":
             if not args.fixture:
                 print(
                     json.dumps(
@@ -223,6 +296,12 @@ def main(argv: Sequence[str] | None = None) -> int:
             result = audit(client)
     except YahooError as error:
         print(json.dumps({"error": error.code, "message": str(error)}), file=sys.stderr)
+        return 1
+    except RegistryError as error:
+        print(
+            json.dumps({"error": "registry_failed", "message": str(error)}),
+            file=sys.stderr,
+        )
         return 1
     except ForecastError as error:
         print(

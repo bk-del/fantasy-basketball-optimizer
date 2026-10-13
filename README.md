@@ -174,11 +174,11 @@ The original guides stay in their own folder. Read
 | [00](fantasy-basketball-optimizer-guides/docs/stages/00-repository-foundation.md) | Repository foundation |
 | [01](fantasy-basketball-optimizer-guides/docs/stages/01-yahoo-api-audit.md) | Yahoo API audit |
 | [02](fantasy-basketball-optimizer-guides/docs/stages/02-storage-and-ingestion.md) | Storage and ingestion |
-| [03](fantasy-basketball-optimizer-guides/docs/stages/03-baseline-forecasting.md) | Baseline forecasting (current, fixture-only) |
+| [03](fantasy-basketball-optimizer-guides/docs/stages/03-baseline-forecasting.md) | Baseline forecasting |
 | [04](fantasy-basketball-optimizer-guides/docs/stages/04-matchup-simulator.md) | Matchup simulator |
 | [05](fantasy-basketball-optimizer-guides/docs/stages/05-waiver-optimization.md) | Waiver optimization |
 | [06](fantasy-basketball-optimizer-guides/docs/stages/06-context-and-breakouts.md) | Context and breakout signals |
-| [07](fantasy-basketball-optimizer-guides/docs/stages/07-learning-and-backtesting.md) | Learning and backtesting |
+| [07](fantasy-basketball-optimizer-guides/docs/stages/07-learning-and-backtesting.md) | Learning and backtesting (current, fixture-only) |
 | [08](fantasy-basketball-optimizer-guides/docs/stages/08-cli-and-operations.md) | CLI and operations |
 | [09](fantasy-basketball-optimizer-guides/docs/stages/09-optional-extensions.md) | Optional extensions |
 
@@ -228,3 +228,18 @@ missing, so fitting, precision/recall/calibration and decision-uplift estimates 
 explicitly skipped. The Stage 03 recency baseline and its existing uncertainty
 widening remain active. No role/injury story or live model improvement is claimed.
 See [context protocol and validation](docs/CONTEXT.md).
+
+## Offline model lifecycle (Stage 07)
+
+```bash
+uv run fantasy train --fixture --model long_run
+uv run fantasy backtest --fixture
+uv run fantasy model status --fixture
+uv run fantasy run --fixture
+```
+
+Training is explicit and budgeted; daily runs leave models unchanged. The local
+fixture registry supports guarded promotion and rollback. Replay uses origin-known
+weekly windows, chronological interval calibration/validation and a single-use
+final holdout. The recency incumbent remains provisional; no live model is fitted
+or promoted. See [registry, holdout and outcome workflow](docs/LEARNING.md).

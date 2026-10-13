@@ -107,7 +107,10 @@ class Registry:
             state["active"] = identity
             state["models"][identity].update(
                 state="active",
-                promotion_reason=f"Provisional {record['model']} fixture incumbent",
+                promotion_reason=(
+                    f"Initial {record['model']} "
+                    f"{record.get('scope', 'fixture')} configuration"
+                ),
             )
         atomic_write(self.path, state)
         return identity
@@ -123,19 +126,36 @@ class Registry:
         if (
             candidate["dataset_watermark"] != active["dataset_watermark"]
             or candidate["evaluation_hash"] != active["evaluation_hash"]
+            or candidate.get("code_hash") != active.get("code_hash")
         ):
             raise RegistryError("Models must share the same chronological evaluation.")
-        score, old = candidate["validation_pts_mae"], active["validation_pts_mae"]
+        if candidate.get("scope", "fixture") != active.get("scope", "fixture"):
+            raise RegistryError("Model scopes must match.")
+        if candidate.get("scope") == "nba_research":
+            if candidate.get("selection_metric") != "normalized_all_count_mae":
+                raise RegistryError("NBA promotion requires all-count validation.")
+            score, old = candidate["validation_score"], active["validation_score"]
+            baselines = candidate["baseline_scores"]
+        else:
+            score, old = candidate["validation_pts_mae"], active["validation_pts_mae"]
+            baselines = candidate["baseline_pts_mae"]
         if score is None or old is None or score >= old:
-            raise RegistryError("Candidate does not beat incumbent validation PTS MAE.")
-        # At least as good as every constituent baseline; no training-score promotion.
-        if score > min(candidate["baseline_pts_mae"].values()):
+            raise RegistryError(
+                "Candidate does not beat incumbent validation PTS MAE."
+                if candidate.get("scope") != "nba_research"
+                else "Candidate does not beat incumbent all-count validation."
+            )
+        if score > min(baselines.values()):
             raise RegistryError("Candidate does not beat the baseline comparison.")
         state["history"].append(state["active"])
         active["state"] = "archived"
         candidate.update(
             state="active",
-            promotion_reason="Explicit fixture promotion: lower validation PTS MAE",
+            promotion_reason=(
+                "Explicit NBA research promotion: lower all-count validation"
+                if candidate.get("scope") == "nba_research"
+                else "Explicit fixture promotion: lower validation PTS MAE"
+            ),
         )
         state["active"] = identity
         atomic_write(self.path, state)

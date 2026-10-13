@@ -58,6 +58,38 @@ def main(argv: Sequence[str] | None = None) -> int:
         description="Personal, read-only fantasy basketball optimizer (planned).",
     )
     commands = parser.add_subparsers(dest="command", required=True)
+    nba_command = commands.add_parser("nba", help="Cached real NBA research pipeline")
+    nba_command.add_argument(
+        "action", choices=("backtest", "train", "forecast", "run", "model")
+    )
+    nba_command.add_argument("--data", type=Path, default=Path("data/nba_data"))
+    nba_command.add_argument(
+        "--registry", type=Path, default=Path("models/nba-registry.json")
+    )
+    nba_command.add_argument(
+        "--benchmark-report",
+        type=Path,
+        default=Path("docs/benchmarks/nba-population.json"),
+    )
+    nba_command.add_argument("--output", type=Path, default=Path("data/nba-runs"))
+    nba_command.add_argument("--as-of", type=parse_as_of)
+    nba_command.add_argument("--seed", type=int, default=42)
+    nba_command.add_argument("--samples", type=int, default=256)
+    nba_command.add_argument("--screening-samples", type=int, default=256)
+    nba_command.add_argument("--finalist-samples", type=int, default=4096)
+    nba_command.add_argument("--backend", choices=("python", "cpp"), default="cpp")
+    nba_command.add_argument(
+        "--fixture", action="store_true", help="Explicit hypothetical league for run"
+    )
+    nba_command.add_argument(
+        "--prepare-only",
+        action="store_true",
+        help="Freeze selection/calibration without opening final period",
+    )
+    nba_command.add_argument(
+        "--model-action", choices=("status", "promote", "rollback"), default="status"
+    )
+    nba_command.add_argument("--id")
     status_command = commands.add_parser(
         "status", help="Show project and data-access status"
     )
@@ -175,6 +207,79 @@ def main(argv: Sequence[str] | None = None) -> int:
         "--categories", default="FG%,FT%,3PM,PTS,REB,AST,STL,BLK,TO"
     )
     args = parser.parse_args(argv)
+    if args.command == "nba":
+        from datetime import UTC
+
+        from fantasy_optimizer import nba_pipeline
+        from fantasy_optimizer.optimization import SearchConfig
+        from fantasy_optimizer.population_benchmark import run as population_run
+
+        try:
+            registry = Registry(args.registry)
+            as_of = args.as_of or datetime.now(UTC)
+            if args.action == "backtest":
+                from contextlib import redirect_stdout
+
+                with redirect_stdout(sys.stderr):
+                    result = population_run(
+                        args.data,
+                        Path("docs/benchmarks/nba-population-protocol.json"),
+                        args.benchmark_report,
+                        prepare_only=args.prepare_only,
+                    )
+            elif args.action == "train":
+                result = nba_pipeline.train(
+                    args.data, registry, args.benchmark_report, as_of
+                )
+            elif args.action == "forecast":
+                result = nba_pipeline.forecasts(
+                    args.data,
+                    registry,
+                    args.output,
+                    as_of,
+                    seed=args.seed,
+                    samples=args.samples,
+                )
+            elif args.action == "model":
+                state = registry.read()
+                active = state["models"].get(state["active"])
+                if active and active.get("scope") != "nba_research":
+                    raise ValueError("Use a separate NBA registry.")
+                with instance_lock(args.registry):
+                    if args.model_action == "promote":
+                        if not args.id:
+                            raise ValueError("Promotion requires --id.")
+                        registry.promote(args.id)
+                    elif args.model_action == "rollback":
+                        registry.rollback()
+                result = registry.read()
+            else:
+                if not args.fixture:
+                    raise ValueError(
+                        "Use --fixture: live Yahoo league/schedule "
+                        "inputs are unavailable."
+                    )
+                result = nba_pipeline.run(
+                    args.data,
+                    registry,
+                    args.output,
+                    as_of,
+                    config=SearchConfig(
+                        seed=args.seed,
+                        screening_samples=args.screening_samples,
+                        finalist_samples=args.finalist_samples,
+                        backend=args.backend,
+                    ),
+                    samples=args.samples,
+                )
+            print(json.dumps(result, sort_keys=True, indent=2))
+            return 0
+        except (ValueError, OSError, ForecastError, ImportError, duckdb.Error) as error:
+            print(
+                json.dumps({"error": "nba_pipeline_failed", "message": str(error)}),
+                file=sys.stderr,
+            )
+            return 1
     if args.command == "dashboard":
         if not args.fixture:
             print("Use --fixture; live dashboard data is unavailable.", file=sys.stderr)

@@ -160,6 +160,45 @@ class RunningAggregate:
         }
 
 
+def recency_weights(
+    ends: list[datetime], as_of: datetime, half_life: float
+) -> list[float]:
+    """Normalize relative ages to avoid underflow for stale historical support."""
+    latest = max(ends)
+    weights = [
+        2 ** (-(latest - end).total_seconds() / 86400 / half_life) for end in ends
+    ]
+    total = sum(weights)
+    return [weight / total for weight in weights]
+
+
+def strength_from_moments(
+    within: list[float],
+    between: list[float],
+    inverse_sizes: list[float],
+    config: ForecastConfig,
+) -> float:
+    ratios = []
+    for noise, dispersion, inverse in zip(within, between, inverse_sizes, strict=True):
+        signal = max(0.0, dispersion - noise * inverse)
+        ratios.append(config.prior_strength_max if signal == 0 else noise / signal)
+    estimate = mean(ratios) if ratios else config.prior_strength_min
+    return min(config.prior_strength_max, max(config.prior_strength_min, estimate))
+
+
+def joint_count_draw(
+    values: tuple[int | None, ...], shock: float
+) -> dict[str, int | None]:
+    """Shared whole-vector exposure and points identity for every horizon."""
+    draw = {
+        s: None if x is None else round(x * shock)
+        for s, x in zip(STATS, values, strict=True)
+    }
+    if all(draw[k] is not None for k in ("FGM", "FTM", "3PM", "PTS")):
+        draw["PTS"] = 2 * count(draw["FGM"]) + count(draw["3PM"]) + count(draw["FTM"])
+    return draw
+
+
 def prior_strength(peers: list[Window], config: ForecastConfig | None = None) -> float:
     """Moment estimate of within-player noise / between-player signal, clipped."""
     config = config or ForecastConfig()
@@ -273,16 +312,13 @@ def forecast(
         row = rng.choices(support, weights=weights, k=1)[0]
         # One shared exposure shock preserves dependence; it is an explicit proxy.
         shock = rng.choice((0.5, 1.0, 1.5) if len(own) < 3 else (0.75, 1.0, 1.25))
-        draw = {
-            stat: None
-            if stat in missing
-            else round(float(count(row.counts[index])) * shock)
-            for index, stat in enumerate(STATS)
-        }
-        if all(draw[key] is not None for key in ("FGM", "FTM", "3PM", "PTS")):
-            draw["PTS"] = (
-                2 * count(draw["FGM"]) + count(draw["3PM"]) + count(draw["FTM"])
-            )
+        draw = joint_count_draw(
+            tuple(
+                None if stat in missing else row.counts[index]
+                for index, stat in enumerate(STATS)
+            ),
+            shock,
+        )
         draws.append(draw)
     intervals: dict[str, list[int] | None] = {}
     mc_errors: dict[str, float | None] = {}

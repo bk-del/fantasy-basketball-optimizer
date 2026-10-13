@@ -38,6 +38,7 @@ jobs:
           uv run --offline --no-sync fantasy run --fixture --registry /tmp/models.json --database /tmp/run.duckdb --output /tmp/fixture-runs > /tmp/run.json
           uv run --offline --no-sync fantasy run --fixture --registry /tmp/models.json --database /tmp/run.duckdb --output /tmp/fixture-runs > /tmp/run-again.json
           uv run --offline --no-sync fantasy --help
+          uv run --offline --no-sync fantasy dashboard --help
           uv run --offline --no-sync fantasy status
           uv run --offline --no-sync fantasy auth status
           uv run --offline --no-sync fantasy audit --fixture > /tmp/yahoo-fixture-audit.json

@@ -1,5 +1,17 @@
 # Fantasy Basketball Optimizer
 
+## Browser interface
+
+```bash
+uv run fantasy dashboard --fixture
+```
+
+Open **http://127.0.0.1:8765**. Choose a scenario, compare actions and category
+tradeoffs, inspect lineups and download the report. Keep the terminal open;
+Ctrl+C stops the server. Use `--port 8766` if the default port is busy.
+The dashboard uses handmade fixtures and temporary storage; live Yahoo data is
+not connected. See [dashboard usage and scope](docs/DASHBOARD.md).
+
 **Status: fixture forecasts, simulation and read-only add/drop/HOLD suggestions implemented; live access unconfirmed.** Stage 00 provides
 the Python/C++20 foundation. Stage 01 adds local authorization metadata, a
 deterministic synthetic capability audit and a gated read-only live probe client.

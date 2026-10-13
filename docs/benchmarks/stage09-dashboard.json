@@ -1,0 +1,34 @@
+{
+  "cached_budget_seconds": 0.1,
+  "cached_page_median_seconds": 0.00352606299566105,
+  "cached_page_seconds": [
+    0.00352606299566105,
+    0.004088403002242558,
+    0.003870548003760632,
+    0.002919560000009369,
+    0.0029098220038576983
+  ],
+  "dashboard_source_hashes": {
+    "src/fantasy_optimizer/dashboard.py": "cc5aca9e1ec374da6897111dbc954a61147946ab794f9300ddc068d6df6a7269",
+    "src/fantasy_optimizer/web/index.html": "d9928ce8db498f66db7925833c5c660bf9328e42a1959396bdb24767d4459e0a",
+    "src/fantasy_optimizer/web/style.css": "060ca180eab2065d52332d20e96af2ec0a805ab359e7842b65486f360e33a837"
+  },
+  "decision_uplift": null,
+  "fixture_only": true,
+  "fresh_budget_seconds": 3,
+  "fresh_page_seconds": 0.7996277499987627,
+  "input_watermark": "a6b5c5720888c6e0e9465069d4f38e9ea418ae35207abe0a41757605a95ae576",
+  "json_bytes": 21230,
+  "limitations": [
+    "Local single-user HTTP timings; startup excluded.",
+    "Functional HTTP tests preserve pipeline parity.",
+    "No browser automation available; visual owner review pending.",
+    "Synthetic fixture; live decision uplift unverified."
+  ],
+  "optimizer_code_hash": "aa0e667165c3e60b6f9f6d3ce7fb559dbe6754616040e7ba606f287e3eb2e9dc",
+  "page_bytes": 12655,
+  "recommended_action": "ADD:target/DROP:streamer",
+  "run_id": "f9f755d3816313dc80405875bb68451c43013c16217da1eb342c6170de6677f9",
+  "scenario": "baseline",
+  "seed": 42
+}

@@ -62,6 +62,11 @@ def main(argv: Sequence[str] | None = None) -> int:
         "status", help="Show project and data-access status"
     )
     status_command.add_argument("--fixture", action="store_true")
+    dashboard_command = commands.add_parser(
+        "dashboard", help="Open the local fixture browser interface"
+    )
+    dashboard_command.add_argument("--fixture", action="store_true")
+    dashboard_command.add_argument("--port", type=int, default=8765)
     status_command.add_argument(
         "--registry", type=Path, default=Path("models/fixture-registry.json")
     )
@@ -170,6 +175,20 @@ def main(argv: Sequence[str] | None = None) -> int:
         "--categories", default="FG%,FT%,3PM,PTS,REB,AST,STL,BLK,TO"
     )
     args = parser.parse_args(argv)
+    if args.command == "dashboard":
+        if not args.fixture:
+            print("Use --fixture; live dashboard data is unavailable.", file=sys.stderr)
+            return 1
+        if not 1 <= args.port <= 65535:
+            parser.error("--port must be between 1 and 65535")
+        from fantasy_optimizer.dashboard import serve
+
+        try:
+            serve(args.port)
+        except OSError:
+            print("Cannot start local dashboard; try another --port.", file=sys.stderr)
+            return 1
+        return 0
     if args.command == "status":
         print(
             "Stage 09: optional fixture tradeoff display; "
@@ -180,6 +199,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             "Next: run fantasy run --fixture; review category effects and uncertainty."
         )
         print("Owner validation required; live history/rules/availability unverified.")
+        print("Browser interface: fantasy dashboard --fixture (127.0.0.1:8765).")
         try:
             state = Registry(args.registry).read()
             active_label = state["active"] or "provisional recency (uninitialized)"

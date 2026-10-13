@@ -34,6 +34,7 @@ from fantasy_optimizer.operations import (
 from fantasy_optimizer.optimization_fixture import SCENARIOS, optimize_fixture
 from fantasy_optimizer.registry import Registry, RegistryError
 from fantasy_optimizer.storage import StorageError, timestamp
+from fantasy_optimizer.tradeoffs import TradeoffError, render_text, tradeoff_view
 from fantasy_optimizer.yahoo import (
     FixtureYahooClient,
     HttpYahooClient,
@@ -109,6 +110,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         "optimize", help="Read-only handmade add/drop/HOLD suggestions"
     )
     optimize_command.add_argument("--fixture", action="store_true")
+    optimize_command.add_argument("--tradeoffs", action="store_true")
     optimize_command.add_argument("--as-of", type=parse_as_of)
     optimize_command.add_argument("--seed", type=int, default=42)
     optimize_command.add_argument("--screening-samples", type=int, default=256)
@@ -126,6 +128,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             "--registry", type=Path, default=Path("models/fixture-registry.json")
         )
         if name == "run":
+            command.add_argument("--tradeoffs", action="store_true")
             command.add_argument(
                 "--database", type=Path, default=Path("data/operations-fixture.duckdb")
             )
@@ -157,10 +160,19 @@ def main(argv: Sequence[str] | None = None) -> int:
             )
             command.add_argument("--id")
             command.add_argument("--outcome", type=Path)
+    tradeoffs_command = commands.add_parser(
+        "tradeoffs", help="Read-only fixture category/Pareto display"
+    )
+    tradeoffs_command.add_argument("--fixture", action="store_true")
+    tradeoffs_command.add_argument("--input", type=Path, required=True)
+    tradeoffs_command.add_argument("--format", choices=("text", "json"), default="text")
+    tradeoffs_command.add_argument(
+        "--categories", default="FG%,FT%,3PM,PTS,REB,AST,STL,BLK,TO"
+    )
     args = parser.parse_args(argv)
     if args.command == "status":
         print(
-            "Stage 08: manual fixture pipeline; "
+            "Stage 09: optional fixture tradeoff display; "
             "recency baseline retained; live access unverified."
         )
         print("Yahoo access is unconfirmed until audited; fixtures are synthetic.")
@@ -182,6 +194,26 @@ def main(argv: Sequence[str] | None = None) -> int:
     token_path = Path(os.environ.get("YAHOO_TOKEN_FILE", ".oauth/tokens.json"))
     approved = os.environ.get("YAHOO_ACCESS_APPROVED") == "1"
     try:
+        if args.command == "tradeoffs":
+            if not args.fixture:
+                raise TradeoffError(
+                    "Use --fixture; live tradeoff reports are unverified."
+                )
+            try:
+                report = json.loads(args.input.read_text())
+            except (OSError, ValueError) as error:
+                raise TradeoffError(
+                    "Cannot read report; provide saved fixture JSON."
+                ) from error
+            if not isinstance(report, dict):
+                raise TradeoffError("Report must be a JSON object.")
+            view = tradeoff_view(report, args.categories.split(","))
+            print(
+                render_text(view)
+                if args.format == "text"
+                else json.dumps(view, sort_keys=True, indent=2)
+            )
+            return 0
         if args.command in ("train", "backtest", "run", "model"):
             if not args.fixture:
                 print(
@@ -389,6 +421,14 @@ def main(argv: Sequence[str] | None = None) -> int:
                     team_key=os.environ.get("YAHOO_TEAM_KEY", ""),
                 )
             result = audit(client)
+        if args.command in ("run", "optimize") and args.tradeoffs:
+            result = {**result, "tradeoffs": tradeoff_view(result)}
+    except TradeoffError as error:
+        print(
+            json.dumps({"error": "tradeoffs_failed", "message": str(error)}),
+            file=sys.stderr,
+        )
+        return 1
     except YahooError as error:
         print(json.dumps({"error": error.code, "message": str(error)}), file=sys.stderr)
         return 1

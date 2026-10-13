@@ -179,8 +179,8 @@ The original guides stay in their own folder. Read
 | [05](fantasy-basketball-optimizer-guides/docs/stages/05-waiver-optimization.md) | Waiver optimization |
 | [06](fantasy-basketball-optimizer-guides/docs/stages/06-context-and-breakouts.md) | Context and breakout signals |
 | [07](fantasy-basketball-optimizer-guides/docs/stages/07-learning-and-backtesting.md) | Learning and backtesting |
-| [08](fantasy-basketball-optimizer-guides/docs/stages/08-cli-and-operations.md) | CLI and operations (current, fixture-only) |
-| [09](fantasy-basketball-optimizer-guides/docs/stages/09-optional-extensions.md) | Optional extensions |
+| [08](fantasy-basketball-optimizer-guides/docs/stages/08-cli-and-operations.md) | CLI and operations |
+| [09](fantasy-basketball-optimizer-guides/docs/stages/09-optional-extensions.md) | Optional extensions (selected: tradeoff display) |
 
 [Yahoo access request draft](docs/API_REQUEST.md). Publication requires owner
 approval; application submission is manual by the owner. Stop at each stage gate.
@@ -261,3 +261,17 @@ sync/run writes. Repeated runs reuse derived caches without retraining or changi
 models. Output reports freshness, unknown live rules, category effects and uncertainty.
 Live runs remain disabled. Read [operations, historical boundaries, recovery and
 migration](docs/OPERATIONS.md), then validate actual outputs before live deployment.
+
+
+## Category tradeoffs (selected Stage 09 extension)
+
+```bash
+uv run fantasy optimize --fixture --tradeoffs
+uv run fantasy run --fixture --tradeoffs
+uv run fantasy tradeoffs --fixture --input data/fixture-runs/RUN_HASH.json
+```
+
+Opt-in point-estimate frontiers show category gains/losses, matchup sampling
+uncertainty and roster-value cost for comparable refined actions. The display
+preserves the optimizer recommendation and its constraints. Saved reports can be
+viewed without writes or simulation. See [proposal, limits and rollback](docs/TRADEOFFS.md).

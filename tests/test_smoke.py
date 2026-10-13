@@ -35,8 +35,8 @@ def test_module_status() -> None:
     )
     assert result.returncode == 0
     assert (
-        "manual fixture pipeline; recency baseline retained; live access unverified"
-        in result.stdout
+        "optional fixture tradeoff display; "
+        "recency baseline retained; live access unverified" in result.stdout
     )
     assert "Yahoo access is unconfirmed" in result.stdout
     assert result.stderr == ""

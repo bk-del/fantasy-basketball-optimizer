@@ -1,9 +1,53 @@
 # STATUS — agent handoff (update on every working session)
 
-**Current stage:** 08 — End-to-end CLI and local operations (fixture-only).
-**State:** Stage 08 fixture pipeline committed locally on dev; required local checks passed. Stopped at Stage 08 approval gate awaiting owner output validation.
-**Data constraints:** Yahoo histories/rules/game forecasts remain unverified; fixture sources must stay explicit and separate. No live run, transactions or automatic scheduling.
-**Next exact step:** Owner validates actual fixture output in docs/benchmarks/stage08.json or runs fantasy run --fixture and reviews constraints/category effects/uncertainty. Verify authorized Yahoo contracts/data before live operations. Stage 09, main merge and publication need separate approval.
+**Current stage:** 09 — Category tradeoff and Pareto display (fixture-only).
+**State:** Selected fixture tradeoff/Pareto extension committed locally on dev; all required local checks passed. Stopped at Stage 09 review gate.
+**Data constraints:** Fixture-only; no measured live decision uplift, verified Yahoo history/context/rules or historical waiver availability. Stage 08 owner output validation still unconfirmed.
+**Next exact step:** Owner reviews fantasy optimize --fixture --tradeoffs or saved-report text view and docs/benchmarks/stage09.json. Stage 08 actual-output validation remains unconfirmed. Any other optional extension, live activation, main merge/publication or scheduler needs separate authorization.
+
+## Stage 09 execution plan (completed 2026-10-12)
+
+Recorded before implementation: owner selected category tradeoff/Pareto display after guide-required clarification. Write its scoped proposal (cost/data/success/rollback); implement opt-in read-only view using refined same-budget existing outcomes and explicit missingness/MC uncertainty; show matchup-credit/value-loss and category/value-loss point-estimate frontiers, optionally selected display categories, without changing optimizer objective/recommendation; meaningful dominance/ties/missingness/comparability/CLI tests; fixture comparison/display-cost benchmark; full Python/C++/wheel checks and focused dev commit. No adaptive punt policy, new search/model/data/service or other extension. Stop at Stage 09 gate.
+
+## Stage 09 selected extension — completed work
+
+Owner explicitly selected “Category tradeoff and Pareto display” in response to Stage 09 scope clarification. Stage 09 requires a specific optional-feature request; “next” alone did not name an extension. Only that selected display is implemented. Prior Stage 08 owner-output validation remains unconfirmed, so no production-ready claim.
+
+- New docs/TRADEOFFS.md: pre-implementation scoped proposal with cost/data needs, measurable correctness/invariance/0.1s capped benchmark budget, rejection criteria and opt-out/revert rollback. No adaptive punt policy, model, search, GPU or service included.
+- New src/fantasy_optimizer/tradeoffs.py: read-only view for existing fixture-only optimizer reports or saved run artifacts. Comparable rows must be feasible, refined, at the same finalist sample count, with valid utility/value/category/uncertainty fields. Missing, unverified or screening-only rows excluded with reasons; invalid identities/axes/budgets rejected.
+- Two distinct point-estimate frontiers: matchup credit versus lower long-term value loss; selected category win-probability deltas versus lower value loss. Exact duplicate points retained; dominance requires no worse on every axis and strict improvement somewhere. All nine categories default, optional selected axes affect display only. Turnovers already oriented by simulator; category tie changes shown separately, without guessed half-credit or calibration.
+- Existing recommendation, protection/value-loss guard, paired-gain rule and explanation remain authoritative; nondominated does not mean recommendable. Probability MC SE and paired gain SE are displayed separately from uncalibrated model uncertainty. No sum of category Z-scores, new forecast or counterfactual transaction outcome claim.
+- Bounded to 256 rows. First Python pairwise implementation failed preregistered cost budget; revised to existing NumPy one-objective-at-a-time boolean matrices, under 0.4 MB temporary arrays at cap, verified against independent pairwise reference. No new dependency or simulation calls.
+- Updated cli.py: opt-in --tradeoffs on run/optimize appends console JSON only, preserving saved pipeline artifacts/caches. New fantasy tradeoffs --fixture --input PATH, default text or --format json, optional --categories PTS,REB,...; saved-report view performs no simulation/file writes. Code/config hashes, source provenance, seed and exclusions included.
+- New tests/test_tradeoffs.py (19 cases), updated tests/test_smoke.py and README; CI includes saved fixture tradeoff command; new docs/benchmarks/stage09.json stores comparison/view/benchmark evidence. Existing STATUS remains sole handoff with all previous records preserved. No pipeline/optimizer/simulator/storage/model/dependency/C++ change, live data, other extension, scheduling, main merge or publication.
+
+## Stage 09 verification — actual outcomes
+
+All commands at root; uv used UV_CACHE_DIR=/tmp/fantasy-stage01-uv-cache.
+
+- uv sync --locked --offline --group dev: passed, 15 resolved/14 checked; no new installs or lockfile changes.
+- uv run --offline --no-sync ruff check . and ruff format --check .: passed, 31 files formatted. mypy src: passed, 20 source files. Initial line-length/import/numeric/NumPy array typing findings fixed without diagnostic suppression.
+- uv run --offline --no-sync pytest -q: final **172 passed in 31.62 seconds**; earlier 172/172 run also passed before final provenance addition. Initial focused tradeoff suite **17 passed in 0.62 seconds**; final full suite includes independent vectorized/reference parity and saved-run invariance, 19 new cases. No configured tests skipped.
+- Tests: crossing objectives, dominated rows, equal points, exact frontier/reference parity across 65 handmade points/ten axes; chosen category axes and TO orientation; negative category effects/ties/SE text; null/invalid/nonfinite/boolean/missing-category values; feasible/refined/same-budget filters; empty/order/duplicate identities/cap/invalid axes; real fixture invariance and screened-out exclusion; opt-in and saved-view CLI/live gates/bad JSON; unchanged saved artifact/model registry under run opt-in.
+- cmake -S cpp -B build/cpp -G Ninja -DCMAKE_BUILD_TYPE=Debug and cmake --build build/cpp: passed, targets current. No changed C++ requires fresh lint; wheel rebuild exercised configured project clang-tidy.
+- ctest --test-dir build/cpp --output-on-failure outside sandbox tracing: **3/3 passed in 1.79 seconds**, full ASan/UBSan/leak checking and just-built native/reference parity. No suppression.
+- git ls-files -z -- '*.cpp' '*.hpp' | xargs -0 -r clang-format-14 --dry-run --Werror: passed. git diff --check and staged diff checks passed. Elevated local staging/commit succeeded for all nine selected-extension files on dev; this final observed handoff is included in that commit. Main/remotes untouched.
+- /tmp/fantasy-stage09-benchmark.py via uv run --offline --no-sync python: first pure-Python capped implementation failed 0.1s budget (five timings 0.176–0.182s); revised implementation passed unchanged budget, saved final results below. Handcrafted stress rows are numerical comparisons, not real/live transactions. Original optimizer report/action unchanged.
+- Installed fantasy optimize --fixture --tradeoffs plus fantasy tradeoffs --fixture --input /tmp/fantasy-stage09-optimization.json --format json: passed. Two independent view outputs byte-identical by cmp; selected PTS/REB/TO text output checked. No saved input modification or simulation for viewer.
+- uv build --offline: passed, sdist and native cp312 Linux wheel. .venv/bin/python -I -S /tmp/fantasy-stage09-wheel-check.py "$PWD": passed, extracted tradeoff/CLI/native paths asserted, full view/code/config/source provenance matches saved benchmark; selected-axis text CLI works and input bytes unchanged.
+- README/tradeoff local links and CI YAML parsing passed. Remote GitHub CI, owner usability/output validation and live decision uplift remain unverified. Live experiments/walk-forward decision evaluation skipped because verified historical ownership/rules/outcomes do not exist; display benchmark and incumbent comparison are the applicable fixture evaluation, not live uplift.
+
+## Stage 09 measured results and selected-extension gate
+
+Default real fixture view uses two comparable refined actions and excludes one screening-only bad-target action. Both frontiers contain **ADD:target/DROP:streamer**. Incumbent recommendation/seed/probabilities preserved; HOLD remains visible with its original explanation/recommendable flag. Category/utility frontiers are display diagnostics, never transaction instructions or a promoted policy.
+
+Final five-run median view time: **0.000393318 seconds** on existing output and **0.007989358 seconds** on 256 mutually incomparable handmade rows. Capped case below predeclared **0.1 second** budget. Actual JSON view **3,556 bytes**; canonical 256-row stress view **161,833 bytes**. Runtime excludes existing simulation and CLI startup. Timing informational; no production speed or win-rate claim. Decision uplift remains null with explicit insufficiency reason.
+
+**Selected fixture extension acceptance met:** scoped proposal/rollback, exact non-dominance and missingness/uncertainty tests, unchanged incumbent outputs and saved artifacts, measured bounded cost, all required checks and handoff. **Owner review pending:** inspect actual display and validate Stage 08 output before any readiness claim. Other Stage 09 experiments remain unselected/unimplemented; no next stage assumed, live activation, main merge or publication authorized. Stop here.
+
+## Archived Stage 08 completion record
+
+Owner requested the next stage after these results; this is not evidence that owner validated actual outputs or selected an optional extension.
 
 ## Stage 08 execution plan (completed 2026-10-12)
 
@@ -317,3 +361,5 @@ The final overly broad intervals still do not establish calibration.
 - 2026-10-12 Stage 07: Owner authorized next stage. Added fixture-only budgeted baseline training, atomic model registry/promotion/rollback, chronological calibration/validation and protected final holdout, read-only run and proposed uncertainty/outcome logging on dev. 139 Python tests, 3/3 full-sanitizer CTest targets, lint/format/mypy/package/CLI checks passed; measured 0.300s/8,773 bytes, recency retained. No live model, Stage 08, main merge or publication. Stop at Stage 07 gate.
 
 - 2026-10-12 Stage 08: Owner authorized next stage. Added fixture-only end-to-end locked sync/validate/active weekly inference/independent game simulation+optimization/result pipeline, derived caching/invalidation, historical/dry-run/failure guards, structured logs and manual migration/disabled scheduling docs directly on dev. 153 Python tests, 3/3 full-sanitizer CTest, lint/format/mypy/package/CLI passed; fresh/cached CLI measured 1.25s/0.79s, identical saved output. Owner validation of actual fixture outputs pending; no live run, enabled scheduler, Stage 09, main merge or publication. Stop at Stage 08 gate.
+
+- 2026-10-12 Stage 09: Owner explicitly selected category tradeoff/Pareto display. Added scoped proposal and opt-in read-only fixture view with comparable refined rows, two point-estimate frontiers, category/tie effects, roster cost and sampling uncertainty; recommendations/saved artifacts preserved. 172 Python tests, 3/3 full-sanitizer CTest plus lint/format/mypy/package/CLI passed. Revised capped view from failed ~0.178s loop to passing ~0.008s NumPy path; no live uplift claim. Owner review/Stage 08 output validation pending; other extensions, main merge/publication and scheduling remain unauthorized. Stop at selected Stage 09 gate.

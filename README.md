@@ -287,3 +287,7 @@ Opt-in point-estimate frontiers show category gains/losses, matchup sampling
 uncertainty and roster-value cost for comparable refined actions. The display
 preserves the optimizer recommendation and its constraints. Saved reports can be
 viewed without writes or simulation. See [proposal, limits and rollback](docs/TRADEOFFS.md).
+
+NBA research data is downloaded and queryable locally. See
+[setup, offline queries and coverage limitations](fantasy-basketball-optimizer-guides/docs/NBA_DATA.md).
+Rebuild/verify with `uv run python scripts/prepare_nba_data.py --offline`.

@@ -1,0 +1,43 @@
+{
+  "all_games": 64695,
+  "all_players": 697,
+  "as_of": "2026-10-13T03:40:00+00:00",
+  "fit_summary_seconds": 1.7521432809953694,
+  "inference_eight_players_seconds": 0.02408875300170621,
+  "load_seconds": 1.9985368620036752,
+  "peak_rss_mib": 389.03125,
+  "scope": "Real NBA distributions, hypothetical fixture schedule/constraints; measured local CPU; imports excluded",
+  "simulation": {
+    "1000": {
+      "exact_category_parity": true,
+      "kernel_median_seconds": {
+        "cpp": 0.0004893980003544129,
+        "python": 0.03926443100499455
+      },
+      "preparation_seconds": 0.06363585800136207,
+      "raw_bank_bytes": 2112000,
+      "scenario_hash": "296c6e30c7a1f98a039e7454481ecd3108a6241c1753d1c676410666477a2a58"
+    },
+    "10000": {
+      "exact_category_parity": true,
+      "kernel_median_seconds": {
+        "cpp": 0.004504634998738766,
+        "python": 0.3991943189976155
+      },
+      "preparation_seconds": 0.12169661599909887,
+      "raw_bank_bytes": 21120000,
+      "scenario_hash": "376a3085c33baba91aee1eba27ae8c0b2fbad485afe5037a12fe1c38bb1fdab4"
+    },
+    "20000": {
+      "exact_category_parity": true,
+      "kernel_median_seconds": {
+        "cpp": 0.009195368002110627,
+        "python": 0.7921899690045393
+      },
+      "preparation_seconds": 0.19705936100217514,
+      "raw_bank_bytes": 42240000,
+      "scenario_hash": "bbab5ca10b4e9fd527377afaed94077654aefaa711cc83aade0ead45cc98be78"
+    }
+  },
+  "source_hash": "57760f7a9ddac3f0371d3eff75b7ff9d79de851d206929ac3f6063888d751cf8"
+}

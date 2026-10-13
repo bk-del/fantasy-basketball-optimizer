@@ -1,5 +1,8 @@
 # Manual fixture operations
 
+Actual NBA distributions can now feed an explicitly hypothetical fixture league via
+`fantasy nba run --fixture`; see [real-data pipeline](REAL_DATA_PIPELINE.md).
+
 Stage 08 is an offline local workflow awaiting owner validation of actual output.
 It is not production-ready: authorized Yahoo rules, comparable game forecasts and
 historical ownership/availability remain unverified. A valid token alone does not

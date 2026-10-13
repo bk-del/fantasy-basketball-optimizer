@@ -1,5 +1,7 @@
 # Forecasting audit — 2026-10-12
 
+Current end-to-end audit and connections: [real NBA pipeline](REAL_DATA_PIPELINE.md).
+
 Historical audit record: the owner subsequently authorized and completed the
 [historical integration and real-data benchmark](HISTORICAL_FORECAST_BENCHMARK.md).
 The findings below describe the pre-integration system; current NBA adapter,

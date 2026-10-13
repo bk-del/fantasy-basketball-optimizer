@@ -1,5 +1,8 @@
 # Offline learning and model lifecycle
 
+For real NBA count configurations and all-count promotion checks, see the separate
+[NBA pipeline](REAL_DATA_PIPELINE.md). The original fixture lifecycle below is preserved.
+
 Stage 07 evaluates existing handmade weekly counts, with no Yahoo request or new
 dependency. `train`, `backtest`, `run` and `model` require `--fixture`. These are
 forecasting experiments: historical waiver availability/ownership is absent, so

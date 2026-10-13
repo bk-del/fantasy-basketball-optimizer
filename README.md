@@ -308,3 +308,22 @@ source schema, exact identity mapping, strict versus assumed retrospective
 availability, chronological half-life selection, eleven-category MAE and
 calibration, reproduction and limitations. Existing live/fixture runtime gates
 remain in place; this research does not activate historical data in the optimizer.
+
+### Actual NBA research pipeline
+
+The cached authorized NBA snapshot now supports full-population chronological
+validation, conditional per-game predictions and an explicitly hypothetical
+fixture league using real forecast distributions. See [pipeline/limits](docs/REAL_DATA_PIPELINE.md)
+and [benchmark results](docs/HISTORICAL_FORECAST_BENCHMARK.md). No live Yahoo advice
+or seven-day game counts are fabricated.
+
+```bash
+uv run --offline --no-sync fantasy nba backtest > /tmp/nba-backtest.json
+uv run --offline --no-sync fantasy nba train --as-of 2026-10-13T03:40:00Z
+uv run --offline --no-sync fantasy nba forecast --as-of 2026-10-13T03:40:00Z > /tmp/nba-forecasts.json
+uv run --offline --no-sync fantasy nba run --fixture --as-of 2026-10-13T03:40:00Z
+```
+
+Training reads the frozen validated configuration. Ordinary runs retain it and
+reuse derived forecasts/decisions; no automatic promotion, live transaction,
+background scheduler or additional model architecture is enabled.

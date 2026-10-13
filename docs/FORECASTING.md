@@ -1,5 +1,8 @@
 # Stage 03: weekly count baselines
 
+Conditional actual NBA per-game forecasts and full-population validation now use
+[the real-data pipeline](REAL_DATA_PIPELINE.md); this page retains the original fixture contract.
+
 This page describes the original fixture path. The authorized NBA research path
 now reuses this engine; see the [historical benchmark](HISTORICAL_FORECAST_BENCHMARK.md)
 for the adapter, temporal assumptions and real-data results. Fixture/live command

@@ -1,5 +1,7 @@
 # Historical NBA forecasting benchmark
 
+The original 24-player reference below is preserved from `42a5f83`. Current full-population results, actual inference, fixture decisions and exact reproduction commands are in the [completed integration milestone](#full-population-integration-milestone--completed-2026-10-12). Use its archived-code command for the original benchmark.
+
 Completed 2026-10-12 local project date. This is the authorized historical
 integration/Stage 02–03 extension. Existing weekly forecasting, joint sampling,
 empirical-Bayes prior and residual calibration are reused. No advanced model,
@@ -277,3 +279,350 @@ existing exposure sampler and pooled peer prior remain heuristic. Integration
 and benchmark acceptance are met within this disclosed research scope; stop
 at owner review. Contextual forecasting, another stage, main merge and external
 publication are not authorized.
+
+> The sections above preserve the original 24-player reference at `42a5f83`.
+> The milestone below supersedes its population, connection and cost limitations.
+> Original selection/evidence files remain unchanged; original replay uses that
+> commit's code, rather than the modified source hash in this checkout.
+
+## Full-population integration milestone — completed 2026-10-12
+
+[Protocol](benchmarks/nba-population-protocol.json),
+[all model and segment metrics](benchmarks/nba-population.json),
+[CPU kernel measurements](benchmarks/nba-performance.json), and
+[actual forecast/complete fixture decision evidence](benchmarks/nba-end-to-end.json).
+The [pipeline audit](REAL_DATA_PIPELINE.md) records the original connections before
+changes and the final contracts. No source download, new model architecture or
+optimizer objective change occurred.
+
+The 24-player restriction affected the old benchmark's development, calibration,
+evaluation and peer pool only. It never restricted the historical adapter.
+This milestone fits **64,695 valid player-games, 697 distinct NBA IDs, two complete
+regular seasons (2024–25 and 2025–26)**; observed weekly data contain **20,987** full
+player-windows. Older sparse/duplicate partitions remain quarantined. All available
+valid rows in the verified source enter current fitting; no arbitrarily selected
+cohort, current-roster filter, positive-points or consecutive-week requirement.
+Reserves, rookies with recorded history, zero rows and departed players remain.
+
+Historical eligibility requires **one own origin-known observation in the target
+season**, so first-ever games without history are outside evaluation support.
+The existing Bayesian prior supports limited history; no new unidentified player
+or observation is invented. At each prediction origin priors use only then-known
+other players with equal mass per player. Season-to-date resets to the target
+season; recency and shrinkage use all earlier known seasons. This tests the actual
+configurations; it cannot isolate a causal benefit from adding observations.
+Historical availability remains explicitly `retrospective_next_day`, with actual
+retrieval retained. Snapshot revisions and first-publication history cannot be
+reconstructed. Current inference uses strict actual-retrieval gating.
+
+### Chronological selection and support
+
+The original Jan–Apr 2026 evaluation had already been examined. A fresh primary
+period in the previously unscored end of 2024–25 was declared before opening its
+outcomes; the larger 2026 period is a **replication, not an untouched holdout**.
+The code/data/protocol freeze and one-use registry were saved before evaluation.
+Expanding histories can include earlier held-out outcomes once known at later
+origins; configuration and calibration remain frozen throughout.
+
+| Period (noon UTC boundaries) | Per-game cases/model | Observed-week cases/model | Purpose |
+|---|---:|---:|---|
+| Before 2025-01-06 | 13,838 observations / 525 IDs | 4,338 observations / 523 IDs | Initial scales, all eligible priors |
+| 2025-01-06–2025-02-17 | 7,395 | 2,599 | Development selection |
+| 2025-02-17–2025-03-24 | 6,598 | 2,194 | Fixed marginal calibration |
+| 2025-03-24–2025-04-14 | 4,170 / 497 IDs | 1,356 / 496 IDs | Fresh primary holdout |
+| 2026-01-05–2026-04-13 | 18,150 / 564 IDs | 6,087 / 562 IDs | Disclosed replication |
+
+Selection compares season-to-date and the existing recency/Bayesian estimators at
+7/14/28/56/112-day half-lives, minimizing equally weighted normalized **all-eleven-
+count** development MAE. Scales use pre-development counts, floor one. Selected
+**per-game recency 14d**, **observed-week recency 28d**. Calibration and final
+outcomes never choose parameters; no post-holdout tuning occurred. Production
+uses the selected per-game configuration. Observed-week forecasts validate a
+separate aggregate horizon; they are not future seven-day forecasts with invented
+exposure. Each model has the same evaluation targets/outcome hashes and common
+origin-known probability thresholds. Replays and hashes were independently checked.
+
+### Primary held-out accuracy and calibration
+
+MAE is analytic expected-count error, in counts per indicated horizon. The selected
+recency estimator reduces all eleven count MAEs relative to season-to-date on this
+primary period. Shooting ratios below worsen: **this is not universal 9-CAT
+superiority, calibrated live odds, or proof that more training data improves accuracy**.
+Bayesian shrinkage remains supported but did not win the declared selection metric.
+
+#### Conditional recorded player-game
+
+| Count | Season-to-date MAE | Selected recency MAE | Bayesian MAE |
+|---|---:|---:|---:|
+| PTS | 5.1024 | 4.7689 | 4.9054 |
+| REB | 2.1204 | 1.9874 | 2.0310 |
+| AST | 1.3671 | 1.2934 | 1.3326 |
+| STL | 0.6319 | 0.6170 | 0.6281 |
+| BLK | 0.4299 | 0.4124 | 0.4235 |
+| 3PM | 0.8425 | 0.8178 | 0.8449 |
+| TO | 0.8375 | 0.8018 | 0.8207 |
+| FGM | 1.9362 | 1.8192 | 1.8680 |
+| FGA | 3.5292 | 3.1812 | 3.2899 |
+| FTM | 1.1228 | 1.0953 | 1.1264 |
+| FTA | 1.3989 | 1.3591 | 1.4024 |
+
+Selected recency diagnostics, nominal central 80% intervals:
+
+| Count | Bias | Raw coverage | Residual coverage | Raw width | Common-event Brier |
+|---|---:|---:|---:|---:|---:|
+| PTS | -0.3597 | 0.8101 | 0.7729 | 13.0173 | 0.2339 |
+| REB | -0.1240 | 0.8372 | 0.7815 | 5.4532 | 0.2333 |
+| AST | -0.0801 | 0.8705 | 0.7875 | 3.5367 | 0.2245 |
+| STL | -0.0112 | 0.9146 | 0.8036 | 1.4849 | 0.2122 |
+| BLK | 0.0018 | 0.9336 | 0.8106 | 0.9564 | 0.1556 |
+| 3PM | -0.0519 | 0.8986 | 0.7962 | 2.1329 | 0.1963 |
+| TO | -0.0339 | 0.8930 | 0.7823 | 1.9990 | 0.2181 |
+| FGM | -0.1507 | 0.8436 | 0.7758 | 4.9271 | 0.2340 |
+| FGA | -0.3200 | 0.8271 | 0.7662 | 8.8880 | 0.2289 |
+| FTM | -0.0065 | 0.8945 | 0.8002 | 2.7969 | 0.1974 |
+| FTA | -0.0159 | 0.8899 | 0.7964 | 3.4561 | 0.2045 |
+
+Shooting percentages are ratios of makes/attempts, not independent count means.
+
+| Ratio | Targets with attempts | Season-to-date MAE | Recency MAE | Bayesian MAE | Recency bias | Raw coverage | Raw width | Brier |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| FG% | 3127 | 0.1680 | 0.1727 | 0.1692 | 0.0077 | 0.8110 | 0.5595 | 0.2798 |
+| FT% | 1762 | 0.2244 | 0.2288 | 0.2231 | -0.0042 | 0.8802 | 0.8330 | 0.3254 |
+
+Minute segments use origin-known mean minutes: high ≥28, medium 15–<28, low <15; missing retained. All categories/models/segments are in JSON. Selected PTS illustrates the calibration failure:
+
+| Segment | Cases | PTS MAE | PTS bias | Raw coverage | Residual coverage |
+|---|---:|---:|---:|---:|---:|
+| high | 892 | 6.6817 | 0.7090 | 0.8161 | 0.6379 |
+| medium | 1841 | 5.0106 | -0.2699 | 0.7990 | 0.7545 |
+| low | 1417 | 3.2996 | -1.1359 | 0.8200 | 0.8800 |
+| unknown | 20 | 1.3000 | -1.3000 | 0.8500 | 0.9000 |
+
+PTS paired MAE difference versus season-to-date: **-0.3335**, player-cluster bootstrap 95% interval **[-0.4336, -0.2347]**, 1,000 resamples.
+
+#### Observed seven-day player-window
+
+| Count | Season-to-date MAE | Selected recency MAE | Bayesian MAE |
+|---|---:|---:|---:|
+| PTS | 14.0238 | 13.1160 | 13.5095 |
+| REB | 5.5053 | 5.1704 | 5.2567 |
+| AST | 3.4612 | 3.2660 | 3.3861 |
+| STL | 1.3533 | 1.3278 | 1.3392 |
+| BLK | 0.9225 | 0.8957 | 0.9226 |
+| 3PM | 2.0104 | 1.9125 | 2.0016 |
+| TO | 1.9112 | 1.8504 | 1.8799 |
+| FGM | 5.2565 | 4.9484 | 5.0908 |
+| FGA | 10.4636 | 9.7587 | 10.0776 |
+| FTM | 2.5573 | 2.4556 | 2.5364 |
+| FTA | 3.1536 | 3.0102 | 3.1304 |
+
+Selected recency diagnostics, nominal central 80% intervals:
+
+| Count | Bias | Raw coverage | Residual coverage | Raw width | Common-event Brier |
+|---|---:|---:|---:|---:|---:|
+| PTS | -2.8546 | 0.7294 | 0.7662 | 35.4056 | 0.2622 |
+| REB | -0.9804 | 0.7625 | 0.7854 | 14.3591 | 0.2544 |
+| AST | -0.6934 | 0.7957 | 0.7869 | 8.8643 | 0.2565 |
+| STL | -0.1466 | 0.8348 | 0.7994 | 3.5280 | 0.2534 |
+| BLK | -0.0089 | 0.8864 | 0.8119 | 2.2950 | 0.2254 |
+| 3PM | -0.3899 | 0.8193 | 0.7935 | 5.0288 | 0.2344 |
+| TO | -0.2635 | 0.7920 | 0.7684 | 4.8326 | 0.2556 |
+| FGM | -1.1074 | 0.7588 | 0.7640 | 13.1976 | 0.2629 |
+| FGA | -2.3007 | 0.7279 | 0.7478 | 26.2765 | 0.2563 |
+| FTM | -0.2499 | 0.8127 | 0.7972 | 6.6475 | 0.2431 |
+| FTA | -0.3530 | 0.8119 | 0.8075 | 8.2670 | 0.2459 |
+
+Shooting percentages are ratios of makes/attempts, not independent count means.
+
+| Ratio | Targets with attempts | Season-to-date MAE | Recency MAE | Bayesian MAE | Recency bias | Raw coverage | Raw width | Brier |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| FG% | 1185 | 0.1192 | 0.1221 | 0.1166 | 0.0011 | 0.7696 | 0.4154 | 0.2783 |
+| FT% | 908 | 0.1773 | 0.1818 | 0.1715 | -0.0084 | 0.8491 | 0.7071 | 0.3003 |
+
+Minute segments use origin-known mean minutes: high ≥28, medium 15–<28, low <15; missing retained. All categories/models/segments are in JSON. Selected PTS illustrates the calibration failure:
+
+| Segment | Cases | PTS MAE | PTS bias | Raw coverage | Residual coverage |
+|---|---:|---:|---:|---:|---:|
+| high | 303 | 19.8918 | 1.2830 | 0.7855 | 0.5677 |
+| medium | 532 | 12.8837 | -2.6455 | 0.7500 | 0.7914 |
+| low | 511 | 9.5458 | -5.5305 | 0.6751 | 0.8532 |
+| unknown | 10 | 2.6000 | -2.6000 | 0.7000 | 1.0000 |
+
+PTS paired MAE difference versus season-to-date: **-0.9079**, player-cluster bootstrap 95% interval **[-1.2214, -0.5830]**, 1,000 resamples.
+
+The intervals describe repeated-player comparison uncertainty; common calendar
+shocks are not removed. All-count paired deltas are stored, but not a causal
+training-size experiment. Pooling residual widths hides heterogeneity: high-minute
+PTS coverage is only **63.79% per-game / 56.77% weekly** after marginal calibration.
+Do not promote these widths as trustworthy nominal player-specific uncertainty.
+Raw joint samples remain unchanged; no joint or matchup probability recalibration
+is claimed. Brier compares `actual > floor(origin-known current-season own mean)`;
+five-bin reliability, finite-draw MC SE, interval scores and calibration widths
+are in JSON. Ratio zero-target-attempt cases are excluded; simulated zero attempts
+follow explicit zero policy. No ratio residual calibration is fitted.
+
+Primary PTS MAE reductions are **6.54% per-game / 6.47% weekly**. In the previously
+examined 2026 replication, season/recency/Bayesian PTS MAE is
+**4.7645 / 4.5179 / 4.6148** per-game and **12.8815 / 12.3285 / 12.7169** weekly.
+These are broader descriptive transfer checks, not fresh confirmation. Replication
+minute segments can differ by model because prior-season history differs;
+compare overall common-target metrics, or within-model segments, rather than
+assuming identical cross-model segmented populations. First-ever/no-history
+observations, absent player-weeks and participation are not forecast targets.
+
+### Actual current inference and complete decisions
+
+Strict production fitting at **2026-10-13T03:40:00Z** used all **64,695** eligible
+records for **697** supported historical IDs. Latest game data are April 2026;
+today's roster membership and roles are unverified. Model ID:
+`ef43c29259d05e398713f6fc0dd732b0960e97abb6395966b3a7fd8662bbe450`.
+All 697 persisted forecasts contain eleven expected counts, joint vectors,
+sample dispersion, raw and marginal residual intervals, cutoff/prediction time,
+NBA ID, seed and model/dataset/code version. The prediction timestamp is the
+requested origin, fixed for reproducibility; it is not a claim of earlier creation.
+These are next recorded player-game forecasts **conditional on a row occurring**,
+including the source's historical zero/DNP support. Unknown minutes, participation
+and exposure remain unknown. Seven-day projections explicitly report unavailable
+with null game count: no verified future schedule was supplied.
+
+All eight fixture roles have exact IDs verified in source rows. Fictional ownership,
+positions, roster protection, transaction limits, lineup and long-term proxies
+remain labelled. Actual NBA sample vectors replace every synthetic game vector;
+C++ aggregates the existing int64 interface, percentages use makes/attempts, and
+TO remains lower-is-better. Native/reference categories, utility and ranked actions
+match exactly. A 10k-draw integration check verifies count moments within five MC
+standard errors and points arithmetic; equal inputs/versions/seed reproduce banks.
+No fitting logic was added to C++ and the existing objective is unchanged.
+
+The complete hypothetical fixture run recommends **ADD Al Horford (201143), DROP
+Jeff Green (201145)**. With seed 42, 256 screening / 4,096 finalist scenarios,
+matchup win probability is **18.75% HOLD → 49.90% action**; paired gain **31.15
+percentage points**, paired Monte Carlo SE **0.78 points**. HOLD is retained.
+There are 13 enumerated actions, three evaluated feasible actions, two refined;
+protection/eligibility/value guards eliminate others. FG%, FT% and TO win chances
+worsen for the selected action; the unchanged nine-category objective ranks its
+net benefit. Complete categories, lineups, probabilities, rejection reasons,
+provenance and sample budgets are recorded in the evidence JSON. These are
+**fixture simulations, not live Yahoo recommendations or calibrated live odds**.
+
+### Measured CPU costs and limitations
+
+| Work | Wall seconds | Peak process memory | Scope |
+|---|---:|---:|---|
+| Full-population development/calibration/evaluation | 1,119.47 internal / 1,145.39 external CLI | 747.58 MiB before report serialization / 2,263,592 KiB overall | Both horizons, all candidates, held-out and replication |
+| Chosen model production fit | 3.41 internal / 3.93 external CLI | 164.27 MiB | Load, 697 summaries, registry persistence |
+| Prepared population summaries | 1.75 | 389.03 MiB for entire profiling process | Loading measured separately at 2.00s |
+| Eight prepared player predictions | 0.0241 | Same profiling process | 256 draws each, imports excluded |
+| All 697 player inference/persistence | 13.86 | Included in fresh CLI below | Full real distribution artifacts |
+| Add/drop search | 0.2355 | Included in fresh CLI below | Existing screen/refine search + cache write |
+| Fresh full CLI | 14.75 internal / 15.29 external | 559.32 MiB | Fit already registered; load/infer/search/persist |
+| Cached full CLI | 5.71 internal / 6.31 external | 329.55 MiB | Identical saved report; no resampling or optimization |
+| C++ kernel, 1k / 10k / 20k scenarios | 0.00049 / 0.00450 / 0.00920 | Banks 2.1 / 21.1 / 42.2 MB | Warmup, median three runs; preparation excluded |
+| Python reference, 1k / 10k / 20k scenarios | 0.03926 / 0.39919 / 0.79219 | Same banks | Exact category parity |
+
+Preparation is 0.064 / 0.122 / 0.197s for those scenario budgets. Imports, whole
+pipeline peak RSS and CLI stdout are separate from pure kernels. Cached all-player
+CLI still loads/checks input and parses large joint-sample JSON; caching avoids
+inference and simulation, not serialization costs. Full original replay JSON was
+318 MiB: complete cases are now deterministically compressed under ignored source
+features, with case counts and SHA-256 paths in a 1.55 MB tracked metric summary.
+The temporary full report serialization caused the ~2.16 GiB peak; steady fitting
+and inference are much smaller. This local CPU measurement supports a practical
+16 GB workload, but the owner's specific WSL2/RTX laptop was not benchmarked.
+No measured reason to add GPU infrastructure. No swaps occurred.
+
+Daily count estimates can incorporate newly known rows under the frozen config;
+unchanged inputs reuse checksum-validated caches. Repeated actual train produces
+the same model ID and identical registry bytes; inference/run leave it untouched.
+The existing registry supports scoped all-count candidate validation and archived
+rollback. Automatic retraining/promotion is explicitly disabled. Live new-season
+acquisition and partial-season ingestion are absent: the historical adapter gates
+two verified complete seasons. There is no claim of an operating continuous live
+learning loop. Prior fixture running aggregates/incremental store remain available.
+
+### Exact reproduction and review gate
+
+At project root, using the existing pinned snapshot and locked environment:
+
+```bash
+export UV_CACHE_DIR=/tmp/fantasy-stage01-uv-cache
+uv sync --locked --offline --group dev
+uv run --offline --no-sync fantasy nba backtest
+# Returns frozen report on repeat; never reselects from held-out outcomes.
+uv run --offline --no-sync python scripts/summarize_nba_benchmark.py
+uv run --offline --no-sync fantasy nba train --as-of 2026-10-13T03:40:00Z
+uv run --offline --no-sync fantasy nba model --model-action status
+uv run --offline --no-sync fantasy nba forecast --as-of 2026-10-13T03:40:00Z > /tmp/nba-predictions.json
+uv run --offline --no-sync fantasy nba run --fixture --as-of 2026-10-13T03:40:00Z > /tmp/nba-decision.json
+uv run --offline --no-sync fantasy nba run --fixture --as-of 2026-10-13T03:40:00Z > /tmp/nba-decision-cached.json
+uv run --offline --no-sync python scripts/benchmark_nba_pipeline.py
+uv run --offline --no-sync fantasy auth status
+```
+
+Defaults: `--data data/nba_data`, `--registry models/nba-registry.json`,
+`--output data/nba-runs`, seed 42, 256 forecast draws and 256/4096 search samples,
+C++ backend. Saved report hashes are deterministic on the tested code/native/NumPy
+versions; transient timers/cache flags vary. Keep original and population research
+registries/frozen evidence and compressed replays with the snapshot. Changed
+code/data/protocol must use a newly declared chronological evaluation, never delete
+the consumed-holdout guard to retune. Summary compression is idempotent. First
+execution of the full protocol takes about 19 minutes; frozen repeat is quick.
+
+Original 24-player regression remains **188 cases**, evidence SHA-256
+`151cf5647da844f0e4bea8a62a6a653b78584cd77af8b26068e434c6b7d767e8`.
+Reproduce using the original code without switching branches or modifying `dev`:
+
+```bash
+mkdir -p /tmp/fantasy-original-42a5f83
+git archive 42a5f83 src/fantasy_optimizer docs/benchmarks/nba-protocol.json docs/benchmarks/nba-real-data.json | tar -x -C /tmp/fantasy-original-42a5f83
+.venv/bin/python -I -S - "$PWD" <<'PYCODE'
+import hashlib
+import sys
+from pathlib import Path
+project = Path(sys.argv[1])
+original = Path('/tmp/fantasy-original-42a5f83')
+site = next((project / '.venv/lib').glob('python*/site-packages'))
+sys.path[:0] = [str(original / 'src'), str(site)]
+from fantasy_optimizer import historical_benchmark
+assert Path(historical_benchmark.__file__).is_relative_to(original)
+output = original / 'docs/benchmarks/nba-real-data.json'
+before = output.read_bytes()
+report = historical_benchmark.run(project / 'data/nba_data', original / 'docs/benchmarks/nba-protocol.json', output)
+assert report['evaluation']['recency_selected']['metrics']['cases'] == 188
+assert output.read_bytes() == before
+print(hashlib.sha256(before).hexdigest())
+PYCODE
+```
+
+This verifies the original frozen replay guard/evidence and unchanged input/code
+identity; it does not reopen that consumed period to tune or resample. On a fresh
+research state the original command reproduces its frozen protocol instead.
+
+Verification: Ruff lint/format **44 files**, mypy **26 source files**, targeted
+real-distribution tests **10 passed**, final full suite **213 passed in 63.62s**,
+Debug CMake configure/build, tracked C++ clang-format and **3/3 standard CTest with
+full sanitizers/leak checks**. Restricted socket/LeakSanitizer failures were
+investigated; unchanged approved unrestricted runs passed. No diagnostics suppressed
+or tests skipped locally. Independent compressed replay checks verify all model
+targets/outcomes/thresholds/counts and checksums; repeated current model/decision
+artifacts and original evidence stayed unchanged. No changed C++ requires fresh
+clang-tidy. Pure-Python changes used installed CLI; no wheel rebuild or remote CI
+is claimed. Exact engineering commands:
+
+```bash
+uv run --offline --no-sync ruff check .
+uv run --offline --no-sync ruff format --check .
+uv run --offline --no-sync mypy src
+uv run --offline --no-sync pytest -q
+cmake -S cpp -B build/cpp -G Ninja -DCMAKE_BUILD_TYPE=Debug
+cmake --build build/cpp
+ctest --test-dir build/cpp --output-on-failure
+git ls-files -z -- '*.cpp' '*.hpp' | xargs -0 -r clang-format-14 --dry-run --Werror
+git diff --check
+```
+
+**Stop at owner review.** Next milestone: verified new-season acquisition/schedule,
+current roster/participation and authorized Yahoo identity/rules, followed by a new
+chronological protocol for subgroup/ratio/joint calibration. Credentials are
+`missing_auth` with no approved/network-checked live scope; no live recommendation,
+transaction, main merge, external push or publication occurred.

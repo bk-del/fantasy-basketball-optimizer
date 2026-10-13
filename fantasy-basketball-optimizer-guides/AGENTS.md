@@ -14,7 +14,6 @@ Read this file and `STATUS.md` **before** exploring the repository. Then read **
 8. Do not assert an API field or historical data exists until it has been checked against Yahoo docs and an authorized sample. Maintain an explicit missing-data/fallback policy.
 9. Use pragmatic testing: test contracts, arithmetic, no-leakage, reproducibility, constraints, and representative failure paths. Avoid excessive trivial mocks or performance guesses.
 10. Every feature must demonstrate user value and justify its computational/storage cost. No RL, GPUs, distributed systems, microservices, or elaborate plugin frameworks without a measured need and approval.
-11. Before editing, create or switch to a descriptive `dev_<feature>` branch based on current `dev` (for example, `dev_branch-workflow`). Agents commit only on these work branches. Open pull requests into `dev`, never directly into `main`. Merge into `dev` only after review and required checks pass for the proposed result. Promote `dev` to protected `main` through a separate pull request only after the full checks pass for the proposed result and the owner approves the promotion. Never commit directly to `main` or `dev`, force-push either, or bypass branch protection. If `dev` is missing, create it from the reviewed `main` baseline before creating a work branch. If branch creation is blocked, use an isolated checkout and provide a patch; do not edit the protected checkout as a workaround. See `docs/DESIGN_RULES.md` for the merge gates.
 
 ## Required engineering checks
 
@@ -38,3 +37,10 @@ The C++ checks apply once a C++ target exists. Do not treat missing tools/creden
 In `STATUS.md`, record: completed work; changed files; commands run and results; tests skipped and why; blockers; new decisions; next exact action; stage acceptance status. Keep the top-level summary short and current. Keep detailed completed work in the log at bottom. This file is the primary agent-to-agent handoff.
 
 For architectural principles see `docs/DESIGN_RULES.md`; for schema see `docs/DATA_CONTRACTS.md`; for tests see `docs/VALIDATION.md`.
+
+## Git workflow
+
+- Use only `dev` and `main` for ongoing development. Work directly on `dev`; feature branches are not required.
+- Keep `main` protected. Merge `dev` into `main` only after reviewing the changes and passing the required build, formatting, linting, and test checks. Report any unverified checks or blockers before merging.
+- Make small, focused commits on `dev`. Do not implement later stages without authorization.
+- Request approval before external publication unless the owner has already authorized that action. Do not change repository protection settings without authorization.

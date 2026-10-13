@@ -11,8 +11,9 @@ the endpoints and fields Yahoo makes available. Yahoo is the sole planned runtim
 data source. The tool will provide uncertain recommendations; transactions will
 remain manual. It will not submit adds, drops or waiver requests.
 
-The project currently contains a local repository foundation only. API access,
-integration, forecasting and optimization are not confirmed or implemented.
+The project currently contains a local foundation and a synthetic capability audit.
+It has gated read-only probes, but live API access and OAuth consent are unconfirmed.
+Forecasting and optimization are not implemented.
 This is a personal project with no commercial affiliation with Yahoo, no claimed
 business entity, and no guarantees of competitive results. Credentials and
 private league data will be kept out of the repository.

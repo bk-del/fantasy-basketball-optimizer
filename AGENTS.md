@@ -8,8 +8,5 @@ project root. Update that existing STATUS.md as the single handoff document.
 
 Implement only the current authorized stage and stop at its approval gate.
 
-Before editing, create or switch to a `dev_<feature>` branch based on `dev`.
-Agent changes enter `dev` through a reviewed, passing pull request. Promote `dev`
-to protected `main` only through a separately verified and owner-approved pull
-request. Never commit directly to `main` or `dev`, force-push those branches, or
-bypass protection. Follow the workflow in the guide's `docs/DESIGN_RULES.md`.
+Work directly on `dev`; no feature branches are required. Keep `main` protected
+and merge verified changes from `dev` only after the required checks pass.

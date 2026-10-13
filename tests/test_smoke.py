@@ -15,7 +15,7 @@ def test_help(capsys: pytest.CaptureFixture[str]) -> None:
     assert "status" in capsys.readouterr().out
 
 
-@pytest.mark.parametrize("args", [[], ["sync"], ["status", "--unknown"]])
+@pytest.mark.parametrize("args", [[], ["not-a-command"], ["status", "--unknown"]])
 def test_invalid_arguments(args: list[str], capsys: pytest.CaptureFixture[str]) -> None:
     with pytest.raises(SystemExit) as exc:
         main(args)
@@ -34,6 +34,9 @@ def test_module_status() -> None:
         timeout=10,
     )
     assert result.returncode == 0
-    assert "forecasting and optimization are planned" in result.stdout
+    assert (
+        "manual fixture pipeline; recency baseline retained; live access unverified"
+        in result.stdout
+    )
     assert "Yahoo access is unconfirmed" in result.stdout
     assert result.stderr == ""

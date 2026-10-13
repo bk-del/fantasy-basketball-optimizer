@@ -1,0 +1,200 @@
+{
+  "active_baseline": "recency",
+  "active_model_version": "weekly-counts-v1",
+  "as_of": "2026-08-24T00:00:00+00:00",
+  "code_hash": "2996d23cc9cbc0577b85e44ec99f87fb3e77208a4278da06f931c8f3346719e0",
+  "context_uncertainty": {
+    "action": "retain Stage 03 joint exposure widening",
+    "additional_role_multiplier": null,
+    "availability_probability": null,
+    "minutes": null
+  },
+  "evaluation": {
+    "calibration": null,
+    "candidate_origins": 28,
+    "decision_uplift_vs_stage03": null,
+    "label_skip_reasons": [
+      "Future label horizon is incomplete at evaluation time.",
+      "Games and scheduled-availability evidence is missing; no breakout label."
+    ],
+    "precision": null,
+    "reason": "No verified Yahoo history or game/availability labels; no model fit, probabilities or uplift estimate.",
+    "recall": null,
+    "split": "chronological rolling origins; features at origin, labels at evaluation time",
+    "usable_labels": 0
+  },
+  "features": [
+    {
+      "ambiguity": "Weekly count changes can reflect games/exposure, variance or production; no role/injury cause is identified.",
+      "as_of": "2026-08-24T00:00:00+00:00",
+      "baseline_points": 67.75,
+      "breakout_probability": null,
+      "coverage": {
+        "availability_status": "unverified",
+        "game_exposure": "unverified",
+        "minutes": "unverified",
+        "opponent_role": "unverified",
+        "teammate_injury_on_off": "unverified",
+        "transactions": "unverified",
+        "usage_rate": "unverified",
+        "weekly_counts": "synthetic_only"
+      },
+      "input_hash": "ca01dc6fd18afa321a3e29e77781429da0e00c23ee9cb87c3905d3cbf1e3e9e5",
+      "known_windows": 12,
+      "player_key": "fixture.p.1",
+      "protocol_hash": "201644215b55fe843f2ff3522ed7be58168b7f396483177f98680934a5cba100",
+      "protocol_version": "weekly-production-breakout-v1",
+      "recent_points": 78.0,
+      "relative_gain": 0.1512915129151291,
+      "required_windows": 6,
+      "shift_detected": false,
+      "shift_standard_errors": 1.529751355984655,
+      "skipped_features": [
+        "minutes",
+        "availability_status",
+        "game_exposure",
+        "transactions",
+        "opponent_role",
+        "teammate_injury_on_off",
+        "usage_rate"
+      ],
+      "usable_points_windows": 6
+    },
+    {
+      "ambiguity": "Weekly count changes can reflect games/exposure, variance or production; no role/injury cause is identified.",
+      "as_of": "2026-08-24T00:00:00+00:00",
+      "baseline_points": 79.0,
+      "breakout_probability": null,
+      "coverage": {
+        "availability_status": "unverified",
+        "game_exposure": "unverified",
+        "minutes": "unverified",
+        "opponent_role": "unverified",
+        "teammate_injury_on_off": "unverified",
+        "transactions": "unverified",
+        "usage_rate": "unverified",
+        "weekly_counts": "synthetic_only"
+      },
+      "input_hash": "8b2c069336e468505c74ead0c0e47c2954e9466bd92a67d6a4f68c276c82ad05",
+      "known_windows": 12,
+      "player_key": "fixture.p.2",
+      "protocol_hash": "201644215b55fe843f2ff3522ed7be58168b7f396483177f98680934a5cba100",
+      "protocol_version": "weekly-production-breakout-v1",
+      "recent_points": 89.5,
+      "relative_gain": 0.13291139240506333,
+      "required_windows": 6,
+      "shift_detected": false,
+      "shift_standard_errors": 1.7089557634194348,
+      "skipped_features": [
+        "minutes",
+        "availability_status",
+        "game_exposure",
+        "transactions",
+        "opponent_role",
+        "teammate_injury_on_off",
+        "usage_rate"
+      ],
+      "usable_points_windows": 6
+    },
+    {
+      "ambiguity": "Weekly count changes can reflect games/exposure, variance or production; no role/injury cause is identified.",
+      "as_of": "2026-08-24T00:00:00+00:00",
+      "baseline_points": 90.25,
+      "breakout_probability": null,
+      "coverage": {
+        "availability_status": "unverified",
+        "game_exposure": "unverified",
+        "minutes": "unverified",
+        "opponent_role": "unverified",
+        "teammate_injury_on_off": "unverified",
+        "transactions": "unverified",
+        "usage_rate": "unverified",
+        "weekly_counts": "synthetic_only"
+      },
+      "input_hash": "7de4836b8f6fd071f2d96e9817bf81d0dfef63cc133b252cd9db23134f6d412e",
+      "known_windows": 12,
+      "player_key": "fixture.p.3",
+      "protocol_hash": "201644215b55fe843f2ff3522ed7be58168b7f396483177f98680934a5cba100",
+      "protocol_version": "weekly-production-breakout-v1",
+      "recent_points": 101.0,
+      "relative_gain": 0.11911357340720219,
+      "required_windows": 6,
+      "shift_detected": false,
+      "shift_standard_errors": 1.6194736908826253,
+      "skipped_features": [
+        "minutes",
+        "availability_status",
+        "game_exposure",
+        "transactions",
+        "opponent_role",
+        "teammate_injury_on_off",
+        "usage_rate"
+      ],
+      "usable_points_windows": 6
+    },
+    {
+      "ambiguity": "Weekly count changes can reflect games/exposure, variance or production; no role/injury cause is identified.",
+      "as_of": "2026-08-24T00:00:00+00:00",
+      "baseline_points": 101.5,
+      "breakout_probability": null,
+      "coverage": {
+        "availability_status": "unverified",
+        "game_exposure": "unverified",
+        "minutes": "unverified",
+        "opponent_role": "unverified",
+        "teammate_injury_on_off": "unverified",
+        "transactions": "unverified",
+        "usage_rate": "unverified",
+        "weekly_counts": "synthetic_only"
+      },
+      "input_hash": "3070a2e0c1b327979b2ce3430af4ef52395de0f03d8ba0a3becb72e00c3b7b28",
+      "known_windows": 12,
+      "player_key": "fixture.p.4",
+      "protocol_hash": "201644215b55fe843f2ff3522ed7be58168b7f396483177f98680934a5cba100",
+      "protocol_version": "weekly-production-breakout-v1",
+      "recent_points": 112.0,
+      "relative_gain": 0.10344827586206895,
+      "required_windows": 6,
+      "shift_detected": false,
+      "shift_standard_errors": 1.5696136947790653,
+      "skipped_features": [
+        "minutes",
+        "availability_status",
+        "game_exposure",
+        "transactions",
+        "opponent_role",
+        "teammate_injury_on_off",
+        "usage_rate"
+      ],
+      "usable_points_windows": 6
+    }
+  ],
+  "fixture_only": true,
+  "input_hash": "75ec64297f0f6f974995f9ba1219bae1e77d892fa956da137d20a99a664d65a8",
+  "model_promoted": false,
+  "protocol": {
+    "baseline_weeks": 4,
+    "horizon_weeks": 2,
+    "minimum_availability": 0.75,
+    "minimum_baseline_points": 10.0,
+    "minimum_future_games": 4,
+    "recent_weeks": 2,
+    "shift_standard_errors": 2.0,
+    "sustained_gain": 0.25,
+    "version": "weekly-production-breakout-v1"
+  },
+  "protocol_hash": "201644215b55fe843f2ff3522ed7be58168b7f396483177f98680934a5cba100",
+  "skipped": [
+    "supervised_model",
+    "probability_calibration",
+    "decision_uplift",
+    "role_injury_features",
+    "per_game_conversion"
+  ],
+  "version": "context-diagnostics-v1",
+  "warnings": [
+    "Count-shift alarms are not breakout probabilities or causal injury narratives.",
+    "Synthetic diagnostics do not establish Yahoo support or real-world improvement.",
+    "Stage 03 remains active; no forecast or optimizer inputs were adjusted."
+  ]
+}

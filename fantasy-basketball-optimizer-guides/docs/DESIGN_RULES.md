@@ -50,39 +50,9 @@ Yahoo-only is binding. Yahoo fantasy fields may provide scoring totals and playe
 
 For each stage, commit: smallest implementation + focused tests + docs/status update. Prefer an explicit error with actionable diagnostics over silent fallback. Document every deliberate simplification.
 
-## Branches and merge gates
+## Git workflow
 
-The required flow is `dev_<feature>` -> `dev` -> `main`.
-
-- `main` is the protected, stable branch. Require pull requests and passing CI;
-  disable force pushes and deletion, and do not bypass protection. Its only
-  normal source of changes is a promotion pull request from `dev`.
-- `dev` is the integration branch. Agents do not commit directly to it. Changes
-  enter through reviewed pull requests from descriptive `dev_<feature>` branches.
-- `dev_<feature>` is the agent work branch, created from current `dev` before
-  editing. Use names such as `dev_branch-workflow` or `dev_stage00-foundation`.
-  Use the underscore prefix: `dev` and `dev/feature` cannot coexist in Git.
-- If `dev` does not exist, create it from the reviewed `main` baseline, then
-  create the work branch from it. For a repository with no commits, the owner
-  establishes the initial baseline first. Preserve existing user changes when
-  switching branches. If permissions block branch creation, work in an isolated
-  checkout and hand off a patch; do not make changes on `main` or `dev` instead.
-
-Before merging a work pull request into `dev`, review its scope, update STATUS.md,
-and run the applicable local engineering checks plus required CI on the proposed
-merge result. Resolve conflicts on the work branch and rerun affected checks.
-Missing tools, skipped required checks, or failing CI block the merge. Record
-the tested commit and actual results in the pull request; invalidate that evidence
-if the source or destination changes before merging.
-
-Before promoting `dev` to `main`, open a separate promotion pull request and
-verify the full configured lint, format, type, unit, build, sanitizer and CI
-checks for the proposed merge result. Review the accumulated changes and stage
-acceptance evidence, resolve outstanding failures/blockers, and obtain owner
-approval for the promotion. Passing a feature branch's checks alone does not
-establish that the combined release is safe. Never merge unverified changes or
-bypass the protected branch's checks.
-
-Repository settings must enforce the `main` policy. Documenting this rule does
-not enable GitHub branch protection; verify the settings separately before a
-promotion and record any missing protection as a blocker.
+- Use only `dev` and `main` for ongoing development. Work directly on `dev`; feature branches are not required.
+- Keep `main` protected. Merge `dev` into `main` only after reviewing the changes and passing the required build, formatting, linting, and test checks. Report any unverified checks or blockers before merging.
+- Make small, focused commits on `dev`. Do not implement later stages without authorization.
+- Request approval before external publication unless the owner has already authorized that action. Do not change repository protection settings without authorization.

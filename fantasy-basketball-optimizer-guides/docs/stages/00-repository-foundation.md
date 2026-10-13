@@ -7,7 +7,6 @@
 1. Read `AGENTS.md`, `STATUS.md`, `docs/DESIGN_RULES.md`.
 2. Check environment with targeted commands (`pwd`, `git status --short`, `python --version`, `uv --version`, `cmake --version`, `ninja --version`, `clang-format --version`, `clang-tidy --version`, `gh auth status` when installed). Record missing tools; do not install system software or authenticate without permission.
 3. Update the current execution plan in `STATUS.md`.
-4. Follow `docs/DESIGN_RULES.md` branch rules: work on `dev_<feature>` created from `dev`, integrate through a reviewed/check-passing pull request into `dev`, and promote to protected `main` only after full verification and owner approval. If the repository has no commits, the owner establishes its initial baseline first; never silently use `main` for agent development.
 
 ## Implement
 
@@ -18,7 +17,7 @@
 - Add `tests/test_smoke.py` for the CLI and an optional simple C++ smoke test. Add GitHub Actions CI running offline Python checks plus C++ smoke checks (pin supported versions; Linux runner). GitHub CI must not require Yahoo API secrets.
 - Preserve these instruction documents and link stages from README. Keep a `docs/API_REQUEST.md` with truthful, short language for Yahoo's application and the repository URL placeholder; avoid stating a business exists.
 - Run configured lint, format, typecheck, Python tests, CMake build and CTest. Fix actual errors. Do not create fake passing logs or giant scaffolding.
-- Initialize Git if not already initialized; commit on `dev_<feature>` if owner has authorized commits. Establish `dev` from the reviewed baseline if needed. **Ask explicit approval before `gh repo create` / GitHub publication, public visibility or `git push`, unless that action is already authorized in this session.** An initial public README can be reviewed before publication. Require GitHub protection on `main` before any promotion; verify rather than assume it is enabled.
+- Initialize Git if not already initialized; commit if owner has authorized commits. **Ask explicit approval before `gh repo create` / GitHub publication, public visibility or `git push`.** An initial public README can be reviewed before publication.
 
 ## Acceptance criteria
 

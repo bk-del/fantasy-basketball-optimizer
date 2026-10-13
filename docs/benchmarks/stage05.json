@@ -1,0 +1,85 @@
+{
+  "finalist_samples": 4096,
+  "fixture_only": true,
+  "optimizer_code_hash": "aa0e667165c3e60b6f9f6d3ce7fb559dbe6754616040e7ba606f287e3eb2e9dc",
+  "python": "3.12.14",
+  "raw_scenario_bytes": 8650752,
+  "results": [
+    {
+      "elapsed_seconds": 0.09993028300232254,
+      "fixture_scenario": "baseline",
+      "input_hash": "f0a5630c5a75b92dd0bcafa6463fa35563471eb2b8f40315edf03af46eabffb1",
+      "paired_gain_mc_se": 0.005253367255916996,
+      "recommended_action": "ADD:target/DROP:streamer",
+      "refined_actions": 2,
+      "scenario_hash": "6ecdefbbd5ecdb39b99e7c9d78071313f154bca8aa26629b0c2383e33c201d01",
+      "screened_actions": 3,
+      "winning_action_credit_after": 0.1298828125,
+      "winning_action_credit_before": 0.0
+    },
+    {
+      "elapsed_seconds": 0.0478852710002684,
+      "fixture_scenario": "none_available",
+      "input_hash": "9f136a99df0bbeec42dde062f55e0c8ec46b4bffd1970ea13a3e662a65d694e8",
+      "paired_gain_mc_se": 0.0,
+      "recommended_action": "HOLD",
+      "refined_actions": 1,
+      "scenario_hash": "6ecdefbbd5ecdb39b99e7c9d78071313f154bca8aa26629b0c2383e33c201d01",
+      "screened_actions": 1,
+      "winning_action_credit_after": 0.0,
+      "winning_action_credit_before": 0.0
+    },
+    {
+      "elapsed_seconds": 0.035859588002495,
+      "fixture_scenario": "acquisition_cap",
+      "input_hash": "78e8fde55191511203e1a45d6be5e99a3225dd4e6f75de3d48d8d45a1e39449f",
+      "paired_gain_mc_se": 0.0,
+      "recommended_action": "HOLD",
+      "refined_actions": 1,
+      "scenario_hash": "6ecdefbbd5ecdb39b99e7c9d78071313f154bca8aa26629b0c2383e33c201d01",
+      "screened_actions": 1,
+      "winning_action_credit_after": 0.0,
+      "winning_action_credit_before": 0.0
+    },
+    {
+      "elapsed_seconds": 0.04062961299496237,
+      "fixture_scenario": "bad_moves",
+      "input_hash": "f9c95de3d104bc42ece74238c122ae01a55098d69c07aa81b8887963cdbf5f4b",
+      "paired_gain_mc_se": 0.0,
+      "recommended_action": "HOLD",
+      "refined_actions": 1,
+      "scenario_hash": "6ecdefbbd5ecdb39b99e7c9d78071313f154bca8aa26629b0c2383e33c201d01",
+      "screened_actions": 2,
+      "winning_action_credit_after": 0.0,
+      "winning_action_credit_before": 0.0
+    },
+    {
+      "elapsed_seconds": 0.0573650890000863,
+      "fixture_scenario": "impossible_comeback",
+      "input_hash": "6718c014570ddab2e54aea89d78e23955102d6aea352d9a17d4a7d648e90a47b",
+      "paired_gain_mc_se": 0.0,
+      "recommended_action": "HOLD",
+      "refined_actions": 2,
+      "scenario_hash": "6ecdefbbd5ecdb39b99e7c9d78071313f154bca8aa26629b0c2383e33c201d01",
+      "screened_actions": 3,
+      "winning_action_credit_after": 0.0,
+      "winning_action_credit_before": 0.0
+    },
+    {
+      "elapsed_seconds": 0.03536802400049055,
+      "fixture_scenario": "unknown_settings",
+      "input_hash": "988ec023cb6fbf429e78fd04cb45ac410ce58d968ee2632a4f7e8f9c3c97052a",
+      "paired_gain_mc_se": 0.0,
+      "recommended_action": "HOLD",
+      "refined_actions": 1,
+      "scenario_hash": "6ecdefbbd5ecdb39b99e7c9d78071313f154bca8aa26629b0c2383e33c201d01",
+      "screened_actions": 1,
+      "winning_action_credit_after": 0.0,
+      "winning_action_credit_before": 0.0
+    }
+  ],
+  "screening_samples": 256,
+  "seed": 42,
+  "simulator_code_hash": "d5a27d47eb2496b60f07678d7cb58de8b5b5b96f3ef17c2fc016915712d105a5",
+  "timing_scope": "One in-process run/scenario, installed Release native module; no speedup claim."
+}

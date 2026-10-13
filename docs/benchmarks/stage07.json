@@ -1,0 +1,344 @@
+{
+  "active_selection_reason": "Provisional recency fixture incumbent",
+  "code_hash": "d09a6b02eebe6903bbcf127f18f55bfa05f5bd4c531fc6c1030fda598d04075d",
+  "dataset_watermark": "ae412e4de96b05ec5ed1980967536e26c55e30616d21f64d3a1520860ed3bb56",
+  "decision_replay": "incomplete: historical waiver/ownership snapshots absent",
+  "final_holdout": "not opened by this benchmark; protected single-use path tested separately",
+  "limitations": [
+    "Marginal intervals are diagnostic; joint sampler is unchanged.",
+    "Origin histories use only already known observations.",
+    "Repeated fictional players are not independent calibration evidence.",
+    "Counterfactual transactions are approximations; none are evaluated here."
+  ],
+  "mode": "fixture",
+  "models": {
+    "long_run": {
+      "calibration_cases": 8,
+      "metrics": {
+        "cases": 8,
+        "per_stat": {
+          "3PM": {
+            "calibrated_coverage_80": 0.5,
+            "calibrated_half_width": 1.0,
+            "mae": 1.0625,
+            "n": 8,
+            "raw_coverage_80": 1
+          },
+          "AST": {
+            "calibrated_coverage_80": 0.5,
+            "calibrated_half_width": 1.0,
+            "mae": 1.0624999999999998,
+            "n": 8,
+            "raw_coverage_80": 1
+          },
+          "BLK": {
+            "calibrated_coverage_80": 1,
+            "calibrated_half_width": 0.5714285714285721,
+            "mae": 0.5277777777777778,
+            "n": 8,
+            "raw_coverage_80": 1
+          },
+          "FGA": {
+            "calibrated_coverage_80": 0.5,
+            "calibrated_half_width": 8.571428571428577,
+            "mae": 9.75,
+            "n": 8,
+            "raw_coverage_80": 1
+          },
+          "FGM": {
+            "calibrated_coverage_80": 0.5,
+            "calibrated_half_width": 5.428571428571431,
+            "mae": 4.930555555555557,
+            "n": 8,
+            "raw_coverage_80": 1
+          },
+          "FTA": {
+            "calibrated_coverage_80": 1,
+            "calibrated_half_width": 1.7142857142857153,
+            "mae": 0.9166666666666661,
+            "n": 8,
+            "raw_coverage_80": 1
+          },
+          "FTM": {
+            "calibrated_coverage_80": 1,
+            "calibrated_half_width": 1.7142857142857153,
+            "mae": 0.7152777777777775,
+            "n": 8,
+            "raw_coverage_80": 1
+          },
+          "PTS": {
+            "calibrated_coverage_80": 1,
+            "calibrated_half_width": 12.714285714285722,
+            "mae": 9.23611111111111,
+            "n": 8,
+            "raw_coverage_80": 1
+          },
+          "REB": {
+            "calibrated_coverage_80": 1,
+            "calibrated_half_width": 1.7142857142857153,
+            "mae": 0.9166666666666661,
+            "n": 8,
+            "raw_coverage_80": 1
+          },
+          "STL": {
+            "calibrated_coverage_80": 1,
+            "calibrated_half_width": 0.5714285714285721,
+            "mae": 0.5277777777777779,
+            "n": 8,
+            "raw_coverage_80": 1
+          },
+          "TO": {
+            "calibrated_coverage_80": 0.5,
+            "calibrated_half_width": 1.0,
+            "mae": 1.0625,
+            "n": 8,
+            "raw_coverage_80": 1
+          }
+        }
+      },
+      "widths": {
+        "3PM": 1.0,
+        "AST": 1.0,
+        "BLK": 0.5714285714285721,
+        "FGA": 8.571428571428577,
+        "FGM": 5.428571428571431,
+        "FTA": 1.7142857142857153,
+        "FTM": 1.7142857142857153,
+        "PTS": 12.714285714285722,
+        "REB": 1.7142857142857153,
+        "STL": 0.5714285714285721,
+        "TO": 1.0
+      }
+    },
+    "recency": {
+      "calibration_cases": 8,
+      "metrics": {
+        "cases": 8,
+        "per_stat": {
+          "3PM": {
+            "calibrated_coverage_80": 1,
+            "calibrated_half_width": 1.114950098658685,
+            "mae": 1.111638492310822,
+            "n": 8,
+            "raw_coverage_80": 1
+          },
+          "AST": {
+            "calibrated_coverage_80": 1,
+            "calibrated_half_width": 1.114950098658685,
+            "mae": 1.111638492310822,
+            "n": 8,
+            "raw_coverage_80": 1
+          },
+          "BLK": {
+            "calibrated_coverage_80": 1,
+            "calibrated_half_width": 0.5797797693622719,
+            "mae": 0.5547163025253133,
+            "n": 8,
+            "raw_coverage_80": 1
+          },
+          "FGA": {
+            "calibrated_coverage_80": 0.5,
+            "calibrated_half_width": 7.19720209825222,
+            "mae": 7.494876194757098,
+            "n": 8,
+            "raw_coverage_80": 1
+          },
+          "FGM": {
+            "calibrated_coverage_80": 1,
+            "calibrated_half_width": 4.758160587850654,
+            "mae": 3.7704434687032866,
+            "n": 8,
+            "raw_coverage_80": 1
+          },
+          "FTA": {
+            "calibrated_coverage_80": 0.5,
+            "calibrated_half_width": 1.6312675217340065,
+            "mae": 1.042061115660195,
+            "n": 8,
+            "raw_coverage_80": 1
+          },
+          "FTM": {
+            "calibrated_coverage_80": 0.875,
+            "calibrated_half_width": 1.6312675217340065,
+            "mae": 0.8061562428681519,
+            "n": 8,
+            "raw_coverage_80": 1
+          },
+          "PTS": {
+            "calibrated_coverage_80": 1,
+            "calibrated_half_width": 11.285083463649684,
+            "mae": 6.756029494313561,
+            "n": 8,
+            "raw_coverage_80": 1
+          },
+          "REB": {
+            "calibrated_coverage_80": 0.5,
+            "calibrated_half_width": 1.63126752173401,
+            "mae": 1.0420611156601933,
+            "n": 8,
+            "raw_coverage_80": 1
+          },
+          "STL": {
+            "calibrated_coverage_80": 1,
+            "calibrated_half_width": 0.5797797693622719,
+            "mae": 0.5547163025253132,
+            "n": 8,
+            "raw_coverage_80": 1
+          },
+          "TO": {
+            "calibrated_coverage_80": 1,
+            "calibrated_half_width": 1.114950098658685,
+            "mae": 1.111638492310822,
+            "n": 8,
+            "raw_coverage_80": 1
+          }
+        }
+      },
+      "widths": {
+        "3PM": 1.114950098658685,
+        "AST": 1.114950098658685,
+        "BLK": 0.5797797693622719,
+        "FGA": 7.19720209825222,
+        "FGM": 4.758160587850654,
+        "FTA": 1.6312675217340065,
+        "FTM": 1.6312675217340065,
+        "PTS": 11.285083463649684,
+        "REB": 1.63126752173401,
+        "STL": 0.5797797693622719,
+        "TO": 1.114950098658685
+      }
+    },
+    "shrinkage": {
+      "calibration_cases": 8,
+      "metrics": {
+        "cases": 8,
+        "per_stat": {
+          "3PM": {
+            "calibrated_coverage_80": 1,
+            "calibrated_half_width": 1.6158970448690964,
+            "mae": 1.1014672514236432,
+            "n": 8,
+            "raw_coverage_80": 1
+          },
+          "AST": {
+            "calibrated_coverage_80": 1,
+            "calibrated_half_width": 2.6788862969922587,
+            "mae": 1.2003323878094945,
+            "n": 8,
+            "raw_coverage_80": 1
+          },
+          "BLK": {
+            "calibrated_coverage_80": 1,
+            "calibrated_half_width": 1.0632243403568564,
+            "mae": 0.5487672767541174,
+            "n": 8,
+            "raw_coverage_80": 1
+          },
+          "FGA": {
+            "calibrated_coverage_80": 0.75,
+            "calibrated_half_width": 11.400345861613872,
+            "mae": 7.980153178980167,
+            "n": 8,
+            "raw_coverage_80": 1
+          },
+          "FGM": {
+            "calibrated_coverage_80": 1,
+            "calibrated_half_width": 6.855691853902826,
+            "mae": 4.0205139825115435,
+            "n": 8,
+            "raw_coverage_80": 1
+          },
+          "FTA": {
+            "calibrated_coverage_80": 1,
+            "calibrated_half_width": 3.1028610927003264,
+            "mae": 1.2521912527235184,
+            "n": 8,
+            "raw_coverage_80": 1
+          },
+          "FTM": {
+            "calibrated_coverage_80": 1,
+            "calibrated_half_width": 2.4830488055807454,
+            "mae": 0.8558442031762856,
+            "n": 8,
+            "raw_coverage_80": 1
+          },
+          "PTS": {
+            "calibrated_coverage_80": 1,
+            "calibrated_half_width": 16.817061186406875,
+            "mae": 7.2909124850757845,
+            "n": 8,
+            "raw_coverage_80": 1
+          },
+          "REB": {
+            "calibrated_coverage_80": 1,
+            "calibrated_half_width": 4.0705343919636405,
+            "mae": 1.6738587898952364,
+            "n": 8,
+            "raw_coverage_80": 1
+          },
+          "STL": {
+            "calibrated_coverage_80": 1,
+            "calibrated_half_width": 1.0632243403568564,
+            "mae": 0.5487672767541174,
+            "n": 8,
+            "raw_coverage_80": 1
+          },
+          "TO": {
+            "calibrated_coverage_80": 1,
+            "calibrated_half_width": 1.6158970448690964,
+            "mae": 1.1014672514236437,
+            "n": 8,
+            "raw_coverage_80": 1
+          }
+        }
+      },
+      "widths": {
+        "3PM": 1.6158970448690964,
+        "AST": 2.6788862969922587,
+        "BLK": 1.0632243403568564,
+        "FGA": 11.400345861613872,
+        "FGM": 6.855691853902826,
+        "FTA": 3.1028610927003264,
+        "FTM": 2.4830488055807454,
+        "PTS": 16.817061186406875,
+        "REB": 4.0705343919636405,
+        "STL": 1.0632243403568564,
+        "TO": 1.6158970448690964
+      }
+    }
+  },
+  "plan": {
+    "calibration_end": "2026-07-27T00:00:00+00:00",
+    "holdout_end": "2026-08-24T00:00:00+00:00",
+    "training_cutoff": "2026-07-13T00:00:00+00:00",
+    "validation_end": "2026-08-10T00:00:00+00:00"
+  },
+  "probability_calibration": null,
+  "repeated_run_registry_hash": "290e6713928b7a60a54353c35c4be9bc0f942eee1c2a52c099e4a40e0bb855cb",
+  "run_registry_unchanged": true,
+  "synthetic": true,
+  "training": {
+    "active": "795ad9d44025208a3841389b76137244b19033a3ab611614f0cd8923a615794f",
+    "auto_promoted": false,
+    "candidate": "230f2e8476e151f20f8434391a1b063dc88ff80a7dceee5f858ba09a98d574d8",
+    "comparison": {
+      "long_run": 9.23611111111111,
+      "recency": 6.756029494313561,
+      "shrinkage": 7.2909124850757845
+    },
+    "early_stopping": "not applicable to closed-form running statistics",
+    "mode": "fixture",
+    "periodic_full_retrain": "skipped: insufficient verified data for LightGBM",
+    "policy_tuning": "disabled; fixed metric and candidate budget, no Optuna",
+    "promotion_reason": "Incumbent retained pending explicit validation promotion",
+    "registry_bytes": 8773,
+    "training_budget": {
+      "max_candidates": 3,
+      "max_cases": 32,
+      "samples": 256,
+      "seed": 42
+    },
+    "training_seconds": 0.2998645670013502
+  },
+  "worse_candidate_rejection": "Candidate does not beat incumbent validation PTS MAE."
+}

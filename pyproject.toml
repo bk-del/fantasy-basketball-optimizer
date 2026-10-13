@@ -1,6 +1,6 @@
 [build-system]
-requires = ["hatchling==1.27.0"]
-build-backend = "hatchling.build"
+requires = ["scikit-build-core==0.11.6", "nanobind==2.9.2"]
+build-backend = "scikit_build_core.build"
 
 [project]
 name = "fantasy-basketball-optimizer"
@@ -8,7 +8,11 @@ version = "0.0.1"
 description = "Planned personal, read-only Yahoo fantasy basketball decision tool"
 readme = "README.md"
 requires-python = ">=3.12,<3.13"
-dependencies = []
+dependencies = [
+    "duckdb==1.4.5",
+    "nanobind==2.9.2",
+    "numpy==2.2.6",
+]
 
 [project.scripts]
 fantasy = "fantasy_optimizer.cli:main"
@@ -16,8 +20,13 @@ fantasy = "fantasy_optimizer.cli:main"
 [dependency-groups]
 dev = ["mypy==1.16.1", "pytest==8.4.1", "ruff==0.11.13"]
 
-[tool.hatch.build.targets.wheel]
-packages = ["src/fantasy_optimizer"]
+[tool.scikit-build]
+wheel.packages = ["src/fantasy_optimizer"]
+cmake.source-dir = "cpp"
+cmake.build-type = "Release"
+
+[tool.scikit-build.cmake.define]
+BUILD_TESTING = "OFF"
 
 [tool.ruff]
 target-version = "py312"

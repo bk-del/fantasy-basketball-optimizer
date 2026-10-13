@@ -1,0 +1,88 @@
+{
+  "as_of": "2026-01-05T00:00:00+00:00",
+  "benchmark": [
+    {
+      "median_kernel_seconds": {
+        "cpp": 0.0012734140000247862,
+        "python": 0.09899205199690186
+      },
+      "preparation_seconds": 0.02563812600055826,
+      "repetitions": 3,
+      "scenarios": 1000
+    },
+    {
+      "median_kernel_seconds": {
+        "cpp": 0.013294237000081921,
+        "python": 1.0261094620000222
+      },
+      "preparation_seconds": 0.17125455099812825,
+      "repetitions": 3,
+      "scenarios": 10000
+    },
+    {
+      "median_kernel_seconds": {
+        "cpp": 0.02683492500000284,
+        "python": 2.0244180310000957
+      },
+      "preparation_seconds": 0.3212040960024751,
+      "repetitions": 3,
+      "scenarios": 20000
+    }
+  ],
+  "benchmark_environment": {
+    "fixture": "40 player-games, 5 players/team, 4 days, 3 joint vectors/game",
+    "native_build": "installed Release wheel, GCC 11.4.0; nanobind default size optimization",
+    "platform": "Linux-6.6.87.2-microsoft-standard-WSL2-x86_64-with-glibc2.35",
+    "python": "3.12.14",
+    "timing_scope": "preparation once; warmed arithmetic kernels, median of 3 runs; excludes result summaries/hashing and CLI startup"
+  },
+  "category_tie_probability": {
+    "3PM": 0.051,
+    "AST": 0.027,
+    "BLK": 0.138,
+    "FG%": 0.028,
+    "FT%": 0.028,
+    "PTS": 0.019,
+    "REB": 0.019,
+    "STL": 0.071,
+    "TO": 0.048
+  },
+  "category_win_probability": {
+    "3PM": 0.47,
+    "AST": 0.479,
+    "BLK": 0.429,
+    "FG%": 0.479,
+    "FT%": 0.479,
+    "PTS": 0.482,
+    "REB": 0.484,
+    "STL": 0.455,
+    "TO": 0.483
+  },
+  "expected_category_wins": 4.24,
+  "expected_matchup_credit": 0.47,
+  "fixture_only": true,
+  "forecast_input_hash": "1577edc002d3aeaa8b469c9fca8e1d5863b1c8d41dfb9492ea73163df0b2eb2b",
+  "matchup_credit_mc_se": 0.015790799515836722,
+  "missing_inputs": [
+    "verified_availability",
+    "verified_minutes"
+  ],
+  "model_versions": [
+    "handmade-games-v1"
+  ],
+  "monte_carlo_se": 0.015790799515836722,
+  "numpy_version": "2.2.6",
+  "python_code_hash": "26bb5a86630fcc4c968c5645f1624d5644be47d80ce258741d2ca2e1d42fb1b5",
+  "rules_version": "synthetic-rules-v1",
+  "run_input_hash": "12763c20945db01ebf78c040a4414cbd2b0f4c16309cfd6ff5135141028eb490",
+  "scenario_hash": "369b443ba12341348532f801b27d7fbc89502e58f87c64be84ea3762826463fe",
+  "scenarios": 1000,
+  "seed": 42,
+  "simulator_version": "joint-matchup-v1",
+  "warnings": [
+    "Synthetic inputs; probabilities are not calibrated.",
+    "Whole game vectors preserve within-game dependence; games are sampled independently.",
+    "Monte Carlo SE measures sampling precision, not forecast uncertainty."
+  ],
+  "win_probability": 0.47
+}

@@ -1,0 +1,167 @@
+{
+  "active_baseline": "recency",
+  "artifact_byte_identical": true,
+  "artifact_bytes": 33316,
+  "before_after": {
+    "action": "ADD:target/DROP:streamer",
+    "active_lineup": [
+      {
+        "game_key": "anchor-1",
+        "slot": "G",
+        "team": 0
+      },
+      {
+        "game_key": "anchor-2",
+        "slot": "G",
+        "team": 0
+      },
+      {
+        "game_key": "anchor-3",
+        "slot": "G",
+        "team": 0
+      },
+      {
+        "game_key": "target-1",
+        "slot": "F",
+        "team": 0
+      },
+      {
+        "game_key": "target-2",
+        "slot": "F",
+        "team": 0
+      },
+      {
+        "game_key": "target-3",
+        "slot": "F",
+        "team": 0
+      },
+      {
+        "game_key": "opponent-f-1",
+        "slot": "F",
+        "team": 1
+      },
+      {
+        "game_key": "opponent-f-2",
+        "slot": "F",
+        "team": 1
+      },
+      {
+        "game_key": "opponent-f-3",
+        "slot": "F",
+        "team": 1
+      },
+      {
+        "game_key": "opponent-g-1",
+        "slot": "G",
+        "team": 1
+      },
+      {
+        "game_key": "opponent-g-2",
+        "slot": "G",
+        "team": 1
+      },
+      {
+        "game_key": "opponent-g-3",
+        "slot": "G",
+        "team": 1
+      }
+    ],
+    "add": "target",
+    "added_long_term_value": 2.0,
+    "category_tie_deltas": {
+      "3PM": 0.1298828125,
+      "AST": 0.1298828125,
+      "BLK": 0.37109375,
+      "FG%": 0.0,
+      "FT%": 0.0,
+      "PTS": 0.0,
+      "REB": 0.0,
+      "STL": 0.1298828125,
+      "TO": 0.0
+    },
+    "category_win_deltas": {
+      "3PM": 0.0,
+      "AST": 0.0,
+      "BLK": 0.500244140625,
+      "FG%": 1.0,
+      "FT%": 0.0,
+      "PTS": 0.1298828125,
+      "REB": 0.1298828125,
+      "STL": 0.0,
+      "TO": 0.0
+    },
+    "drop": "streamer",
+    "dropped_long_term_value": 1.0,
+    "evidence_versions": {
+      "anchor": "handmade-ownership-v1",
+      "target": "handmade-ownership-v1"
+    },
+    "explanation": "Positive paired matchup gain within the explicit value-loss limit.",
+    "feasibility": "feasible",
+    "legal_reasons": [
+      "Explicit fixture ownership, addability, eligibility, IR, locks, capacity and acquisition budgets passed.",
+      "Free-agent add is effective at the supplied transaction time; no waiver claim is assumed."
+    ],
+    "long_term_value_loss": 0.0,
+    "matchup_credit_after": 0.1298828125,
+    "matchup_credit_before": 0.0,
+    "matchup_credit_gain": 0.1298828125,
+    "paired_gain_mc_se": 0.005253367255916996,
+    "recommendable": true,
+    "refined": true,
+    "roster_after": [
+      "anchor",
+      "target"
+    ],
+    "roster_before": [
+      "anchor",
+      "streamer"
+    ],
+    "samples": 4096,
+    "win_probability_after": 0.1298828125,
+    "win_probability_before": 0.0,
+    "win_probability_mc_se": 0.005253367255916996
+  },
+  "cached_cli_seconds": 0.7943133430017042,
+  "code_hash": "f1e14f2cc7332a263138d7a53a7798b485c54472a54c1fb6c4fb5d83af463ada",
+  "database_bytes": 4730880,
+  "derived_bytes": 65822,
+  "first_cache": {
+    "decision_hit": false,
+    "weekly_hit": false
+  },
+  "first_changed_rows": 51,
+  "first_cli_seconds": 1.2510841469993466,
+  "freshness": {
+    "fixture_clock": "Observation/ingestion times are synthetic.",
+    "last_week_end": "2026-08-24T00:00:00+00:00",
+    "snapshot_age_seconds": 0.0,
+    "snapshot_at": "2026-08-24T00:00:00+00:00"
+  },
+  "game_model_versions": [
+    "handmade-waiver-games-v1"
+  ],
+  "input_watermark": "a6b5c5720888c6e0e9465069d4f38e9ea418ae35207abe0a41757605a95ae576",
+  "league_rules": {
+    "live_verified": false,
+    "source": "handmade fixture"
+  },
+  "limitations": [
+    "Weekly and game forecasts are separate fixture sources.",
+    "Game samples are handmade; no weekly-to-game conversion is assumed.",
+    "Monte Carlo SE is sampling precision; model uncertainty uncalibrated.",
+    "Live rules unverified. Owner review required; not production-ready."
+  ],
+  "mode": "fixture",
+  "model_version": "weekly-counts-v1",
+  "recommended_action": "ADD:target/DROP:streamer",
+  "registry_created": false,
+  "run_id": "f9f755d3816313dc80405875bb68451c43013c16217da1eb342c6170de6677f9",
+  "second_cache": {
+    "decision_hit": true,
+    "weekly_hit": true
+  },
+  "second_changed_rows": 0,
+  "seed": 42,
+  "synthetic": true
+}

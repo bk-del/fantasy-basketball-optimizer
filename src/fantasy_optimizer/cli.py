@@ -5,6 +5,7 @@ import json
 import os
 import sys
 from collections.abc import Sequence
+from datetime import datetime
 from pathlib import Path
 
 import duckdb
@@ -17,13 +18,22 @@ from fantasy_optimizer.ingestion import sync_fixture
 from fantasy_optimizer.learning import TrainingBudget
 from fantasy_optimizer.learning_fixture import (
     backtest_fixture,
-    run_fixture,
     train_fixture,
 )
 from fantasy_optimizer.matchup_fixture import matchup_fixture
+from fantasy_optimizer.operations import (
+    SCENARIOS as RUN_SCENARIOS,
+)
+from fantasy_optimizer.operations import (
+    OperationError,
+    instance_lock,
+)
+from fantasy_optimizer.operations import (
+    run_fixture as operation_run,
+)
 from fantasy_optimizer.optimization_fixture import SCENARIOS, optimize_fixture
 from fantasy_optimizer.registry import Registry, RegistryError
-from fantasy_optimizer.storage import StorageError
+from fantasy_optimizer.storage import StorageError, timestamp
 from fantasy_optimizer.yahoo import (
     FixtureYahooClient,
     HttpYahooClient,
@@ -33,6 +43,13 @@ from fantasy_optimizer.yahoo import (
 )
 
 
+def parse_as_of(value: str) -> datetime:
+    try:
+        return timestamp(value)
+    except StorageError as error:
+        raise argparse.ArgumentTypeError(str(error)) from error
+
+
 def main(argv: Sequence[str] | None = None) -> int:
     """Make no live requests unless the owner explicitly declares approved access."""
     parser = argparse.ArgumentParser(
@@ -40,7 +57,13 @@ def main(argv: Sequence[str] | None = None) -> int:
         description="Personal, read-only fantasy basketball optimizer (planned).",
     )
     commands = parser.add_subparsers(dest="command", required=True)
-    commands.add_parser("status", help="Show project and data-access status")
+    status_command = commands.add_parser(
+        "status", help="Show project and data-access status"
+    )
+    status_command.add_argument("--fixture", action="store_true")
+    status_command.add_argument(
+        "--registry", type=Path, default=Path("models/fixture-registry.json")
+    )
     auth = commands.add_parser("auth", help="Inspect local authorization metadata")
     auth_commands = auth.add_subparsers(dest="auth_command", required=True)
     auth_commands.add_parser("status", help="Safe local metadata; no network check")
@@ -54,6 +77,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         "sync", help="Persist synthetic fixture snapshots"
     )
     sync_command.add_argument("--fixture", action="store_true")
+    sync_command.add_argument("--dry-run", action="store_true")
     sync_command.add_argument(
         "--scenario", choices=("baseline", "changed"), default="baseline"
     )
@@ -64,6 +88,8 @@ def main(argv: Sequence[str] | None = None) -> int:
         "forecast", help="Forecast synthetic weekly counts"
     )
     forecast_command.add_argument("--fixture", action="store_true")
+    forecast_command.add_argument("--as-of", type=parse_as_of)
+    forecast_command.add_argument("--dry-run", action="store_true")
     forecast_command.add_argument("--model", choices=MODELS, default="recency")
     forecast_command.add_argument("--seed", type=int, default=42)
     forecast_command.add_argument("--samples", type=int, default=256)
@@ -83,6 +109,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         "optimize", help="Read-only handmade add/drop/HOLD suggestions"
     )
     optimize_command.add_argument("--fixture", action="store_true")
+    optimize_command.add_argument("--as-of", type=parse_as_of)
     optimize_command.add_argument("--seed", type=int, default=42)
     optimize_command.add_argument("--screening-samples", type=int, default=256)
     optimize_command.add_argument("--finalist-samples", type=int, default=4096)
@@ -98,7 +125,24 @@ def main(argv: Sequence[str] | None = None) -> int:
         command.add_argument(
             "--registry", type=Path, default=Path("models/fixture-registry.json")
         )
+        if name == "run":
+            command.add_argument(
+                "--database", type=Path, default=Path("data/operations-fixture.duckdb")
+            )
+            command.add_argument(
+                "--output", type=Path, default=Path("data/fixture-runs")
+            )
+            command.add_argument(
+                "--scenario", choices=RUN_SCENARIOS, default="baseline"
+            )
+            command.add_argument("--as-of", type=parse_as_of)
+            command.add_argument("--dry-run", action="store_true")
+            command.add_argument("--seed", type=int)
+            command.add_argument("--screening-samples", type=int, default=256)
+            command.add_argument("--finalist-samples", type=int, default=4096)
+            command.add_argument("--backend", choices=("python", "cpp"), default="cpp")
         if name in ("train", "backtest"):
+            command.add_argument("--as-of", type=parse_as_of)
             command.add_argument("--seed", type=int, default=42)
             command.add_argument("--samples", type=int, default=256)
             command.add_argument("--max-cases", type=int, default=32)
@@ -116,10 +160,24 @@ def main(argv: Sequence[str] | None = None) -> int:
     args = parser.parse_args(argv)
     if args.command == "status":
         print(
-            "Stage 07: fixture model registry; "
+            "Stage 08: manual fixture pipeline; "
             "recency baseline retained; live access unverified."
         )
         print("Yahoo access is unconfirmed until audited; fixtures are synthetic.")
+        print(
+            "Next: run fantasy run --fixture; review category effects and uncertainty."
+        )
+        print("Owner validation required; live history/rules/availability unverified.")
+        try:
+            state = Registry(args.registry).read()
+            active_label = state["active"] or "provisional recency (uninitialized)"
+            print(f"Active registry model: {active_label}")
+        except RegistryError:
+            print(
+                "Registry invalid; restore a verified backup before running.",
+                file=sys.stderr,
+            )
+            return 1
         return 0
     token_path = Path(os.environ.get("YAHOO_TOKEN_FILE", ".oauth/tokens.json"))
     approved = os.environ.get("YAHOO_ACCESS_APPROVED") == "1"
@@ -137,6 +195,18 @@ def main(argv: Sequence[str] | None = None) -> int:
                 )
                 return 1
             registry = Registry(args.registry)
+            if args.command in ("train", "backtest") and args.as_of is not None:
+                from fantasy_optimizer.learning_fixture import fixture_plan
+
+                cutoff = (
+                    fixture_plan().holdout_end
+                    if args.command == "backtest" and args.final_holdout
+                    else fixture_plan().validation_end
+                )
+                if args.as_of < cutoff:
+                    raise OperationError(
+                        "This fixed evaluation protocol is not yet known at --as-of."
+                    )
             if args.command in ("train", "backtest"):
                 try:
                     budget = TrainingBudget(
@@ -151,7 +221,18 @@ def main(argv: Sequence[str] | None = None) -> int:
                         registry, final=args.final_holdout, budget=budget
                     )
             elif args.command == "run":
-                result = run_fixture(registry)
+                result = operation_run(
+                    args.database,
+                    args.output,
+                    registry,
+                    scenario=args.scenario,
+                    as_of=args.as_of,
+                    dry_run=args.dry_run,
+                    seed=args.seed,
+                    screening_samples=args.screening_samples,
+                    finalist_samples=args.finalist_samples,
+                    backend=args.backend,
+                )
             elif args.operation == "status":
                 result = registry.read()
             elif args.operation == "rollback":
@@ -207,6 +288,7 @@ def main(argv: Sequence[str] | None = None) -> int:
                     finalist_samples=args.finalist_samples,
                     scenario=args.scenario,
                     backend=args.backend,
+                    as_of=args.as_of,
                 )
             except (ValueError, ImportError) as error:
                 print(
@@ -261,8 +343,9 @@ def main(argv: Sequence[str] | None = None) -> int:
                 seed=args.seed,
                 samples=args.samples,
                 model=args.model,
-                output=args.output,
+                output=None if args.dry_run else args.output,
                 evaluate=args.benchmark,
+                as_of=args.as_of,
             )
         elif args.command == "sync":
             if not args.fixture:
@@ -279,7 +362,19 @@ def main(argv: Sequence[str] | None = None) -> int:
                     file=sys.stderr,
                 )
                 return 1
-            result = sync_fixture(args.database, args.scenario)
+            if args.dry_run:
+                import tempfile
+
+                with tempfile.TemporaryDirectory(
+                    prefix="fantasy-sync-dry-run-"
+                ) as folder:
+                    result = sync_fixture(
+                        Path(folder) / "fixture.duckdb", args.scenario
+                    )
+                result.update(dry_run=True, saved=False)
+            else:
+                with instance_lock(args.database):
+                    result = sync_fixture(args.database, args.scenario)
         elif args.command == "auth":
             result = auth_status(token_path, approved)
         else:
@@ -297,6 +392,19 @@ def main(argv: Sequence[str] | None = None) -> int:
     except YahooError as error:
         print(json.dumps({"error": error.code, "message": str(error)}), file=sys.stderr)
         return 1
+    except (OperationError, ImportError) as error:
+        print(
+            json.dumps(
+                {
+                    "error": "operation_failed",
+                    "message": str(error)
+                    if isinstance(error, OperationError)
+                    else "Native backend unavailable; use --backend python.",
+                }
+            ),
+            file=sys.stderr,
+        )
+        return 1
     except RegistryError as error:
         print(
             json.dumps({"error": "registry_failed", "message": str(error)}),
@@ -311,7 +419,9 @@ def main(argv: Sequence[str] | None = None) -> int:
         return 1
     except (StorageError, OSError, ValueError, duckdb.Error) as error:
         message = (
-            str(error) if isinstance(error, StorageError) else "Fixture sync failed."
+            str(error)
+            if isinstance(error, StorageError)
+            else "Operation failed; check inputs, state paths and configured backend."
         )
         print(
             json.dumps({"error": "storage_failed", "message": message}), file=sys.stderr

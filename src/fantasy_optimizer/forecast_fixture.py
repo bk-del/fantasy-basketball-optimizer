@@ -128,8 +128,12 @@ def forecast_fixture(
     model: str = "recency",
     output: Path | None = None,
     evaluate: bool = False,
+    as_of: datetime | None = None,
 ) -> dict[str, Any]:
-    windows, as_of = fixture_history()
+    windows, fixture_as_of = fixture_history()
+    as_of = as_of or fixture_as_of
+    if evaluate and as_of != fixture_as_of:
+        raise ValueError("Historical --as-of cannot use the full fixture benchmark.")
     forecasts = [
         forecast(windows, key, as_of, seed=seed, samples=samples, model=model).payload()
         for key in sorted({row.player_key for row in windows})

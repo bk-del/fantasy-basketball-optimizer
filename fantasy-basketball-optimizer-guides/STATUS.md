@@ -1,9 +1,54 @@
 # STATUS — agent handoff (update on every working session)
 
-**Current stage:** 07 — Retraining, registry and walk-forward evaluation (fixture-only).
-**State:** Fixture implementation committed locally on dev in main checkout; all required local checks passed. Stopped at Stage 07 approval gate.
-**Data constraints:** No authorized Yahoo histories/context/exposure/availability; synthetic weekly forecasting replay only. Live calibration and decision counterfactuals remain unverified.
-**Next exact step:** Owner reviews Stage 07 registry/replay/results on dev. Obtain verified point-in-time histories and outcomes before live training/calibration. Stage 08, main merge and publication require new approval.
+**Current stage:** 08 — End-to-end CLI and local operations (fixture-only).
+**State:** Stage 08 fixture pipeline committed locally on dev; required local checks passed. Stopped at Stage 08 approval gate awaiting owner output validation.
+**Data constraints:** Yahoo histories/rules/game forecasts remain unverified; fixture sources must stay explicit and separate. No live run, transactions or automatic scheduling.
+**Next exact step:** Owner validates actual fixture output in docs/benchmarks/stage08.json or runs fantasy run --fixture and reviews constraints/category effects/uncertainty. Verify authorized Yahoo contracts/data before live operations. Stage 09, main merge and publication need separate approval.
+
+## Stage 08 execution plan (completed 2026-10-12)
+
+Recorded before implementation: fixture-only locked sync/validate/change-detection/active weekly inference/game simulation+optimization/result pipeline; content-addressed input/code/feature/model/config/seed caches with stats/transaction invalidation; explicit as-of boundaries and separate weekly/game fixture provenance; safe partial-ingestion/live refusal; redacted structured events, dry-run and actionable CLI failures; coherent status, offline CI/tests, manual WSL/native migration and optional disabled scheduling examples; full Python/C++/wheel checks, measured cache evidence and owner-output validation gate. Reuse bounded Yahoo retry/backoff already implemented; no new service/dependency or unverified weekly-to-game conversion.
+
+## Stage 08 completed work and changed files
+
+- New src/fantasy_optimizer/operations.py: manual fixture bundle/synchronization/validation pipeline reusing schema-v1 Store, existing point-in-time weekly forecasting, simulation inside optimize, SearchConfig and read-only Registry. Four batches (rules, roster, availability, weekly counts), 51 initial snapshots; complete source content watermarks verified before inference/results.
+- Advisory nonblocking flock beside canonical database path protects run and standalone sync; interruption releases lock, persistent lock inode avoids unlink races. Database path is the single-instance scope; no service or scheduler enabled. Registry mutations remain a separate manual single-writer workflow.
+- Independent content-addressed weekly-summary and game-decision caches, with checksums/recompute on corruption and atomic result repair. Cache keys cover actual inputs/as-of, code/feature/model/config/seed, NumPy and native binary where relevant. Transaction updates invalidate decisions only; weekly-stat revisions invalidate weekly forecasts only at matching as-of. Persisted output is stable; transient cache/change-count fields remain console metadata.
+- Run reads active model/weekly seed/sample budget, updates existing running-stat features and predicts weekly summaries without train/registry/artifact writes under models. Game simulation/optimization uses independently handmade joint samples; no unverified weekly-to-game mapping or active weekly-model effect on game outcomes. Full weekly draws omitted from concise run summaries; standalone forecast retains them.
+- Explicit synthetic-clock operations fixtures reuse 48 weekly rows/four fictional players and eight-player/24-game waiver situations, with fixed redated game times, caps/positions/protected value/waiver candidate and change/failure scenarios. These are representative small matchup/pool subsets, not a full verified 14-team league. Transaction contract is separately hashed fixture input, not an asserted Yahoo schema field.
+- Partial ingestion refuses any new recommendation or old-cache fallback, preserving successful resource commits; same-snapshot complete recovery tested. Unknown transaction settings fail closed to HOLD. Source conflicts/out-of-order updates preserve newer state. Live run refuses even with declared access/token metadata because inputs/rules remain unverified; no request or transaction made.
+- Updated cli.py: end-to-end fantasy run, status with next steps/limits, meaningful --as-of for run/forecast/optimize/train/backtest, dry-run for run/sync/forecast, safe failures and structured redacted stderr events. Historical ownership/model selection and missing later observed totals guarded. Existing Yahoo audit retry/backoff remains bounded; no new transport/service framework.
+- Updated forecast_fixture.py and optimization_fixture.py for explicit as-of, CI for repeated end-to-end fixture run, tests/test_smoke.py and isolated run paths in tests/test_learning.py. New tests/test_operations.py (14 focused cases), docs/OPERATIONS.md and docs/benchmarks/stage08.json. README workflow updated; STATUS preserves prior history as sole handoff.
+- Manual WSL/native setup, database/model/secrets migration, failure recovery, cache semantics and optional disabled timer/cron samples documented. No automatic scheduling, new dependency/lockfile/schema/C++ changes, system installation, Stage 09, merge/push/publication or live-data claim.
+
+## Stage 08 verification — actual outcomes
+
+All commands at project root; uv used UV_CACHE_DIR=/tmp/fantasy-stage01-uv-cache.
+
+- uv sync --locked --offline --group dev: passed, 15 resolved/14 checked. No dependencies changed/downloaded.
+- uv run --offline --no-sync ruff check .: passed. ruff format --check .: passed, 29 files. mypy src: passed, 19 source files. Initial line-length/import/native-module typing findings fixed without suppression.
+- uv run --offline --no-sync pytest -q: **153 passed in 38.03 seconds**. Focused operations suite: **14 passed in 17.76 seconds** before full verification; initial two effective-time failures corrected by using decision-time acquisition effectiveness, then focused/full checks passed. No configured tests skipped.
+- Tests cover fresh pipeline/recommendation/provenance, spies proving cached inference/optimization skipped, stable artifacts/seeds, independent stats/transaction invalidation, model/seed/code/config changes, corrupt cache/result repair, partial-ingestion refusal and recovery, lock contention/exception release, dry-run path preservation, earlier ownership/later model/selection/data boundaries, unknown rules, revoked-live gating, structured secret-safe events, timezone/CLI guards and status/next steps.
+- cmake -S cpp -B build/cpp -G Ninja -DCMAKE_BUILD_TYPE=Debug and cmake --build build/cpp: passed, targets current. No changed C++ requires fresh lint; package native rebuild exercised configured project clang-tidy.
+- ctest --test-dir build/cpp --output-on-failure outside sandbox tracing: **3/3 passed in 1.53 seconds** with full ASan/UBSan/leak checks and just-built native parity. No suppression.
+- git ls-files -z -- '*.cpp' '*.hpp' | xargs -0 -r clang-format-14 --dry-run --Werror: passed. git diff --check and staged diff checks passed. Elevated local git add/commit succeeded for all 12 Stage 08 files on dev; this observed final handoff is included in that commit. Main/remotes untouched.
+- Installed fantasy run --fixture twice through /tmp/fantasy-stage08-check.py: passed from fresh temporary state, first 51 changed snapshots, repeat zero changes/both caches hit; recommendation/seed/run ID/persisted bytes equal; no registry created. Actual JSON output summary, category effects and timing/size saved to docs/benchmarks/stage08.json. Live refusal, standalone dry-run/as-of and other CLI commands covered by full offline tests.
+- uv build --offline: passed, sdist and native cp312 Linux wheel. .venv/bin/python -I -S /tmp/fantasy-stage08-wheel-check.py "$PWD": passed with package/CLI/native paths asserted under extracted wheel; fresh run/cache reuse match saved recommendation/category/provenance, explicit train then active-model run leaves registry unchanged. Installed native binary differences are deliberately part of cache identity; no cross-build ID equivalence claimed.
+- README/operations links and CI YAML parse passed. Remote GitHub CI, owner validation, real Yahoo rules/game forecast ingestion and native-host migration/scheduling remain unverified. No live request or scheduler enabled. Owner output validation is required before any production-ready description.
+
+## Stage 08 measured results, decisions and gate
+
+Saved fixture recommendation **ADD:target/DROP:streamer**, seed 42; before/after/category effects/paired uncertainty in docs/benchmarks/stage08.json. Provisional weekly model weekly-counts-v1 recency and separate handmade-waiver-games-v1 game source are exposed. Representative transaction scenario yields HOLD. This is synthetic advice, not a calibrated live probability.
+
+Single installed CLI measurements: fresh **1.251084147 seconds**, cached **0.794313343 seconds**, DuckDB **4,730,880 bytes**, all derived JSON **65,822 bytes**, result artifact **33,316 bytes**. Includes CLI startup/imports/fixture sync/validation/cache/output; local one-run measurements, no production performance claim. Repeated sync/validation still runs; inference and action evaluation are skipped on hits. Small derived summaries justify local caches without another fact store or complex framework.
+
+**Fixture acceptance met:** fresh checkout-equivalent isolated wheel pipeline, cached identical recommendation/seed/artifact, invalidation/failure/locking/as-of/dry-run tests, required engineering checks, actionable status/limits, migration/optional scheduling docs and updated handoff.
+
+**Owner validation pending (approval gate):** review saved concrete fixture output or run fantasy run --fixture; confirm expected constraints/category effects/uncertainty. Do not describe as production-ready. Live pipeline remains blocked by unverified Yahoo contracts/history/availability/game forecasts even with valid credentials. No Stage 09, main merge or publication is authorized. Stop here.
+
+## Archived Stage 07 completion record
+
+Owner authorized Stage 08 after these Stage 07 results; earlier gate statements are historical.
 
 ## Stage 07 execution plan (completed 2026-10-12)
 
@@ -270,3 +315,5 @@ The final overly broad intervals still do not establish calibration.
 - 2026-10-12 Stage 06: Owner authorized context/breakout stage. Added fixture-only sustained weekly count-shift diagnostics, pre-registered future-label/exposure contract and explicit context/model/calibration/uplift skips; Stage 03 baseline retained. 120 Python tests and 3/3 full-sanitizer CTest targets plus lint/format/mypy/package/CLI checks passed on dev. Zero usable labels and live Yahoo evidence insufficient; no fitted model, injury narrative, Stage 07, merge or publication. Stop at Stage 06 gate.
 
 - 2026-10-12 Stage 07: Owner authorized next stage. Added fixture-only budgeted baseline training, atomic model registry/promotion/rollback, chronological calibration/validation and protected final holdout, read-only run and proposed uncertainty/outcome logging on dev. 139 Python tests, 3/3 full-sanitizer CTest targets, lint/format/mypy/package/CLI checks passed; measured 0.300s/8,773 bytes, recency retained. No live model, Stage 08, main merge or publication. Stop at Stage 07 gate.
+
+- 2026-10-12 Stage 08: Owner authorized next stage. Added fixture-only end-to-end locked sync/validate/active weekly inference/independent game simulation+optimization/result pipeline, derived caching/invalidation, historical/dry-run/failure guards, structured logs and manual migration/disabled scheduling docs directly on dev. 153 Python tests, 3/3 full-sanitizer CTest, lint/format/mypy/package/CLI passed; fresh/cached CLI measured 1.25s/0.79s, identical saved output. Owner validation of actual fixture outputs pending; no live run, enabled scheduler, Stage 09, main merge or publication. Stop at Stage 08 gate.

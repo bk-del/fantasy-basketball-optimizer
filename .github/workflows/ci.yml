@@ -34,7 +34,8 @@ jobs:
           uv run --offline --no-sync fantasy train --fixture --registry /tmp/models.json > /tmp/training.json
           uv run --offline --no-sync fantasy backtest --fixture --registry /tmp/models.json > /tmp/backtest.json
           uv run --offline --no-sync fantasy model status --fixture --registry /tmp/models.json
-          uv run --offline --no-sync fantasy run --fixture --registry /tmp/models.json > /tmp/run.json
+          uv run --offline --no-sync fantasy run --fixture --registry /tmp/models.json --database /tmp/run.duckdb --output /tmp/fixture-runs > /tmp/run.json
+          uv run --offline --no-sync fantasy run --fixture --registry /tmp/models.json --database /tmp/run.duckdb --output /tmp/fixture-runs > /tmp/run-again.json
           uv run --offline --no-sync fantasy --help
           uv run --offline --no-sync fantasy status
           uv run --offline --no-sync fantasy auth status

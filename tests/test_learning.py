@@ -268,7 +268,19 @@ def test_cli_lifecycle(tmp_path: Path, capsys: pytest.CaptureFixture[str]) -> No
     assert main(["backtest", *shared]) == 0
     assert json.loads(capsys.readouterr().out)["scope"] == "weekly forecasting only"
     before = (tmp_path / "registry.json").read_bytes()
-    assert main(["run", *shared]) == 0
+    assert (
+        main(
+            [
+                "run",
+                *shared,
+                "--database",
+                str(tmp_path / "run.duckdb"),
+                "--output",
+                str(tmp_path / "runs"),
+            ]
+        )
+        == 0
+    )
     capsys.readouterr()
     assert (tmp_path / "registry.json").read_bytes() == before
 

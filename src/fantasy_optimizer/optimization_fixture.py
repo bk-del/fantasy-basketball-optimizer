@@ -161,9 +161,22 @@ def optimize_fixture(
     finalist_samples: int,
     scenario: str = "baseline",
     backend: Literal["python", "cpp"] = "cpp",
+    as_of: datetime | None = None,
 ) -> dict[str, object]:
+    inputs = fixture_inputs(scenario)
+    if as_of is not None:
+        if as_of >= min(game.starts_at for game in inputs[3]):
+            raise ValueError(
+                "No updated observed totals exist for this later fixture as-of."
+            )
+        inputs = (
+            inputs[0],
+            replace(inputs[1], effective_at=as_of),
+            *inputs[2:-1],
+            as_of,
+        )
     return optimize(
-        *fixture_inputs(scenario),
+        *inputs,
         config=SearchConfig(
             seed=seed,
             screening_samples=screening_samples,

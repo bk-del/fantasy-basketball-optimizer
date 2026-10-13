@@ -1,5 +1,10 @@
 # Stage 03: weekly count baselines
 
+This page describes the original fixture path. The authorized NBA research path
+now reuses this engine; see the [historical benchmark](HISTORICAL_FORECAST_BENCHMARK.md)
+for the adapter, temporal assumptions and real-data results. Fixture/live command
+behavior remains as documented below.
+
 This is an offline, synthetic baseline. Live Yahoo access, comparable weekly
 history and schedule/availability fields remain unverified. `forecast.json`
 contains 48 handmade seven-day vectors for four fictional players. It is separate

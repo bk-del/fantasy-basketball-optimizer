@@ -293,3 +293,18 @@ NBA research data is downloaded and queryable locally. See
 Rebuild/verify with `uv run python scripts/prepare_nba_data.py --offline`.
 The [forecasting audit](docs/FORECAST_AUDIT.md) documents current decay/shrinkage,
 synthetic validation, integration gaps and the proposed next scope.
+
+## Historical NBA forecasting research
+
+Use the existing local NBA snapshot with the season-scoped adapter and frozen
+real-data benchmark (no new download or Yahoo credentials):
+
+```bash
+uv run --offline --no-sync python -m fantasy_optimizer.historical_benchmark
+```
+
+The [historical forecasting report](docs/HISTORICAL_FORECAST_BENCHMARK.md) records
+source schema, exact identity mapping, strict versus assumed retrospective
+availability, chronological half-life selection, eleven-category MAE and
+calibration, reproduction and limitations. Existing live/fixture runtime gates
+remain in place; this research does not activate historical data in the optimizer.

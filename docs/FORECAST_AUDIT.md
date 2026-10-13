@@ -1,5 +1,10 @@
 # Forecasting audit — 2026-10-12
 
+Historical audit record: the owner subsequently authorized and completed the
+[historical integration and real-data benchmark](HISTORICAL_FORECAST_BENCHMARK.md).
+The findings below describe the pre-integration system; current NBA adapter,
+configuration, actual measured results and remaining limitations are in that report.
+
 The forecasting machinery is implemented and tested, but it does **not** yet use
 the downloaded NBA game history. Existing results describe synthetic weekly
 counts. This audit stays within the approved Stage 09 data preparation work:

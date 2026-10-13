@@ -2,6 +2,7 @@
 
 import math
 import random
+from collections import Counter
 from dataclasses import asdict, dataclass, field
 from datetime import datetime, timedelta
 from statistics import mean, variance
@@ -16,6 +17,22 @@ MODELS = ("long_run", "recency", "shrinkage")
 CONFIG = {"half_life_days": 28.0, "prior_strength_min": 2.0, "prior_strength_max": 20.0}
 
 
+@dataclass(frozen=True)
+class ForecastConfig:
+    half_life_days: float = 28.0
+    prior_strength_min: float = 2.0
+    prior_strength_max: float = 20.0
+
+    def __post_init__(self) -> None:
+        values = asdict(self).values()
+        if any(type(v) not in (int, float) or not math.isfinite(v) for v in values):
+            raise ForecastError("Forecast configuration must be finite numeric values.")
+        if not 1 <= self.half_life_days <= 365:
+            raise ForecastError("Half-life must be 1..365 days.")
+        if not 0 < self.prior_strength_min <= self.prior_strength_max <= 100:
+            raise ForecastError("Invalid prior strength bounds.")
+
+
 def count(value: int | None) -> int:
     if value is None:
         raise ForecastError("Missing count cannot be used as zero.")
@@ -24,6 +41,25 @@ def count(value: int | None) -> int:
 
 class ForecastError(Exception):
     """Safe contract diagnostic."""
+
+
+def validate_counts(counts: tuple[int | None, ...]) -> None:
+    if len(counts) != len(STATS):
+        raise ForecastError("Invalid player/count contract.")
+    if any(
+        value is not None and (type(value) is not int or value < 0) for value in counts
+    ):
+        raise ForecastError("Counts must be nonnegative integers or missing.")
+    stats = dict(zip(STATS, counts, strict=True))
+    for made, attempted in (("FGM", "FGA"), ("FTM", "FTA"), ("3PM", "FGM")):
+        if stats[made] is not None and stats[attempted] is not None:
+            if count(stats[made]) > count(stats[attempted]):
+                raise ForecastError("Makes exceed attempts or threes exceed makes.")
+    if all(stats[key] is not None for key in ("FGM", "FTM", "3PM", "PTS")):
+        if stats["PTS"] != 2 * count(stats["FGM"]) + count(stats["3PM"]) + count(
+            stats["FTM"]
+        ):
+            raise ForecastError("Points disagree with makes.")
 
 
 @dataclass(frozen=True)
@@ -43,23 +79,9 @@ class Window:
             raise ForecastError("This baseline requires disjoint seven-day windows.")
         if self.end > self.observed_at or self.observed_at > self.ingested_at:
             raise ForecastError("Invalid event/observation/ingestion ordering.")
-        if not self.player_key or len(self.counts) != len(STATS):
-            raise ForecastError("Invalid player/count contract.")
-        if any(
-            value is not None and (type(value) is not int or value < 0)
-            for value in self.counts
-        ):
-            raise ForecastError("Counts must be nonnegative integers or missing.")
-        stats = dict(zip(STATS, self.counts, strict=True))
-        for made, attempted in (("FGM", "FGA"), ("FTM", "FTA"), ("3PM", "FGM")):
-            if stats[made] is not None and stats[attempted] is not None:
-                if count(stats[made]) > count(stats[attempted]):
-                    raise ForecastError("Makes exceed attempts or threes exceed makes.")
-        if all(stats[key] is not None for key in ("FGM", "FTM", "3PM", "PTS")):
-            if stats["PTS"] != 2 * count(stats["FGM"]) + count(stats["3PM"]) + count(
-                stats["FTM"]
-            ):
-                raise ForecastError("Points disagree with makes.")
+        if not self.player_key:
+            raise ForecastError("Missing player key.")
+        validate_counts(self.counts)
 
     def payload(self) -> dict[str, Any]:
         return {
@@ -105,6 +127,8 @@ class RunningAggregate:
     decayed_totals: list[float] = field(default_factory=lambda: [0.0] * len(STATS))
     decayed_weights: list[float] = field(default_factory=lambda: [0.0] * len(STATS))
 
+    config: ForecastConfig = field(default_factory=ForecastConfig)
+
     def update(self, window: Window) -> None:
         if self.latest_end and window.end <= self.latest_end:
             raise ForecastError("Aggregate updates must be chronological and unique.")
@@ -113,7 +137,7 @@ class RunningAggregate:
             if self.latest_end is None
             else (window.end - self.latest_end).total_seconds() / 86400
         )
-        decay = 2 ** (-days / CONFIG["half_life_days"])
+        decay = 2 ** (-days / self.config.half_life_days)
         for index, value in enumerate(window.counts):
             self.decayed_totals[index] *= decay
             self.decayed_weights[index] *= decay
@@ -136,8 +160,9 @@ class RunningAggregate:
         }
 
 
-def prior_strength(peers: list[Window]) -> float:
+def prior_strength(peers: list[Window], config: ForecastConfig | None = None) -> float:
     """Moment estimate of within-player noise / between-player signal, clipped."""
+    config = config or ForecastConfig()
     groups: dict[str, list[Window]] = {}
     for row in peers:
         groups.setdefault(row.player_key, []).append(row)
@@ -153,11 +178,9 @@ def prior_strength(peers: list[Window]) -> float:
         within = mean(variance(sample) for sample in samples)
         between = variance(mean(sample) for sample in samples)
         signal = max(0.0, between - mean(within / len(sample) for sample in samples))
-        ratios.append(20.0 if signal == 0 else within / signal)
-    estimate = mean(ratios) if ratios else CONFIG["prior_strength_min"]
-    return min(
-        CONFIG["prior_strength_max"], max(CONFIG["prior_strength_min"], estimate)
-    )
+        ratios.append(config.prior_strength_max if signal == 0 else within / signal)
+    estimate = mean(ratios) if ratios else config.prior_strength_min
+    return min(config.prior_strength_max, max(config.prior_strength_min, estimate))
 
 
 @dataclass(frozen=True)
@@ -193,9 +216,11 @@ def forecast(
     model: str = "recency",
     seed: int = 42,
     samples: int = 256,
+    config: ForecastConfig | None = None,
 ) -> Forecast:
     if model not in MODELS or not 32 <= samples <= 10000:
         raise ForecastError("Invalid baseline or sample count (32..10000).")
+    config = config or ForecastConfig()
     as_of = timestamp(as_of.isoformat())
     known = known_windows(windows, as_of)
     own = [row for row in known if row.player_key == player_key]
@@ -205,20 +230,16 @@ def forecast(
     own_weights = [
         1.0
         if model == "long_run"
-        else 2
-        ** (-(as_of - row.end).total_seconds() / 86400 / CONFIG["half_life_days"])
+        else 2 ** (-(as_of - row.end).total_seconds() / 86400 / config.half_life_days)
         for row in own
     ]
     total = sum(own_weights)
     own_weights = [weight / total for weight in own_weights]
     effective_n = 1 / sum(weight * weight for weight in own_weights)
-    strength = prior_strength(peers) if model == "shrinkage" and peers else 0.0
+    strength = prior_strength(peers, config) if model == "shrinkage" and peers else 0.0
     alpha = effective_n / (effective_n + strength)
     # Each peer contributes equal mass regardless of its available history length.
-    peer_sizes = {
-        key: sum(row.player_key == key for row in peers)
-        for key in sorted({row.player_key for row in peers})
-    }
+    peer_sizes = Counter(row.player_key for row in peers)
     peer_weights = [1 / len(peer_sizes) / peer_sizes[row.player_key] for row in peers]
     support = own + (peers if strength else [])
     weights = [alpha * weight for weight in own_weights] + (
@@ -242,7 +263,7 @@ def forecast(
                 for row, weight in zip(support, weights, strict=True)
             )
         )
-    aggregate = RunningAggregate()
+    aggregate = RunningAggregate(config=config)
     for row in own:
         aggregate.update(row)
     input_hash = digest(canonical([row.payload() for row in known]))
@@ -297,7 +318,7 @@ def forecast(
         (as_of + timedelta(days=7)).isoformat(),
         "weekly_aggregate",
         input_hash,
-        digest(canonical(CONFIG)),
+        digest(canonical(asdict(config))),
         seed,
         expected,
         intervals,

@@ -92,3 +92,14 @@ refresh and token writing are deliberately deferred while access is pending;
 an owner must refresh through the approved OAuth flow and replace the private
 file, including any rotated refresh token. This avoids unverified auth success
 and unintended credential changes. Neither live consent nor refresh was tested.
+
+## Stage 06 context review (2026-10-12)
+
+Revisited the existing audit; no new live probe or authorized sample was supplied.
+Production classifications above remain unchanged. Weekly-count changes are
+computed only from the handmade Stage 03 fixture. Minutes, exposure/game counts,
+availability publication times, role/opponent features, usage rate and teammate
+injury/on-off remain unverified; they are explicitly skipped. No injury narrative
+is inferred from a count shift. The proposed future label needs observed games
+and scheduled exposure; their absence excludes labels instead of creating fake
+games or status histories. See [Stage 06 protocol and limits](CONTEXT.md).

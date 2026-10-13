@@ -35,7 +35,7 @@ def test_module_status() -> None:
     )
     assert result.returncode == 0
     assert (
-        "fixture read-only add/drop/HOLD suggestions; live access unverified"
+        "fixture context diagnostics; recency baseline retained; live access unverified"
         in result.stdout
     )
     assert "Yahoo access is unconfirmed" in result.stdout

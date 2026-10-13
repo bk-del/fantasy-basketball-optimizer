@@ -10,6 +10,7 @@ from pathlib import Path
 import duckdb
 
 from fantasy_optimizer.audit import audit
+from fantasy_optimizer.context_fixture import context_fixture
 from fantasy_optimizer.forecast_fixture import forecast_fixture
 from fantasy_optimizer.forecasting import MODELS, ForecastError
 from fantasy_optimizer.ingestion import sync_fixture
@@ -80,18 +81,38 @@ def main(argv: Sequence[str] | None = None) -> int:
     optimize_command.add_argument("--finalist-samples", type=int, default=4096)
     optimize_command.add_argument("--scenario", choices=SCENARIOS, default="baseline")
     optimize_command.add_argument("--backend", choices=("python", "cpp"), default="cpp")
+    context_command = commands.add_parser(
+        "context", help="Fixture count-shift diagnostics and data gaps"
+    )
+    context_command.add_argument("--fixture", action="store_true")
     args = parser.parse_args(argv)
     if args.command == "status":
         print(
-            "Stage 05: fixture read-only add/drop/HOLD "
-            "suggestions; live access unverified."
+            "Stage 06: fixture context diagnostics; "
+            "recency baseline retained; live access unverified."
         )
         print("Yahoo access is unconfirmed until audited; fixtures are synthetic.")
         return 0
     token_path = Path(os.environ.get("YAHOO_TOKEN_FILE", ".oauth/tokens.json"))
     approved = os.environ.get("YAHOO_ACCESS_APPROVED") == "1"
     try:
-        if args.command == "optimize":
+        if args.command == "context":
+            if not args.fixture:
+                print(
+                    json.dumps(
+                        {
+                            "error": "live_context_unavailable",
+                            "message": (
+                                "Use --fixture; verified Yahoo "
+                                "context/history is missing."
+                            ),
+                        }
+                    ),
+                    file=sys.stderr,
+                )
+                return 1
+            result = context_fixture()
+        elif args.command == "optimize":
             if not args.fixture:
                 print(
                     json.dumps(

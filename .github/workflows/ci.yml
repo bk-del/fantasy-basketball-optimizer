@@ -30,6 +30,7 @@ jobs:
           uv run --offline --no-sync pytest -q
           uv run --offline --no-sync fantasy simulate --fixture > /tmp/matchup.json
           uv run --offline --no-sync fantasy optimize --fixture > /tmp/optimization.json
+          uv run --offline --no-sync fantasy context --fixture > /tmp/context.json
           uv run --offline --no-sync fantasy --help
           uv run --offline --no-sync fantasy status
           uv run --offline --no-sync fantasy auth status

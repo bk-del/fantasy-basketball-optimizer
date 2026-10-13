@@ -1,11 +1,53 @@
 # STATUS — agent handoff (update on every working session)
 
-**Current stage:** 05 — Waiver add/drop/hold optimizer (fixture-only).
-**State:** Fixture implementation committed locally on dev in the main checkout; all required local checks passed. Stopped at Stage 05 approval gate.
-**Data constraints:** Yahoo transaction settings/ownership/addability, game schedule and live forecasts remain unverified. Fixture suggestions are synthetic and uncalibrated; the live constraints boundary returns unverified settings rather than guessed mappings.
-**Next exact step:** Owner reviews Stage 05 changes and docs/OPTIMIZATION.md on dev. Obtain authorized Yahoo samples before enabling a verified live adapter. Stage 06, merge into main and publication require new approval.
-**Workflow:** Direct dev development; main and remotes untouched. Read-only suggestions only; no transactions submitted or claimed.
-**Storage/dependencies:** No schema migration, decision database, dependency/lockfile change or system-wide install this stage.
+**Current stage:** 06 — Context and breakout detection (fixture-only).
+**State:** Fixture diagnostic/label implementation committed locally on dev in the main checkout; required local checks passed. Stopped at Stage 06 approval gate.
+**Data constraints:** Zero authorized Yahoo histories/context/exposure samples; zero usable fixture labels. No role/injury narrative, fitted model, calibrated breakout probability or live improvement claim.
+**Active baseline:** Stage 03 weekly-counts-v1 recency remains provisional and unchanged, including its existing exposure/small-history uncertainty widening.
+**Next exact step:** Owner reviews Stage 06 protocol/results on dev. Obtain authorized point-in-time counts/exposure/context and strictly later evaluation periods before fitting/promoting a model. Stage 07, merge into main and publication require new approval.
+**Workflow/storage:** Direct dev development; main/remotes untouched. No transactions, storage migration, new dependencies, C++ changes or system-wide installs.
+
+## Stage 06 execution plan (completed 2026-10-12)
+
+Recorded before implementation: revisit Yahoo capability audit, reuse known-at-T windows; count-shift diagnostics with coverage/missingness/ambiguity; pre-register future-label horizon/gain/games/availability; separate features from outcomes; preserve active baseline/uncertainty and skip insufficient-data model/calibration/uplift; fixture CLI/provenance/tests; full Python/C++/package/CLI checks, focused dev commit and stage gate.
+
+## Stage 06 completed work and changed files
+
+- New src/fantasy_optimizer/context.py: frozen versioned BreakoutProtocol, proposed ExposureEvidence and explicit point-in-time shift_features/breakout_label functions. Uses existing known_windows filtering/revision logic; no alternate storage or API parser.
+- Registered weekly-production-breakout-v1 before fitting: four baseline/two recent contiguous known weeks; baseline PTS >=10; both recent weeks >=25% gain, standardized shift >=2 with a one-point noise floor. Future horizon two weeks; both future PTS totals >=125% baseline, >=4 future games total and >=75% played/scheduled availability per future week. Missing/unqualified evidence excludes labels rather than fabricating negatives. This is weekly-production proxy labeling, not an asserted category-adjusted live replacement value.
+- Transparent shift alarm from counts, with no breakout probability. Minutes/status/exposure/transactions/opponent-role/teammate-injury/usage sources explicitly skipped and coverage/ambiguity annotated. No count change is explained as an injury or depth-chart event.
+- Origin features contain only already completed/observed/ingested windows; future outcomes and exposure use a separate evaluation-time boundary and hash. Later corrections/ingestion cannot leak into origin features. Conflicting exposure metadata requires explicit resolution; invalid protocols/timestamps/game counts reject.
+- New context_fixture.py: deterministic diagnostic report on existing 48 handmade weekly vectors, chronological origins, explicit null precision/recall/calibration/decision-uplift and skipped training with reasons. Retains Stage 03 default and existing joint exposure widening; no unsupported extra role multiplier or optimizer forecast adjustments.
+- Updated cli.py/tests/test_smoke.py for fantasy context --fixture, live gating and Stage 06 status. New tests/test_context.py: eight focused tests with multiple meaningful boundary cases. CI adds offline context command. README and docs/YAHOO_CAPABILITIES.md updated; new docs/CONTEXT.md and docs/benchmarks/stage06.json document protocol/skips and saved reproducible report.
+- Capability audit revisited without new live request/sample; production classifications unchanged. No fabricated per-game rows or exposure fixtures shipped. Label tests use separately handmade exposure metadata only to validate the conceptual contract.
+- Existing STATUS.md remains the single handoff; prior stage records preserved below. No Stage 07 training/backtesting framework, live data, transactions or remote operations.
+
+## Stage 06 verification — actual outcomes
+
+All commands ran at project root; uv used UV_CACHE_DIR=/tmp/fantasy-stage01-uv-cache.
+
+- uv sync --locked --offline --group dev: passed, 15 resolved/14 checked; no dependency/lockfile changes.
+- uv run --offline --no-sync ruff check . and ruff format --check .: passed (23 formatted files). mypy src: passed, 15 source files. Initial line-length findings fixed, none suppressed.
+- uv run --offline --no-sync pytest -q: **120 passed in 8.71 seconds**; focused tests/test_context.py initially passed 8/8, then full suite included additional minimum-game/availability boundary assertions. No configured tests skipped.
+- Tests cover sustained versus transient/flat/declining changes; missing counts/gaps/zero baseline; future corrections and late ingestion/order independence; positive/negative/excluded future labels, incomplete horizons and exposure requirements; separate game/availability minima; conflict/protocol validation; explicit feature/model/calibration/uplift skips; unchanged baseline and repeatable fixture/live CLI gates.
+- cmake -S cpp -B build/cpp -G Ninja -DCMAKE_BUILD_TYPE=Debug and cmake --build build/cpp: passed, existing targets current. No changed C++ requires fresh lint; the native wheel rebuild ran configured project clang-tidy checks.
+- ctest --test-dir build/cpp --output-on-failure outside sandbox tracing: **3/3 passed in 1.45 seconds**, retaining full ASan/UBSan/leak checking and explicitly loaded just-built native/reference parity. No sanitizer suppression this stage.
+- git ls-files -z -- '*.cpp' '*.hpp' | xargs -0 -r clang-format-14 --dry-run --Werror: passed. git diff --check and staged checks passed. Elevated local git add/commit succeeded for the 11 Stage 06 files; final observed handoff is included in that dev commit. Main/remotes untouched.
+- fantasy context --fixture saved to docs/benchmarks/stage06.json and repeated to /tmp: byte-identical JSON by cmp. Live refusal tested; no credentials/network requests made.
+- uv build --offline: passed, sdist and native cp312 Linux wheel produced. Isolated Python -I -S imported context/native from the extracted wheel with paths asserted; report/provenance matched saved fixture JSON, prior read-only optimizer worked and recency baseline stayed active.
+- README/context/capability local links and CI YAML parse: passed. Remote GitHub CI remains unverified. Live fitting, probability calibration, precision/recall and decision uplift were not run because verified Yahoo histories/labels/context do not exist; these are explicit data-dependent skips, not successful evaluations.
+
+## Stage 06 observed results, limitations and acceptance
+
+Four fixture players have final relative weekly PTS gains 15.13%, 13.29%, 11.91%, 10.34%; none reaches the registered 25% sustained-shift threshold. Twenty-eight chronological candidate label origins yield zero usable labels: twenty complete horizons lack game/availability evidence and eight horizons are incomplete. The saved report exposes null precision/recall/calibration/uplift with reasons. No fitted classifier/LightGBM is justified or installed; baseline promotion is false.
+
+**Fixture/data-insufficiency acceptance met:** sustained shift and pre-registered label contracts verified, point-in-time boundaries tested, coverage/missingness/ambiguity and source skips explicit, baseline/uncertainty retained, insufficient Yahoo data documented instead of asserting improvement, required checks passed and handoff updated.
+
+**Unverified live work:** true Yahoo context/window/exposure semantics, category-adjusted replacement labeling, calibrated probabilities and decision uplift cannot be established. Shift statistic is a count-only heuristic, not causal evidence or a formal significance guarantee. Weekly exposure can confound gains; no real player/game labels or randomly shuffled splits. Small deterministic diagnostics reuse fixture windows without large model/storage cost or performance claims. Stop at Stage 06 gate; owner review/new authorization is next.
+
+## Archived Stage 05 completion record
+
+Owner authorized Stage 06 after the following Stage 05 results; previous gate statements are historical.
 
 ## Stage 05 execution plan (completed 2026-10-12)
 
@@ -183,3 +225,5 @@ The final overly broad intervals still do not establish calibration.
 - 2026-10-12 Stage 04: Owner authorized only fixture matchup simulation. Implemented Python/C++20/nanobind joint count simulation, explicit synthetic schedule/rules and common scenario banks directly on dev; 77 Python tests and 3/3 full-sanitizer CTest targets passed, with lint/format/mypy/native wheel/CLI verification. Saved 1k/10k/20k benchmark results and limitations. No live Yahoo, merge, publication or Stage 05 work. Stop at Stage 04 gate.
 
 - 2026-10-12 Stage 05: Owner authorized the next stage. Implemented fixture-only legal add/drop/HOLD search, deterministic eligible lineups, shared correlated sample screening/refinement, paired uncertainty and explicit long-term value protection directly on dev. 112 Python tests and 3/3 full-sanitizer CTest targets passed, with lint/format/mypy/package/CLI checks and saved six-variant results. Live Yahoo constraints remain unverified; no transactions, Stage 06, merge or publication. Stop at Stage 05 approval gate.
+
+- 2026-10-12 Stage 06: Owner authorized context/breakout stage. Added fixture-only sustained weekly count-shift diagnostics, pre-registered future-label/exposure contract and explicit context/model/calibration/uplift skips; Stage 03 baseline retained. 120 Python tests and 3/3 full-sanitizer CTest targets plus lint/format/mypy/package/CLI checks passed on dev. Zero usable labels and live Yahoo evidence insufficient; no fitted model, injury narrative, Stage 07, merge or publication. Stop at Stage 06 gate.

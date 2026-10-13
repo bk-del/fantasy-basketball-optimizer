@@ -214,3 +214,17 @@ long-term value proxies. Unknown settings are unverified; protected players,
 locks, acquisition caps and roster restrictions are respected. No transaction
 is submitted and live optimization is disabled. See [optimization rules and
 limitations](docs/OPTIMIZATION.md). Stop at the Stage 05 gate before later stages.
+
+## Context diagnostics (Stage 06)
+
+```bash
+uv run fantasy context --fixture
+```
+
+Reports sustained shifts in synthetic weekly PTS counts with source gaps and
+ambiguity. A pre-registered future breakout-label contract separates known-at-origin
+features from evaluation-time outcomes. Games/availability needed for labels are
+missing, so fitting, precision/recall/calibration and decision-uplift estimates are
+explicitly skipped. The Stage 03 recency baseline and its existing uncertainty
+widening remain active. No role/injury story or live model improvement is claimed.
+See [context protocol and validation](docs/CONTEXT.md).

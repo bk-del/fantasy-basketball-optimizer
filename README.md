@@ -291,3 +291,5 @@ viewed without writes or simulation. See [proposal, limits and rollback](docs/TR
 NBA research data is downloaded and queryable locally. See
 [setup, offline queries and coverage limitations](fantasy-basketball-optimizer-guides/docs/NBA_DATA.md).
 Rebuild/verify with `uv run python scripts/prepare_nba_data.py --offline`.
+The [forecasting audit](docs/FORECAST_AUDIT.md) documents current decay/shrinkage,
+synthetic validation, integration gaps and the proposed next scope.

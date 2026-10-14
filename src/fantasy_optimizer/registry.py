@@ -132,6 +132,8 @@ class Registry:
         if candidate.get("scope", "fixture") != active.get("scope", "fixture"):
             raise RegistryError("Model scopes must match.")
         if candidate.get("scope") == "nba_research":
+            if not candidate.get("promotion_gate", {}).get("passed", True):
+                raise RegistryError("Frozen advanced holdout gate failed.")
             if candidate.get("selection_metric") != "normalized_all_count_mae":
                 raise RegistryError("NBA promotion requires all-count validation.")
             score, old = candidate["validation_score"], active["validation_score"]

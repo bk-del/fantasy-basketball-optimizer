@@ -58,6 +58,43 @@ def main(argv: Sequence[str] | None = None) -> int:
         description="Personal, read-only fantasy basketball optimizer (planned).",
     )
     commands = parser.add_subparsers(dest="command", required=True)
+    advanced = commands.add_parser("advanced", help="CPU NBA forecasting challengers")
+    advanced.add_argument(
+        "action", choices=("backtest", "train", "forecast", "run", "model")
+    )
+    advanced.add_argument("--data", type=Path, default=Path("data/nba_data"))
+    advanced.add_argument(
+        "--registry", type=Path, default=Path("models/advanced-registry.json")
+    )
+    advanced.add_argument(
+        "--baseline-registry", type=Path, default=Path("models/nba-registry.json")
+    )
+    advanced.add_argument(
+        "--report", type=Path, default=Path("docs/benchmarks/nba-advanced.json")
+    )
+    advanced.add_argument(
+        "--protocol",
+        type=Path,
+        default=Path("docs/benchmarks/nba-advanced-protocol.json"),
+    )
+    advanced.add_argument("--output", type=Path, default=Path("data/advanced-runs"))
+    advanced.add_argument("--as-of", type=parse_as_of)
+    advanced.add_argument("--seed", type=int, default=42)
+    advanced.add_argument("--samples", type=int, default=256)
+    advanced.add_argument("--screening-samples", type=int, default=256)
+    advanced.add_argument("--finalist-samples", type=int, default=4096)
+    advanced.add_argument("--backend", choices=("python", "cpp"), default="cpp")
+    advanced.add_argument("--fixture", action="store_true")
+    advanced.add_argument(
+        "--candidate",
+        action="store_true",
+        help="Explicit read-only challenger evaluation, without promotion",
+    )
+    advanced.add_argument("--prepare-only", action="store_true")
+    advanced.add_argument(
+        "--model-action", choices=("status", "promote", "rollback"), default="status"
+    )
+    advanced.add_argument("--id")
     nba_command = commands.add_parser("nba", help="Cached real NBA research pipeline")
     nba_command.add_argument(
         "action", choices=("backtest", "train", "forecast", "run", "model")
@@ -207,6 +244,80 @@ def main(argv: Sequence[str] | None = None) -> int:
         "--categories", default="FG%,FT%,3PM,PTS,REB,AST,STL,BLK,TO"
     )
     args = parser.parse_args(argv)
+    if args.command == "advanced":
+        from contextlib import redirect_stdout
+        from datetime import UTC
+
+        from fantasy_optimizer import advanced_benchmark, advanced_pipeline
+        from fantasy_optimizer.optimization import SearchConfig
+
+        try:
+            registry = Registry(args.registry)
+            baseline_registry = Registry(args.baseline_registry)
+            as_of = args.as_of or datetime.now(UTC)
+            if args.action == "backtest":
+                with instance_lock(args.report), redirect_stdout(sys.stderr):
+                    result = advanced_benchmark.run(
+                        args.data,
+                        args.protocol,
+                        args.report,
+                        prepare_only=args.prepare_only,
+                    )
+            elif args.action == "train":
+                result = advanced_pipeline.train(
+                    args.data, registry, baseline_registry, args.report, as_of
+                )
+            elif args.action == "forecast":
+                result = advanced_pipeline.forecast(
+                    args.data,
+                    registry,
+                    baseline_registry,
+                    args.output,
+                    as_of,
+                    seed=args.seed,
+                    samples=args.samples,
+                    candidate=args.candidate,
+                )
+            elif args.action == "model":
+                with instance_lock(args.registry):
+                    if args.model_action == "promote":
+                        if not args.id:
+                            raise ValueError("Promotion requires --id.")
+                        registry.promote(args.id)
+                    elif args.model_action == "rollback":
+                        registry.rollback()
+                result = registry.read()
+            else:
+                if not args.fixture:
+                    raise ValueError(
+                        "Use --fixture; this milestone has no live league "
+                        "or verified schedule."
+                    )
+                result = advanced_pipeline.run(
+                    args.data,
+                    registry,
+                    baseline_registry,
+                    args.output,
+                    as_of,
+                    config=SearchConfig(
+                        seed=args.seed,
+                        screening_samples=args.screening_samples,
+                        finalist_samples=args.finalist_samples,
+                        backend=args.backend,
+                    ),
+                    samples=args.samples,
+                    candidate=args.candidate,
+                )
+            print(json.dumps(result, sort_keys=True, indent=2))
+            return 0
+        except (ValueError, OSError, ImportError, duckdb.Error) as error:
+            print(
+                json.dumps(
+                    {"error": "advanced_pipeline_failed", "message": str(error)}
+                ),
+                file=sys.stderr,
+            )
+            return 1
     if args.command == "nba":
         from datetime import UTC
 

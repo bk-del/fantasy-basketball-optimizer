@@ -1,0 +1,42 @@
+{
+  "engineering_checks": {
+    "ctest": {
+      "passed": 3,
+      "sandbox": "approved unrestricted; restricted LeakSanitizer ptrace errors",
+      "seconds": 2.06,
+      "total": 3
+    },
+    "debug_cmake_build": "passed",
+    "locked_offline_advanced_sync": "passed",
+    "mypy": "passed;33sources",
+    "pytest": {
+      "passed": 239,
+      "sandbox": "approved unrestricted; restricted run236passed/3socket errors",
+      "seconds": 124.94
+    },
+    "ruff": "passed;59files",
+    "tracked_clang_format_14": "passed",
+    "wheel": "offline build and exact-source isolated package/native imports passed"
+  },
+  "historical_decision_replay": "NOT_EXECUTED",
+  "implementation_commit": "855ab15",
+  "incumbent": "recency remains active",
+  "milestone_complete": false,
+  "nba_relational_training": "NOT_EXECUTED",
+  "new_source_data_downloads": 0,
+  "preserved_sha256": {
+    "data/nba_data/manifest.json": "9d2f26ec1d229d4ad5d6eac8781babbc01ce3d96b2c344beb3203fc8a21f1c18",
+    "docs/benchmarks/nba-advanced-protocol.json": "200b5a9f368c1cb42874db0f4a96b39319019818c34823f2d6735183b6873bf0",
+    "docs/benchmarks/nba-advanced.json": "b7b7fd4838a68b48829bdeeeb1fa1cd934fbcec2923633ec445fe3064add6f71",
+    "docs/benchmarks/nba-real-data.json": "151cf5647da844f0e4bea8a62a6a653b78584cd77af8b26068e434c6b7d767e8",
+    "models/advanced-registry.json": "6e11daec194d0e3c1ab204d233513cde5ff8f11373d3153a2b14e338d29a104e",
+    "models/nba-registry.json": "787377a8262af403266ccffc5742fbfe8c9272afcc6c2f132e25d4c2d9d2cbbe",
+    "src/fantasy_optimizer/advanced_benchmark.py": "b680a2f2d8b344a0f451794550dd62e17214b6d24b06e7542cc34b82a1eae840",
+    "src/fantasy_optimizer/advanced_features.py": "b80ea7fe36fef4796b564651004082af8e07bf7eb7ba9ff41377def9012f2ff1",
+    "src/fantasy_optimizer/advanced_models.py": "4f6c00e83e4f98079d0080977c08f6d7545936133db8a0b1a50fd703eeccb06a",
+    "src/fantasy_optimizer/advanced_pipeline.py": "1f6bc72b868f0c4db802e1478dd7b30d14a3e9d280a258f77ca23de99b266ed8"
+  },
+  "relationship_feature_materialization": "NOT_IMPLEMENTED",
+  "running_jobs": [],
+  "state": "paused_at_owner_usage_budget_request"
+}

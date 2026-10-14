@@ -1,0 +1,19 @@
+{
+  "version": "nba-walk-forward-v1",
+  "availability_policy": "retrospective_next_day",
+  "seed": 42,
+  "samples": 256,
+  "cohort_size": 24,
+  "minimum_history_windows": 4,
+  "half_lives_days": [7, 14, 28, 56, 112],
+  "cohort_cutoff": "2025-01-06T12:00:00+00:00",
+  "development_end": "2025-02-17T12:00:00+00:00",
+  "calibration_end": "2025-03-24T12:00:00+00:00",
+  "evaluation_start": "2026-01-05T12:00:00+00:00",
+  "evaluation_end": "2026-04-13T12:00:00+00:00",
+  "selection_metric": "mean MAE divided by origin-known training mean for all eleven counts",
+  "selection_tie_break": "shortest half-life",
+  "cohort_rule": "smallest SHA256(seed, NBA ID) among players with >=4 known 2025 windows and positive training PTS; frozen before development",
+  "history_policy": "current season only; observed weeks only; minimum four own windows; next contiguous target",
+  "max_cases_per_split": 400
+}

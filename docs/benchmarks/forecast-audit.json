@@ -1,0 +1,2621 @@
+{
+  "config": {
+    "half_life_days": 28.0,
+    "prior_strength_max": 20.0,
+    "prior_strength_min": 2.0
+  },
+  "later_validation": {
+    "budget": {
+      "max_candidates": 3,
+      "max_cases": 32,
+      "samples": 256,
+      "seed": 42
+    },
+    "decision_replay": "incomplete: historical waiver/ownership snapshots absent",
+    "ensemble": "not fitted: no sufficient out-of-time live evidence",
+    "limitations": [
+      "Marginal intervals are diagnostic; joint sampler is unchanged.",
+      "Origin histories use only already known observations.",
+      "Repeated fictional players are not independent calibration evidence.",
+      "Counterfactual transactions are approximations; none are evaluated here."
+    ],
+    "models": {
+      "long_run": {
+        "calibration_cases": 8,
+        "metrics": {
+          "cases": 8,
+          "per_stat": {
+            "3PM": {
+              "calibrated_coverage_80": 0.5,
+              "calibrated_half_width": 1.0,
+              "mae": 1.0625,
+              "n": 8,
+              "raw_coverage_80": 1
+            },
+            "AST": {
+              "calibrated_coverage_80": 0.5,
+              "calibrated_half_width": 1.0,
+              "mae": 1.0624999999999998,
+              "n": 8,
+              "raw_coverage_80": 1
+            },
+            "BLK": {
+              "calibrated_coverage_80": 1,
+              "calibrated_half_width": 0.5714285714285721,
+              "mae": 0.5277777777777778,
+              "n": 8,
+              "raw_coverage_80": 1
+            },
+            "FGA": {
+              "calibrated_coverage_80": 0.5,
+              "calibrated_half_width": 8.571428571428577,
+              "mae": 9.75,
+              "n": 8,
+              "raw_coverage_80": 1
+            },
+            "FGM": {
+              "calibrated_coverage_80": 0.5,
+              "calibrated_half_width": 5.428571428571431,
+              "mae": 4.930555555555557,
+              "n": 8,
+              "raw_coverage_80": 1
+            },
+            "FTA": {
+              "calibrated_coverage_80": 1,
+              "calibrated_half_width": 1.7142857142857153,
+              "mae": 0.9166666666666661,
+              "n": 8,
+              "raw_coverage_80": 1
+            },
+            "FTM": {
+              "calibrated_coverage_80": 1,
+              "calibrated_half_width": 1.7142857142857153,
+              "mae": 0.7152777777777775,
+              "n": 8,
+              "raw_coverage_80": 1
+            },
+            "PTS": {
+              "calibrated_coverage_80": 1,
+              "calibrated_half_width": 12.714285714285722,
+              "mae": 9.23611111111111,
+              "n": 8,
+              "raw_coverage_80": 1
+            },
+            "REB": {
+              "calibrated_coverage_80": 1,
+              "calibrated_half_width": 1.7142857142857153,
+              "mae": 0.9166666666666661,
+              "n": 8,
+              "raw_coverage_80": 1
+            },
+            "STL": {
+              "calibrated_coverage_80": 1,
+              "calibrated_half_width": 0.5714285714285721,
+              "mae": 0.5277777777777779,
+              "n": 8,
+              "raw_coverage_80": 1
+            },
+            "TO": {
+              "calibrated_coverage_80": 0.5,
+              "calibrated_half_width": 1.0,
+              "mae": 1.0625,
+              "n": 8,
+              "raw_coverage_80": 1
+            }
+          }
+        },
+        "replay": [
+          {
+            "actual": {
+              "3PM": 6,
+              "AST": 15,
+              "BLK": 1,
+              "FGA": 58,
+              "FGM": 29,
+              "FTA": 11,
+              "FTM": 8,
+              "PTS": 72,
+              "REB": 25,
+              "STL": 3,
+              "TO": 8
+            },
+            "as_of": "2026-07-27T00:00:00+00:00",
+            "expected": {
+              "3PM": 4.875,
+              "AST": 13.875,
+              "BLK": 1.5,
+              "FGA": 44.5,
+              "FGM": 23.25,
+              "FTA": 12.5,
+              "FTM": 9.0,
+              "PTS": 60.375,
+              "REB": 26.5,
+              "STL": 3.5,
+              "TO": 6.875
+            },
+            "input_hash": "da74f7533ed8fe36ecf399b1152ece00194e90547c8138849d62da7633f1ab67",
+            "intervals_80": {
+              "3PM": [
+                3,
+                6
+              ],
+              "AST": [
+                10,
+                18
+              ],
+              "BLK": [
+                1,
+                2
+              ],
+              "FGA": [
+                30,
+                58
+              ],
+              "FGM": [
+                16,
+                29
+              ],
+              "FTA": [
+                9,
+                16
+              ],
+              "FTM": [
+                7,
+                11
+              ],
+              "PTS": [
+                43,
+                77
+              ],
+              "REB": [
+                20,
+                34
+              ],
+              "STL": [
+                2,
+                5
+              ],
+              "TO": [
+                4,
+                9
+              ]
+            },
+            "outcome_hash": "39ed26bbfb5f647b3247617fddb35ca0395481d73bdbfbddd42ce498bad94dce",
+            "player_key": "fixture.p.1"
+          },
+          {
+            "actual": {
+              "3PM": 4,
+              "AST": 13,
+              "BLK": 2,
+              "FGA": 52,
+              "FGM": 28,
+              "FTA": 12,
+              "FTM": 9,
+              "PTS": 69,
+              "REB": 26,
+              "STL": 4,
+              "TO": 6
+            },
+            "as_of": "2026-08-03T00:00:00+00:00",
+            "expected": {
+              "3PM": 5.0,
+              "AST": 13.999999999999998,
+              "BLK": 1.4444444444444444,
+              "FGA": 46.0,
+              "FGM": 23.888888888888886,
+              "FTA": 12.333333333333332,
+              "FTM": 8.88888888888889,
+              "PTS": 61.666666666666664,
+              "REB": 26.333333333333332,
+              "STL": 3.444444444444444,
+              "TO": 6.999999999999999
+            },
+            "input_hash": "be7b571a1baeb2b0c93a2a450db0401bd73ec66e454e42aa3a687af69c431d47",
+            "intervals_80": {
+              "3PM": [
+                3,
+                8
+              ],
+              "AST": [
+                10,
+                19
+              ],
+              "BLK": [
+                1,
+                2
+              ],
+              "FGA": [
+                30,
+                65
+              ],
+              "FGM": [
+                16,
+                35
+              ],
+              "FTA": [
+                8,
+                16
+              ],
+              "FTM": [
+                6,
+                11
+              ],
+              "PTS": [
+                43,
+                88
+              ],
+              "REB": [
+                19,
+                34
+              ],
+              "STL": [
+                2,
+                5
+              ],
+              "TO": [
+                4,
+                10
+              ]
+            },
+            "outcome_hash": "e1ab28c4087546985b41c2264138486b0b89a205d295a5c95d819f711d72d73b",
+            "player_key": "fixture.p.1"
+          },
+          {
+            "actual": {
+              "3PM": 7,
+              "AST": 18,
+              "BLK": 2,
+              "FGA": 66,
+              "FGM": 33,
+              "FTA": 14,
+              "FTM": 10,
+              "PTS": 83,
+              "REB": 30,
+              "STL": 4,
+              "TO": 9
+            },
+            "as_of": "2026-07-27T00:00:00+00:00",
+            "expected": {
+              "3PM": 5.875,
+              "AST": 16.875,
+              "BLK": 2.5,
+              "FGA": 52.5,
+              "FGM": 27.25,
+              "FTA": 15.5,
+              "FTM": 11.25,
+              "PTS": 71.625,
+              "REB": 31.5,
+              "STL": 4.5,
+              "TO": 7.875
+            },
+            "input_hash": "da74f7533ed8fe36ecf399b1152ece00194e90547c8138849d62da7633f1ab67",
+            "intervals_80": {
+              "3PM": [
+                4,
+                8
+              ],
+              "AST": [
+                12,
+                21
+              ],
+              "BLK": [
+                2,
+                4
+              ],
+              "FGA": [
+                36,
+                68
+              ],
+              "FGM": [
+                20,
+                34
+              ],
+              "FTA": [
+                10,
+                20
+              ],
+              "FTM": [
+                8,
+                15
+              ],
+              "PTS": [
+                52,
+                92
+              ],
+              "REB": [
+                22,
+                40
+              ],
+              "STL": [
+                3,
+                6
+              ],
+              "TO": [
+                5,
+                10
+              ]
+            },
+            "outcome_hash": "036507e615a99f9a2f835188e8c6145f36470b4ab5a314779da1e10fc760bc25",
+            "player_key": "fixture.p.2"
+          },
+          {
+            "actual": {
+              "3PM": 5,
+              "AST": 16,
+              "BLK": 3,
+              "FGA": 60,
+              "FGM": 32,
+              "FTA": 15,
+              "FTM": 11,
+              "PTS": 80,
+              "REB": 31,
+              "STL": 5,
+              "TO": 7
+            },
+            "as_of": "2026-08-03T00:00:00+00:00",
+            "expected": {
+              "3PM": 6.0,
+              "AST": 17.0,
+              "BLK": 2.444444444444444,
+              "FGA": 54.0,
+              "FGM": 27.88888888888889,
+              "FTA": 15.333333333333332,
+              "FTM": 11.11111111111111,
+              "PTS": 72.88888888888889,
+              "REB": 31.333333333333332,
+              "STL": 4.444444444444445,
+              "TO": 8.0
+            },
+            "input_hash": "be7b571a1baeb2b0c93a2a450db0401bd73ec66e454e42aa3a687af69c431d47",
+            "intervals_80": {
+              "3PM": [
+                4,
+                9
+              ],
+              "AST": [
+                12,
+                22
+              ],
+              "BLK": [
+                2,
+                4
+              ],
+              "FGA": [
+                36,
+                75
+              ],
+              "FGM": [
+                20,
+                40
+              ],
+              "FTA": [
+                10,
+                20
+              ],
+              "FTM": [
+                8,
+                15
+              ],
+              "PTS": [
+                52,
+                103
+              ],
+              "REB": [
+                22,
+                40
+              ],
+              "STL": [
+                3,
+                6
+              ],
+              "TO": [
+                5,
+                11
+              ]
+            },
+            "outcome_hash": "bc834e4ee9db95dd477670aec21b1b73e543ac69d9953743528851fc06706a29",
+            "player_key": "fixture.p.2"
+          },
+          {
+            "actual": {
+              "3PM": 8,
+              "AST": 21,
+              "BLK": 3,
+              "FGA": 74,
+              "FGM": 37,
+              "FTA": 17,
+              "FTM": 12,
+              "PTS": 94,
+              "REB": 35,
+              "STL": 5,
+              "TO": 10
+            },
+            "as_of": "2026-07-27T00:00:00+00:00",
+            "expected": {
+              "3PM": 6.875,
+              "AST": 19.875,
+              "BLK": 3.5,
+              "FGA": 60.5,
+              "FGM": 31.25,
+              "FTA": 18.5,
+              "FTM": 13.5,
+              "PTS": 82.875,
+              "REB": 36.5,
+              "STL": 5.5,
+              "TO": 8.875
+            },
+            "input_hash": "da74f7533ed8fe36ecf399b1152ece00194e90547c8138849d62da7633f1ab67",
+            "intervals_80": {
+              "3PM": [
+                4,
+                9
+              ],
+              "AST": [
+                14,
+                25
+              ],
+              "BLK": [
+                2,
+                5
+              ],
+              "FGA": [
+                42,
+                78
+              ],
+              "FGM": [
+                22,
+                39
+              ],
+              "FTA": [
+                14,
+                25
+              ],
+              "FTM": [
+                10,
+                19
+              ],
+              "PTS": [
+                59,
+                106
+              ],
+              "REB": [
+                27,
+                48
+              ],
+              "STL": [
+                4,
+                8
+              ],
+              "TO": [
+                6,
+                11
+              ]
+            },
+            "outcome_hash": "126cdfae33d78021a05e886f7c61560dacf134ce4b3b7f49f761c3b29269af94",
+            "player_key": "fixture.p.3"
+          },
+          {
+            "actual": {
+              "3PM": 6,
+              "AST": 19,
+              "BLK": 4,
+              "FGA": 68,
+              "FGM": 36,
+              "FTA": 18,
+              "FTM": 13,
+              "PTS": 91,
+              "REB": 36,
+              "STL": 6,
+              "TO": 8
+            },
+            "as_of": "2026-08-03T00:00:00+00:00",
+            "expected": {
+              "3PM": 6.999999999999999,
+              "AST": 20.0,
+              "BLK": 3.444444444444444,
+              "FGA": 61.99999999999999,
+              "FGM": 31.888888888888886,
+              "FTA": 18.333333333333332,
+              "FTM": 13.333333333333332,
+              "PTS": 84.11111111111111,
+              "REB": 36.333333333333336,
+              "STL": 5.444444444444445,
+              "TO": 9.0
+            },
+            "input_hash": "be7b571a1baeb2b0c93a2a450db0401bd73ec66e454e42aa3a687af69c431d47",
+            "intervals_80": {
+              "3PM": [
+                4,
+                10
+              ],
+              "AST": [
+                14,
+                26
+              ],
+              "BLK": [
+                2,
+                5
+              ],
+              "FGA": [
+                42,
+                85
+              ],
+              "FGM": [
+                22,
+                45
+              ],
+              "FTA": [
+                14,
+                24
+              ],
+              "FTM": [
+                10,
+                18
+              ],
+              "PTS": [
+                59,
+                116
+              ],
+              "REB": [
+                27,
+                46
+              ],
+              "STL": [
+                4,
+                8
+              ],
+              "TO": [
+                6,
+                12
+              ]
+            },
+            "outcome_hash": "98405baf1cdf483151e8f7bea9a526352ceccf05b27daacf71dc8482bf356f07",
+            "player_key": "fixture.p.3"
+          },
+          {
+            "actual": {
+              "3PM": 9,
+              "AST": 24,
+              "BLK": 4,
+              "FGA": 82,
+              "FGM": 41,
+              "FTA": 20,
+              "FTM": 15,
+              "PTS": 106,
+              "REB": 40,
+              "STL": 6,
+              "TO": 11
+            },
+            "as_of": "2026-07-27T00:00:00+00:00",
+            "expected": {
+              "3PM": 7.875,
+              "AST": 22.875,
+              "BLK": 4.5,
+              "FGA": 68.5,
+              "FGM": 35.25,
+              "FTA": 21.5,
+              "FTM": 15.75,
+              "PTS": 94.125,
+              "REB": 41.5,
+              "STL": 6.5,
+              "TO": 9.875
+            },
+            "input_hash": "da74f7533ed8fe36ecf399b1152ece00194e90547c8138849d62da7633f1ab67",
+            "intervals_80": {
+              "3PM": [
+                5,
+                10
+              ],
+              "AST": [
+                16,
+                29
+              ],
+              "BLK": [
+                3,
+                6
+              ],
+              "FGA": [
+                48,
+                88
+              ],
+              "FGM": [
+                26,
+                44
+              ],
+              "FTA": [
+                16,
+                28
+              ],
+              "FTM": [
+                11,
+                20
+              ],
+              "PTS": [
+                69,
+                119
+              ],
+              "REB": [
+                31,
+                52
+              ],
+              "STL": [
+                4,
+                9
+              ],
+              "TO": [
+                7,
+                12
+              ]
+            },
+            "outcome_hash": "a2041e433c084d4a9498aeb447d390e066eaa4a53c7e82591d1d62dc57e908b6",
+            "player_key": "fixture.p.4"
+          },
+          {
+            "actual": {
+              "3PM": 7,
+              "AST": 22,
+              "BLK": 5,
+              "FGA": 76,
+              "FGM": 40,
+              "FTA": 21,
+              "FTM": 15,
+              "PTS": 102,
+              "REB": 41,
+              "STL": 7,
+              "TO": 9
+            },
+            "as_of": "2026-08-03T00:00:00+00:00",
+            "expected": {
+              "3PM": 8.0,
+              "AST": 23.0,
+              "BLK": 4.444444444444445,
+              "FGA": 70.0,
+              "FGM": 35.888888888888886,
+              "FTA": 21.333333333333332,
+              "FTM": 15.666666666666666,
+              "PTS": 95.44444444444444,
+              "REB": 41.33333333333333,
+              "STL": 6.444444444444444,
+              "TO": 10.0
+            },
+            "input_hash": "be7b571a1baeb2b0c93a2a450db0401bd73ec66e454e42aa3a687af69c431d47",
+            "intervals_80": {
+              "3PM": [
+                5,
+                11
+              ],
+              "AST": [
+                16,
+                30
+              ],
+              "BLK": [
+                3,
+                6
+              ],
+              "FGA": [
+                48,
+                95
+              ],
+              "FGM": [
+                26,
+                50
+              ],
+              "FTA": [
+                16,
+                28
+              ],
+              "FTM": [
+                11,
+                20
+              ],
+              "PTS": [
+                69,
+                130
+              ],
+              "REB": [
+                31,
+                52
+              ],
+              "STL": [
+                4,
+                9
+              ],
+              "TO": [
+                7,
+                14
+              ]
+            },
+            "outcome_hash": "804aed484dfae82aa41a39af3c7ffe566daf8e71d33fcf62b0f2304bee85a55d",
+            "player_key": "fixture.p.4"
+          }
+        ],
+        "widths": {
+          "3PM": 1.0,
+          "AST": 1.0,
+          "BLK": 0.5714285714285721,
+          "FGA": 8.571428571428577,
+          "FGM": 5.428571428571431,
+          "FTA": 1.7142857142857153,
+          "FTM": 1.7142857142857153,
+          "PTS": 12.714285714285722,
+          "REB": 1.7142857142857153,
+          "STL": 0.5714285714285721,
+          "TO": 1.0
+        }
+      },
+      "recency": {
+        "calibration_cases": 8,
+        "metrics": {
+          "cases": 8,
+          "per_stat": {
+            "3PM": {
+              "calibrated_coverage_80": 1,
+              "calibrated_half_width": 1.114950098658685,
+              "mae": 1.111638492310822,
+              "n": 8,
+              "raw_coverage_80": 1
+            },
+            "AST": {
+              "calibrated_coverage_80": 1,
+              "calibrated_half_width": 1.114950098658685,
+              "mae": 1.111638492310822,
+              "n": 8,
+              "raw_coverage_80": 1
+            },
+            "BLK": {
+              "calibrated_coverage_80": 1,
+              "calibrated_half_width": 0.5797797693622719,
+              "mae": 0.5547163025253133,
+              "n": 8,
+              "raw_coverage_80": 1
+            },
+            "FGA": {
+              "calibrated_coverage_80": 0.5,
+              "calibrated_half_width": 7.19720209825222,
+              "mae": 7.494876194757098,
+              "n": 8,
+              "raw_coverage_80": 1
+            },
+            "FGM": {
+              "calibrated_coverage_80": 1,
+              "calibrated_half_width": 4.758160587850654,
+              "mae": 3.7704434687032866,
+              "n": 8,
+              "raw_coverage_80": 1
+            },
+            "FTA": {
+              "calibrated_coverage_80": 0.5,
+              "calibrated_half_width": 1.6312675217340065,
+              "mae": 1.042061115660195,
+              "n": 8,
+              "raw_coverage_80": 1
+            },
+            "FTM": {
+              "calibrated_coverage_80": 0.875,
+              "calibrated_half_width": 1.6312675217340065,
+              "mae": 0.8061562428681519,
+              "n": 8,
+              "raw_coverage_80": 1
+            },
+            "PTS": {
+              "calibrated_coverage_80": 1,
+              "calibrated_half_width": 11.285083463649684,
+              "mae": 6.756029494313561,
+              "n": 8,
+              "raw_coverage_80": 1
+            },
+            "REB": {
+              "calibrated_coverage_80": 0.5,
+              "calibrated_half_width": 1.63126752173401,
+              "mae": 1.0420611156601933,
+              "n": 8,
+              "raw_coverage_80": 1
+            },
+            "STL": {
+              "calibrated_coverage_80": 1,
+              "calibrated_half_width": 0.5797797693622719,
+              "mae": 0.5547163025253132,
+              "n": 8,
+              "raw_coverage_80": 1
+            },
+            "TO": {
+              "calibrated_coverage_80": 1,
+              "calibrated_half_width": 1.114950098658685,
+              "mae": 1.111638492310822,
+              "n": 8,
+              "raw_coverage_80": 1
+            }
+          }
+        },
+        "replay": [
+          {
+            "actual": {
+              "3PM": 6,
+              "AST": 15,
+              "BLK": 1,
+              "FGA": 58,
+              "FGM": 29,
+              "FTA": 11,
+              "FTM": 8,
+              "PTS": 72,
+              "REB": 25,
+              "STL": 3,
+              "TO": 8
+            },
+            "as_of": "2026-07-27T00:00:00+00:00",
+            "expected": {
+              "3PM": 4.89167311403704,
+              "AST": 13.89167311403704,
+              "BLK": 1.543213616862945,
+              "FGA": 46.329598773715006,
+              "FGM": 24.25122662058339,
+              "FTA": 12.714786492116755,
+              "FTM": 9.129000054489849,
+              "PTS": 62.523126409693674,
+              "REB": 26.71478649211675,
+              "STL": 3.543213616862945,
+              "TO": 6.89167311403704
+            },
+            "input_hash": "da74f7533ed8fe36ecf399b1152ece00194e90547c8138849d62da7633f1ab67",
+            "intervals_80": {
+              "3PM": [
+                4,
+                6
+              ],
+              "AST": [
+                10,
+                18
+              ],
+              "BLK": [
+                1,
+                2
+              ],
+              "FGA": [
+                34,
+                65
+              ],
+              "FGM": [
+                17,
+                35
+              ],
+              "FTA": [
+                9,
+                18
+              ],
+              "FTM": [
+                7,
+                12
+              ],
+              "PTS": [
+                44,
+                88
+              ],
+              "REB": [
+                20,
+                35
+              ],
+              "STL": [
+                2,
+                5
+              ],
+              "TO": [
+                5,
+                9
+              ]
+            },
+            "outcome_hash": "39ed26bbfb5f647b3247617fddb35ca0395481d73bdbfbddd42ce498bad94dce",
+            "player_key": "fixture.p.1"
+          },
+          {
+            "actual": {
+              "3PM": 4,
+              "AST": 13,
+              "BLK": 2,
+              "FGA": 52,
+              "FGM": 28,
+              "FTA": 12,
+              "FTM": 9,
+              "PTS": 69,
+              "REB": 26,
+              "STL": 4,
+              "TO": 6
+            },
+            "as_of": "2026-08-03T00:00:00+00:00",
+            "expected": {
+              "3PM": 5.114950098658684,
+              "AST": 14.114950098658685,
+              "BLK": 1.4337810118123182,
+              "FGA": 48.6806488367708,
+              "FGM": 25.20788644201004,
+              "FTA": 12.369335739203636,
+              "FTM": 8.901558375507976,
+              "PTS": 64.43228135818674,
+              "REB": 26.369335739203635,
+              "STL": 3.433781011812318,
+              "TO": 7.114950098658684
+            },
+            "input_hash": "be7b571a1baeb2b0c93a2a450db0401bd73ec66e454e42aa3a687af69c431d47",
+            "intervals_80": {
+              "3PM": [
+                4,
+                8
+              ],
+              "AST": [
+                10,
+                19
+              ],
+              "BLK": [
+                1,
+                2
+              ],
+              "FGA": [
+                34,
+                65
+              ],
+              "FGM": [
+                17,
+                35
+              ],
+              "FTA": [
+                9,
+                16
+              ],
+              "FTM": [
+                7,
+                11
+              ],
+              "PTS": [
+                44,
+                89
+              ],
+              "REB": [
+                20,
+                34
+              ],
+              "STL": [
+                2,
+                5
+              ],
+              "TO": [
+                5,
+                10
+              ]
+            },
+            "outcome_hash": "e1ab28c4087546985b41c2264138486b0b89a205d295a5c95d819f711d72d73b",
+            "player_key": "fixture.p.1"
+          },
+          {
+            "actual": {
+              "3PM": 7,
+              "AST": 18,
+              "BLK": 2,
+              "FGA": 66,
+              "FGM": 33,
+              "FTA": 14,
+              "FTM": 10,
+              "PTS": 83,
+              "REB": 30,
+              "STL": 4,
+              "TO": 9
+            },
+            "as_of": "2026-07-27T00:00:00+00:00",
+            "expected": {
+              "3PM": 5.89167311403704,
+              "AST": 16.89167311403704,
+              "BLK": 2.543213616862945,
+              "FGA": 54.329598773715,
+              "FGM": 28.25122662058339,
+              "FTA": 15.714786492116755,
+              "FTM": 11.396579322624184,
+              "PTS": 73.790705677828,
+              "REB": 31.714786492116755,
+              "STL": 4.5432136168629444,
+              "TO": 7.89167311403704
+            },
+            "input_hash": "da74f7533ed8fe36ecf399b1152ece00194e90547c8138849d62da7633f1ab67",
+            "intervals_80": {
+              "3PM": [
+                4,
+                8
+              ],
+              "AST": [
+                12,
+                21
+              ],
+              "BLK": [
+                2,
+                4
+              ],
+              "FGA": [
+                40,
+                75
+              ],
+              "FGM": [
+                20,
+                40
+              ],
+              "FTA": [
+                11,
+                21
+              ],
+              "FTM": [
+                8,
+                15
+              ],
+              "PTS": [
+                53,
+                103
+              ],
+              "REB": [
+                23,
+                41
+              ],
+              "STL": [
+                3,
+                6
+              ],
+              "TO": [
+                5,
+                10
+              ]
+            },
+            "outcome_hash": "036507e615a99f9a2f835188e8c6145f36470b4ab5a314779da1e10fc760bc25",
+            "player_key": "fixture.p.2"
+          },
+          {
+            "actual": {
+              "3PM": 5,
+              "AST": 16,
+              "BLK": 3,
+              "FGA": 60,
+              "FGM": 32,
+              "FTA": 15,
+              "FTM": 11,
+              "PTS": 80,
+              "REB": 31,
+              "STL": 5,
+              "TO": 7
+            },
+            "as_of": "2026-08-03T00:00:00+00:00",
+            "expected": {
+              "3PM": 6.114950098658684,
+              "AST": 17.114950098658685,
+              "BLK": 2.433781011812318,
+              "FGA": 56.6806488367708,
+              "FGM": 29.207886442010036,
+              "FTA": 15.369335739203636,
+              "FTM": 11.115232705583903,
+              "PTS": 75.64595568826266,
+              "REB": 31.369335739203635,
+              "STL": 4.433781011812318,
+              "TO": 8.114950098658685
+            },
+            "input_hash": "be7b571a1baeb2b0c93a2a450db0401bd73ec66e454e42aa3a687af69c431d47",
+            "intervals_80": {
+              "3PM": [
+                4,
+                9
+              ],
+              "AST": [
+                12,
+                22
+              ],
+              "BLK": [
+                2,
+                4
+              ],
+              "FGA": [
+                40,
+                75
+              ],
+              "FGM": [
+                20,
+                40
+              ],
+              "FTA": [
+                10,
+                20
+              ],
+              "FTM": [
+                8,
+                15
+              ],
+              "PTS": [
+                53,
+                103
+              ],
+              "REB": [
+                22,
+                40
+              ],
+              "STL": [
+                3,
+                6
+              ],
+              "TO": [
+                5,
+                11
+              ]
+            },
+            "outcome_hash": "bc834e4ee9db95dd477670aec21b1b73e543ac69d9953743528851fc06706a29",
+            "player_key": "fixture.p.2"
+          },
+          {
+            "actual": {
+              "3PM": 8,
+              "AST": 21,
+              "BLK": 3,
+              "FGA": 74,
+              "FGM": 37,
+              "FTA": 17,
+              "FTM": 12,
+              "PTS": 94,
+              "REB": 35,
+              "STL": 5,
+              "TO": 10
+            },
+            "as_of": "2026-07-27T00:00:00+00:00",
+            "expected": {
+              "3PM": 6.89167311403704,
+              "AST": 19.89167311403704,
+              "BLK": 3.543213616862945,
+              "FGA": 62.329598773715006,
+              "FGM": 32.25122662058339,
+              "FTA": 18.714786492116755,
+              "FTM": 13.714786492116755,
+              "PTS": 85.10891284732058,
+              "REB": 36.71478649211675,
+              "STL": 5.5432136168629444,
+              "TO": 8.89167311403704
+            },
+            "input_hash": "da74f7533ed8fe36ecf399b1152ece00194e90547c8138849d62da7633f1ab67",
+            "intervals_80": {
+              "3PM": [
+                5,
+                9
+              ],
+              "AST": [
+                15,
+                25
+              ],
+              "BLK": [
+                2,
+                5
+              ],
+              "FGA": [
+                46,
+                85
+              ],
+              "FGM": [
+                23,
+                45
+              ],
+              "FTA": [
+                14,
+                25
+              ],
+              "FTM": [
+                10,
+                19
+              ],
+              "PTS": [
+                60,
+                116
+              ],
+              "REB": [
+                27,
+                48
+              ],
+              "STL": [
+                4,
+                8
+              ],
+              "TO": [
+                7,
+                11
+              ]
+            },
+            "outcome_hash": "126cdfae33d78021a05e886f7c61560dacf134ce4b3b7f49f761c3b29269af94",
+            "player_key": "fixture.p.3"
+          },
+          {
+            "actual": {
+              "3PM": 6,
+              "AST": 19,
+              "BLK": 4,
+              "FGA": 68,
+              "FGM": 36,
+              "FTA": 18,
+              "FTM": 13,
+              "PTS": 91,
+              "REB": 36,
+              "STL": 6,
+              "TO": 8
+            },
+            "as_of": "2026-08-03T00:00:00+00:00",
+            "expected": {
+              "3PM": 7.114950098658684,
+              "AST": 20.114950098658685,
+              "BLK": 3.433781011812318,
+              "FGA": 64.6806488367708,
+              "FGM": 33.207886442010036,
+              "FTA": 18.369335739203635,
+              "FTM": 13.369335739203636,
+              "PTS": 86.9000587218824,
+              "REB": 36.369335739203635,
+              "STL": 5.433781011812318,
+              "TO": 9.114950098658683
+            },
+            "input_hash": "be7b571a1baeb2b0c93a2a450db0401bd73ec66e454e42aa3a687af69c431d47",
+            "intervals_80": {
+              "3PM": [
+                5,
+                10
+              ],
+              "AST": [
+                15,
+                26
+              ],
+              "BLK": [
+                2,
+                5
+              ],
+              "FGA": [
+                46,
+                85
+              ],
+              "FGM": [
+                23,
+                45
+              ],
+              "FTA": [
+                14,
+                24
+              ],
+              "FTM": [
+                10,
+                18
+              ],
+              "PTS": [
+                60,
+                117
+              ],
+              "REB": [
+                27,
+                46
+              ],
+              "STL": [
+                4,
+                8
+              ],
+              "TO": [
+                7,
+                12
+              ]
+            },
+            "outcome_hash": "98405baf1cdf483151e8f7bea9a526352ceccf05b27daacf71dc8482bf356f07",
+            "player_key": "fixture.p.3"
+          },
+          {
+            "actual": {
+              "3PM": 9,
+              "AST": 24,
+              "BLK": 4,
+              "FGA": 82,
+              "FGM": 41,
+              "FTA": 20,
+              "FTM": 15,
+              "PTS": 106,
+              "REB": 40,
+              "STL": 6,
+              "TO": 11
+            },
+            "as_of": "2026-07-27T00:00:00+00:00",
+            "expected": {
+              "3PM": 7.89167311403704,
+              "AST": 22.89167311403704,
+              "BLK": 4.5432136168629444,
+              "FGA": 70.329598773715,
+              "FGM": 36.25122662058339,
+              "FTA": 21.714786492116755,
+              "FTM": 15.903993607119475,
+              "PTS": 96.2981199623233,
+              "REB": 41.71478649211675,
+              "STL": 6.5432136168629444,
+              "TO": 9.89167311403704
+            },
+            "input_hash": "da74f7533ed8fe36ecf399b1152ece00194e90547c8138849d62da7633f1ab67",
+            "intervals_80": {
+              "3PM": [
+                5,
+                10
+              ],
+              "AST": [
+                16,
+                29
+              ],
+              "BLK": [
+                3,
+                6
+              ],
+              "FGA": [
+                48,
+                88
+              ],
+              "FGM": [
+                26,
+                44
+              ],
+              "FTA": [
+                16,
+                29
+              ],
+              "FTM": [
+                11,
+                21
+              ],
+              "PTS": [
+                69,
+                119
+              ],
+              "REB": [
+                31,
+                54
+              ],
+              "STL": [
+                4,
+                9
+              ],
+              "TO": [
+                7,
+                12
+              ]
+            },
+            "outcome_hash": "a2041e433c084d4a9498aeb447d390e066eaa4a53c7e82591d1d62dc57e908b6",
+            "player_key": "fixture.p.4"
+          },
+          {
+            "actual": {
+              "3PM": 7,
+              "AST": 22,
+              "BLK": 5,
+              "FGA": 76,
+              "FGM": 40,
+              "FTA": 21,
+              "FTM": 15,
+              "PTS": 102,
+              "REB": 41,
+              "STL": 7,
+              "TO": 9
+            },
+            "as_of": "2026-08-03T00:00:00+00:00",
+            "expected": {
+              "3PM": 8.114950098658685,
+              "AST": 23.11495009865868,
+              "BLK": 4.433781011812318,
+              "FGA": 72.6806488367708,
+              "FGM": 37.207886442010036,
+              "FTA": 21.369335739203635,
+              "FTM": 15.72188039731539,
+              "PTS": 98.25260337999416,
+              "REB": 41.369335739203635,
+              "STL": 6.433781011812318,
+              "TO": 10.114950098658683
+            },
+            "input_hash": "be7b571a1baeb2b0c93a2a450db0401bd73ec66e454e42aa3a687af69c431d47",
+            "intervals_80": {
+              "3PM": [
+                5,
+                11
+              ],
+              "AST": [
+                16,
+                30
+              ],
+              "BLK": [
+                3,
+                6
+              ],
+              "FGA": [
+                52,
+                95
+              ],
+              "FGM": [
+                26,
+                50
+              ],
+              "FTA": [
+                15,
+                28
+              ],
+              "FTM": [
+                11,
+                20
+              ],
+              "PTS": [
+                69,
+                131
+              ],
+              "REB": [
+                30,
+                52
+              ],
+              "STL": [
+                4,
+                9
+              ],
+              "TO": [
+                7,
+                14
+              ]
+            },
+            "outcome_hash": "804aed484dfae82aa41a39af3c7ffe566daf8e71d33fcf62b0f2304bee85a55d",
+            "player_key": "fixture.p.4"
+          }
+        ],
+        "widths": {
+          "3PM": 1.114950098658685,
+          "AST": 1.114950098658685,
+          "BLK": 0.5797797693622719,
+          "FGA": 7.19720209825222,
+          "FGM": 4.758160587850654,
+          "FTA": 1.6312675217340065,
+          "FTM": 1.6312675217340065,
+          "PTS": 11.285083463649684,
+          "REB": 1.63126752173401,
+          "STL": 0.5797797693622719,
+          "TO": 1.114950098658685
+        }
+      },
+      "shrinkage": {
+        "calibration_cases": 8,
+        "metrics": {
+          "cases": 8,
+          "per_stat": {
+            "3PM": {
+              "calibrated_coverage_80": 1,
+              "calibrated_half_width": 1.6158970448690964,
+              "mae": 1.1014672514236432,
+              "n": 8,
+              "raw_coverage_80": 1
+            },
+            "AST": {
+              "calibrated_coverage_80": 1,
+              "calibrated_half_width": 2.6788862969922587,
+              "mae": 1.2003323878094945,
+              "n": 8,
+              "raw_coverage_80": 1
+            },
+            "BLK": {
+              "calibrated_coverage_80": 1,
+              "calibrated_half_width": 1.0632243403568564,
+              "mae": 0.5487672767541174,
+              "n": 8,
+              "raw_coverage_80": 1
+            },
+            "FGA": {
+              "calibrated_coverage_80": 0.75,
+              "calibrated_half_width": 11.400345861613872,
+              "mae": 7.980153178980167,
+              "n": 8,
+              "raw_coverage_80": 1
+            },
+            "FGM": {
+              "calibrated_coverage_80": 1,
+              "calibrated_half_width": 6.855691853902826,
+              "mae": 4.0205139825115435,
+              "n": 8,
+              "raw_coverage_80": 1
+            },
+            "FTA": {
+              "calibrated_coverage_80": 1,
+              "calibrated_half_width": 3.1028610927003264,
+              "mae": 1.2521912527235184,
+              "n": 8,
+              "raw_coverage_80": 1
+            },
+            "FTM": {
+              "calibrated_coverage_80": 1,
+              "calibrated_half_width": 2.4830488055807454,
+              "mae": 0.8558442031762856,
+              "n": 8,
+              "raw_coverage_80": 1
+            },
+            "PTS": {
+              "calibrated_coverage_80": 1,
+              "calibrated_half_width": 16.817061186406875,
+              "mae": 7.2909124850757845,
+              "n": 8,
+              "raw_coverage_80": 1
+            },
+            "REB": {
+              "calibrated_coverage_80": 1,
+              "calibrated_half_width": 4.0705343919636405,
+              "mae": 1.6738587898952364,
+              "n": 8,
+              "raw_coverage_80": 1
+            },
+            "STL": {
+              "calibrated_coverage_80": 1,
+              "calibrated_half_width": 1.0632243403568564,
+              "mae": 0.5487672767541174,
+              "n": 8,
+              "raw_coverage_80": 1
+            },
+            "TO": {
+              "calibrated_coverage_80": 1,
+              "calibrated_half_width": 1.6158970448690964,
+              "mae": 1.1014672514236437,
+              "n": 8,
+              "raw_coverage_80": 1
+            }
+          }
+        },
+        "replay": [
+          {
+            "actual": {
+              "3PM": 6,
+              "AST": 15,
+              "BLK": 1,
+              "FGA": 58,
+              "FGM": 29,
+              "FTA": 11,
+              "FTM": 8,
+              "PTS": 72,
+              "REB": 25,
+              "STL": 3,
+              "TO": 8
+            },
+            "as_of": "2026-07-27T00:00:00+00:00",
+            "expected": {
+              "3PM": 5.335258455254355,
+              "AST": 15.2298872617447,
+              "BLK": 1.9808629834885614,
+              "FGA": 49.498911057855175,
+              "FGM": 25.816552689414365,
+              "FTA": 14.008691156079108,
+              "FTM": 10.106605670595128,
+              "PTS": 67.07496950467821,
+              "REB": 28.903319962569455,
+              "STL": 3.9808629834885614,
+              "TO": 7.335258455254355
+            },
+            "input_hash": "da74f7533ed8fe36ecf399b1152ece00194e90547c8138849d62da7633f1ab67",
+            "intervals_80": {
+              "3PM": [
+                4,
+                8
+              ],
+              "AST": [
+                10,
+                21
+              ],
+              "BLK": [
+                1,
+                4
+              ],
+              "FGA": [
+                34,
+                68
+              ],
+              "FGM": [
+                17,
+                35
+              ],
+              "FTA": [
+                9,
+                20
+              ],
+              "FTM": [
+                7,
+                15
+              ],
+              "PTS": [
+                44,
+                89
+              ],
+              "REB": [
+                20,
+                40
+              ],
+              "STL": [
+                2,
+                5
+              ],
+              "TO": [
+                5,
+                10
+              ]
+            },
+            "outcome_hash": "39ed26bbfb5f647b3247617fddb35ca0395481d73bdbfbddd42ce498bad94dce",
+            "player_key": "fixture.p.1"
+          },
+          {
+            "actual": {
+              "3PM": 4,
+              "AST": 13,
+              "BLK": 2,
+              "FGA": 52,
+              "FGM": 28,
+              "FTA": 12,
+              "FTM": 9,
+              "PTS": 69,
+              "REB": 26,
+              "STL": 4,
+              "TO": 6
+            },
+            "as_of": "2026-08-03T00:00:00+00:00",
+            "expected": {
+              "3PM": 5.509695834408192,
+              "AST": 15.347330393511639,
+              "BLK": 1.8548313062868769,
+              "FGA": 51.46983604655967,
+              "FGM": 26.60694607675014,
+              "FTA": 13.618248363016848,
+              "FTM": 9.837366216766167,
+              "PTS": 68.56095420467464,
+              "REB": 28.455882922120296,
+              "STL": 3.8548313062868766,
+              "TO": 7.509695834408192
+            },
+            "input_hash": "be7b571a1baeb2b0c93a2a450db0401bd73ec66e454e42aa3a687af69c431d47",
+            "intervals_80": {
+              "3PM": [
+                4,
+                8
+              ],
+              "AST": [
+                10,
+                21
+              ],
+              "BLK": [
+                1,
+                4
+              ],
+              "FGA": [
+                34,
+                72
+              ],
+              "FGM": [
+                17,
+                36
+              ],
+              "FTA": [
+                9,
+                18
+              ],
+              "FTM": [
+                7,
+                13
+              ],
+              "PTS": [
+                44,
+                90
+              ],
+              "REB": [
+                20,
+                38
+              ],
+              "STL": [
+                2,
+                5
+              ],
+              "TO": [
+                5,
+                10
+              ]
+            },
+            "outcome_hash": "e1ab28c4087546985b41c2264138486b0b89a205d295a5c95d819f711d72d73b",
+            "player_key": "fixture.p.1"
+          },
+          {
+            "actual": {
+              "3PM": 7,
+              "AST": 18,
+              "BLK": 2,
+              "FGA": 66,
+              "FGM": 33,
+              "FTA": 14,
+              "FTM": 10,
+              "PTS": 83,
+              "REB": 30,
+              "STL": 4,
+              "TO": 9
+            },
+            "as_of": "2026-07-27T00:00:00+00:00",
+            "expected": {
+              "3PM": 6.037048853090906,
+              "AST": 17.335258455254355,
+              "BLK": 2.6826533813251126,
+              "FGA": 55.113234240547584,
+              "FGM": 28.623714280760566,
+              "FTA": 16.114062349588764,
+              "FTM": 11.699281603944204,
+              "PTS": 74.98375901855624,
+              "REB": 32.41227195175221,
+              "STL": 4.682653381325112,
+              "TO": 8.037048853090905
+            },
+            "input_hash": "da74f7533ed8fe36ecf399b1152ece00194e90547c8138849d62da7633f1ab67",
+            "intervals_80": {
+              "3PM": [
+                4,
+                8
+              ],
+              "AST": [
+                12,
+                21
+              ],
+              "BLK": [
+                2,
+                4
+              ],
+              "FGA": [
+                36,
+                75
+              ],
+              "FGM": [
+                20,
+                40
+              ],
+              "FTA": [
+                11,
+                21
+              ],
+              "FTM": [
+                8,
+                15
+              ],
+              "PTS": [
+                52,
+                103
+              ],
+              "REB": [
+                23,
+                41
+              ],
+              "STL": [
+                3,
+                6
+              ],
+              "TO": [
+                5,
+                10
+              ]
+            },
+            "outcome_hash": "036507e615a99f9a2f835188e8c6145f36470b4ab5a314779da1e10fc760bc25",
+            "player_key": "fixture.p.2"
+          },
+          {
+            "actual": {
+              "3PM": 5,
+              "AST": 16,
+              "BLK": 3,
+              "FGA": 60,
+              "FGM": 32,
+              "FTA": 15,
+              "FTM": 11,
+              "PTS": 80,
+              "REB": 31,
+              "STL": 5,
+              "TO": 7
+            },
+            "as_of": "2026-08-03T00:00:00+00:00",
+            "expected": {
+              "3PM": 6.230484314707042,
+              "AST": 17.50969583440819,
+              "BLK": 2.5756197865857278,
+              "FGA": 57.23614388895047,
+              "FGM": 29.490099997945542,
+              "FTA": 15.7806138039134,
+              "FTM": 11.432360505529068,
+              "PTS": 76.6430448161272,
+              "REB": 32.05982532361455,
+              "STL": 4.575619786585728,
+              "TO": 8.230484314707043
+            },
+            "input_hash": "be7b571a1baeb2b0c93a2a450db0401bd73ec66e454e42aa3a687af69c431d47",
+            "intervals_80": {
+              "3PM": [
+                4,
+                9
+              ],
+              "AST": [
+                12,
+                22
+              ],
+              "BLK": [
+                2,
+                4
+              ],
+              "FGA": [
+                40,
+                75
+              ],
+              "FGM": [
+                20,
+                40
+              ],
+              "FTA": [
+                10,
+                21
+              ],
+              "FTM": [
+                8,
+                15
+              ],
+              "PTS": [
+                53,
+                103
+              ],
+              "REB": [
+                22,
+                41
+              ],
+              "STL": [
+                3,
+                6
+              ],
+              "TO": [
+                6,
+                11
+              ]
+            },
+            "outcome_hash": "bc834e4ee9db95dd477670aec21b1b73e543ac69d9953743528851fc06706a29",
+            "player_key": "fixture.p.2"
+          },
+          {
+            "actual": {
+              "3PM": 8,
+              "AST": 21,
+              "BLK": 3,
+              "FGA": 74,
+              "FGM": 37,
+              "FTA": 17,
+              "FTM": 12,
+              "PTS": 94,
+              "REB": 35,
+              "STL": 5,
+              "TO": 10
+            },
+            "as_of": "2026-07-27T00:00:00+00:00",
+            "expected": {
+              "3PM": 6.738839250927457,
+              "AST": 19.440629648764006,
+              "BLK": 3.3844437791616633,
+              "FGA": 60.72755742323999,
+              "FGM": 31.43087587210677,
+              "FTA": 18.219433543098415,
+              "FTM": 13.331262143909708,
+              "PTS": 82.93185313905072,
+              "REB": 35.921223940934965,
+              "STL": 5.384443779161663,
+              "TO": 8.738839250927457
+            },
+            "input_hash": "da74f7533ed8fe36ecf399b1152ece00194e90547c8138849d62da7633f1ab67",
+            "intervals_80": {
+              "3PM": [
+                5,
+                9
+              ],
+              "AST": [
+                14,
+                26
+              ],
+              "BLK": [
+                2,
+                5
+              ],
+              "FGA": [
+                45,
+                80
+              ],
+              "FGM": [
+                23,
+                42
+              ],
+              "FTA": [
+                14,
+                25
+              ],
+              "FTM": [
+                10,
+                19
+              ],
+              "PTS": [
+                59,
+                114
+              ],
+              "REB": [
+                27,
+                48
+              ],
+              "STL": [
+                4,
+                8
+              ],
+              "TO": [
+                7,
+                11
+              ]
+            },
+            "outcome_hash": "126cdfae33d78021a05e886f7c61560dacf134ce4b3b7f49f761c3b29269af94",
+            "player_key": "fixture.p.3"
+          },
+          {
+            "actual": {
+              "3PM": 6,
+              "AST": 19,
+              "BLK": 4,
+              "FGA": 68,
+              "FGM": 36,
+              "FTA": 18,
+              "FTM": 13,
+              "PTS": 91,
+              "REB": 36,
+              "STL": 6,
+              "TO": 8
+            },
+            "as_of": "2026-08-03T00:00:00+00:00",
+            "expected": {
+              "3PM": 6.9512727950058935,
+              "AST": 19.672061275304742,
+              "BLK": 3.2964082668845784,
+              "FGA": 63.00245173134128,
+              "FGM": 32.37325391914094,
+              "FTA": 17.94297924480995,
+              "FTM": 13.059317378018765,
+              "PTS": 84.75709801130655,
+              "REB": 35.663767725108805,
+              "STL": 5.296408266884578,
+              "TO": 8.951272795005893
+            },
+            "input_hash": "be7b571a1baeb2b0c93a2a450db0401bd73ec66e454e42aa3a687af69c431d47",
+            "intervals_80": {
+              "3PM": [
+                4,
+                10
+              ],
+              "AST": [
+                14,
+                26
+              ],
+              "BLK": [
+                2,
+                5
+              ],
+              "FGA": [
+                46,
+                85
+              ],
+              "FGM": [
+                23,
+                45
+              ],
+              "FTA": [
+                13,
+                24
+              ],
+              "FTM": [
+                9,
+                18
+              ],
+              "PTS": [
+                60,
+                117
+              ],
+              "REB": [
+                26,
+                46
+              ],
+              "STL": [
+                4,
+                8
+              ],
+              "TO": [
+                6,
+                12
+              ]
+            },
+            "outcome_hash": "98405baf1cdf483151e8f7bea9a526352ceccf05b27daacf71dc8482bf356f07",
+            "player_key": "fixture.p.3"
+          },
+          {
+            "actual": {
+              "3PM": 9,
+              "AST": 24,
+              "BLK": 4,
+              "FGA": 82,
+              "FGM": 41,
+              "FTA": 20,
+              "FTM": 15,
+              "PTS": 106,
+              "REB": 40,
+              "STL": 6,
+              "TO": 11
+            },
+            "as_of": "2026-07-27T00:00:00+00:00",
+            "expected": {
+              "3PM": 7.440629648764008,
+              "AST": 21.54600084227366,
+              "BLK": 4.0862341769982145,
+              "FGA": 66.3418806059324,
+              "FGM": 34.238037463452976,
+              "FTA": 20.32480473660807,
+              "FTM": 14.863094420581724,
+              "PTS": 90.77979899625169,
+              "REB": 39.43017593011772,
+              "STL": 6.0862341769982145,
+              "TO": 9.440629648764007
+            },
+            "input_hash": "da74f7533ed8fe36ecf399b1152ece00194e90547c8138849d62da7633f1ab67",
+            "intervals_80": {
+              "3PM": [
+                5,
+                10
+              ],
+              "AST": [
+                15,
+                29
+              ],
+              "BLK": [
+                2,
+                6
+              ],
+              "FGA": [
+                46,
+                88
+              ],
+              "FGM": [
+                23,
+                44
+              ],
+              "FTA": [
+                14,
+                28
+              ],
+              "FTM": [
+                10,
+                20
+              ],
+              "PTS": [
+                61,
+                117
+              ],
+              "REB": [
+                28,
+                52
+              ],
+              "STL": [
+                4,
+                9
+              ],
+              "TO": [
+                7,
+                12
+              ]
+            },
+            "outcome_hash": "a2041e433c084d4a9498aeb447d390e066eaa4a53c7e82591d1d62dc57e908b6",
+            "player_key": "fixture.p.4"
+          },
+          {
+            "actual": {
+              "3PM": 7,
+              "AST": 22,
+              "BLK": 5,
+              "FGA": 76,
+              "FGM": 40,
+              "FTA": 21,
+              "FTM": 15,
+              "PTS": 102,
+              "REB": 41,
+              "STL": 7,
+              "TO": 9
+            },
+            "as_of": "2026-08-03T00:00:00+00:00",
+            "expected": {
+              "3PM": 7.672061275304744,
+              "AST": 21.834426716201296,
+              "BLK": 4.017196747183429,
+              "FGA": 68.76875957373208,
+              "FGM": 35.25640784033635,
+              "FTA": 20.105344685706505,
+              "FTM": 14.75634547277103,
+              "PTS": 92.94122242874847,
+              "REB": 39.267710126603056,
+              "STL": 6.017196747183429,
+              "TO": 9.672061275304744
+            },
+            "input_hash": "be7b571a1baeb2b0c93a2a450db0401bd73ec66e454e42aa3a687af69c431d47",
+            "intervals_80": {
+              "3PM": [
+                5,
+                10
+              ],
+              "AST": [
+                16,
+                29
+              ],
+              "BLK": [
+                2,
+                5
+              ],
+              "FGA": [
+                46,
+                88
+              ],
+              "FGM": [
+                23,
+                44
+              ],
+              "FTA": [
+                14,
+                26
+              ],
+              "FTM": [
+                10,
+                19
+              ],
+              "PTS": [
+                61,
+                117
+              ],
+              "REB": [
+                28,
+                51
+              ],
+              "STL": [
+                4,
+                8
+              ],
+              "TO": [
+                7,
+                12
+              ]
+            },
+            "outcome_hash": "804aed484dfae82aa41a39af3c7ffe566daf8e71d33fcf62b0f2304bee85a55d",
+            "player_key": "fixture.p.4"
+          }
+        ],
+        "widths": {
+          "3PM": 1.6158970448690964,
+          "AST": 2.6788862969922587,
+          "BLK": 1.0632243403568564,
+          "FGA": 11.400345861613872,
+          "FGM": 6.855691853902826,
+          "FTA": 3.1028610927003264,
+          "FTM": 2.4830488055807454,
+          "PTS": 16.817061186406875,
+          "REB": 4.0705343919636405,
+          "STL": 1.0632243403568564,
+          "TO": 1.6158970448690964
+        }
+      }
+    },
+    "plan": {
+      "calibration_end": "2026-07-27T00:00:00+00:00",
+      "holdout_end": "2026-08-24T00:00:00+00:00",
+      "training_cutoff": "2026-07-13T00:00:00+00:00",
+      "validation_end": "2026-08-10T00:00:00+00:00"
+    },
+    "probability_calibration": null,
+    "probability_calibration_reason": "No verified matchup/breakout outcomes.",
+    "scope": "weekly forecasting only",
+    "split": "validation",
+    "synthetic": true
+  },
+  "nba_identity_evidence": {
+    "players_on_multiple_nba_teams_2025_2026": [
+      [
+        1629646,
+        6
+      ],
+      [
+        203471,
+        5
+      ],
+      [
+        203937,
+        5
+      ],
+      [
+        1631223,
+        5
+      ],
+      [
+        1626145,
+        4
+      ]
+    ],
+    "team_season_game_coverage": [
+      [
+        "2009-10",
+        30,
+        1230
+      ],
+      [
+        "2010-11",
+        30,
+        1230
+      ],
+      [
+        "2011-12",
+        30,
+        990
+      ],
+      [
+        "2012-13",
+        30,
+        1229
+      ],
+      [
+        "2013-14",
+        30,
+        1230
+      ],
+      [
+        "2014-15",
+        30,
+        1230
+      ],
+      [
+        "2015-16",
+        30,
+        1230
+      ],
+      [
+        "2016-17",
+        30,
+        1230
+      ],
+      [
+        "2017-18",
+        30,
+        1230
+      ],
+      [
+        "2018-19",
+        30,
+        1230
+      ],
+      [
+        "2019-20",
+        30,
+        1059
+      ],
+      [
+        "2020-21",
+        30,
+        1080
+      ],
+      [
+        "2021-22",
+        30,
+        1230
+      ],
+      [
+        "2022-23",
+        30,
+        1230
+      ],
+      [
+        "2023-24",
+        30,
+        1230
+      ],
+      [
+        "2024-25",
+        30,
+        1230
+      ],
+      [
+        "2025-26",
+        43,
+        1401
+      ]
+    ]
+  },
+  "nba_manifest_sha256": "9d2f26ec1d229d4ad5d6eac8781babbc01ce3d96b2c344beb3203fc8a21f1c18",
+  "rolling_origin": {
+    "evaluation": "time-ordered rolling origins; completed weekly targets",
+    "limitations": [
+      "Toy windows are not evidence of real-world calibration.",
+      "Coverage SE assumes independent cases; shared players violate this.",
+      "Threshold Brier is a diagnostic, not a fitted calibration curve."
+    ],
+    "models": {
+      "long_run": {
+        "forecast_cases": 40,
+        "per_stat": {
+          "3PM": {
+            "coverage_80": 1,
+            "coverage_binomial_se": 0.0,
+            "mae": 0.8408766233766233,
+            "mean_probability_mc_se": 0.030722887732108475,
+            "n": 40,
+            "threshold_brier": 0.213665771484375
+          },
+          "AST": {
+            "coverage_80": 1,
+            "coverage_binomial_se": 0.0,
+            "mae": 0.8408766233766232,
+            "mean_probability_mc_se": 0.030989359195834135,
+            "n": 40,
+            "threshold_brier": 0.22385711669921876
+          },
+          "BLK": {
+            "coverage_80": 1,
+            "coverage_binomial_se": 0.0,
+            "mae": 0.5439105339105339,
+            "mean_probability_mc_se": 0.03025525745651997,
+            "n": 40,
+            "threshold_brier": 0.2888397216796875
+          },
+          "FGA": {
+            "coverage_80": 1,
+            "coverage_binomial_se": 0.0,
+            "mae": 8.463506493506493,
+            "mean_probability_mc_se": 0.030746397627441635,
+            "n": 40,
+            "threshold_brier": 0.2859844207763672
+          },
+          "FGM": {
+            "coverage_80": 1,
+            "coverage_binomial_se": 0.0,
+            "mae": 4.319574314574315,
+            "mean_probability_mc_se": 0.030700354338732097,
+            "n": 40,
+            "threshold_brier": 0.29057960510253905
+          },
+          "FTA": {
+            "coverage_80": 1,
+            "coverage_binomial_se": 0.0,
+            "mae": 1.191731601731602,
+            "mean_probability_mc_se": 0.030968631084073998,
+            "n": 40,
+            "threshold_brier": 0.2701900482177734
+          },
+          "FTM": {
+            "coverage_80": 1,
+            "coverage_binomial_se": 0.0,
+            "mae": 0.9093542568542569,
+            "mean_probability_mc_se": 0.03086221886526368,
+            "n": 40,
+            "threshold_brier": 0.25748367309570314
+          },
+          "PTS": {
+            "coverage_80": 1,
+            "coverage_binomial_se": 0.0,
+            "mae": 9.243823953823954,
+            "mean_probability_mc_se": 0.030792605382795064,
+            "n": 40,
+            "threshold_brier": 0.2801616668701172
+          },
+          "REB": {
+            "coverage_80": 1,
+            "coverage_binomial_se": 0.0,
+            "mae": 1.1917316017316018,
+            "mean_probability_mc_se": 0.030968631084073998,
+            "n": 40,
+            "threshold_brier": 0.2701900482177734
+          },
+          "STL": {
+            "coverage_80": 1,
+            "coverage_binomial_se": 0.0,
+            "mae": 0.543910533910534,
+            "mean_probability_mc_se": 0.03108102095249957,
+            "n": 40,
+            "threshold_brier": 0.25972137451171873
+          },
+          "TO": {
+            "coverage_80": 1,
+            "coverage_binomial_se": 0.0,
+            "mae": 0.8408766233766233,
+            "mean_probability_mc_se": 0.030989359195834135,
+            "n": 40,
+            "threshold_brier": 0.22385711669921876
+          }
+        }
+      },
+      "recency": {
+        "forecast_cases": 40,
+        "per_stat": {
+          "3PM": {
+            "coverage_80": 1,
+            "coverage_binomial_se": 0.0,
+            "mae": 0.8643568831339975,
+            "mean_probability_mc_se": 0.03087680221081752,
+            "n": 40,
+            "threshold_brier": 0.21708641052246094
+          },
+          "AST": {
+            "coverage_80": 1,
+            "coverage_binomial_se": 0.0,
+            "mae": 0.864356883133998,
+            "mean_probability_mc_se": 0.031058318237088458,
+            "n": 40,
+            "threshold_brier": 0.22628936767578126
+          },
+          "BLK": {
+            "coverage_80": 1,
+            "coverage_binomial_se": 0.0,
+            "mae": 0.5696263565080103,
+            "mean_probability_mc_se": 0.0303177218470996,
+            "n": 40,
+            "threshold_brier": 0.29994926452636717
+          },
+          "FGA": {
+            "coverage_80": 1,
+            "coverage_binomial_se": 0.0,
+            "mae": 7.04403363372864,
+            "mean_probability_mc_se": 0.03091997216900317,
+            "n": 40,
+            "threshold_brier": 0.27134132385253906
+          },
+          "FGM": {
+            "coverage_80": 1,
+            "coverage_binomial_se": 0.0,
+            "mae": 3.568396814404875,
+            "mean_probability_mc_se": 0.030698101794949334,
+            "n": 40,
+            "threshold_brier": 0.25084915161132815
+          },
+          "FTA": {
+            "coverage_80": 1,
+            "coverage_binomial_se": 0.0,
+            "mae": 1.2104962612128167,
+            "mean_probability_mc_se": 0.031024289399833295,
+            "n": 40,
+            "threshold_brier": 0.2721412658691406
+          },
+          "FTM": {
+            "coverage_80": 1,
+            "coverage_binomial_se": 0.0,
+            "mae": 0.9218414187730012,
+            "mean_probability_mc_se": 0.030913117211957514,
+            "n": 40,
+            "threshold_brier": 0.2570709228515625
+          },
+          "PTS": {
+            "coverage_80": 1,
+            "coverage_binomial_se": 0.0,
+            "mae": 7.734197310026764,
+            "mean_probability_mc_se": 0.03084182034008008,
+            "n": 40,
+            "threshold_brier": 0.24608154296875
+          },
+          "REB": {
+            "coverage_80": 1,
+            "coverage_binomial_se": 0.0,
+            "mae": 1.2104962612128163,
+            "mean_probability_mc_se": 0.031024289399833295,
+            "n": 40,
+            "threshold_brier": 0.2721412658691406
+          },
+          "STL": {
+            "coverage_80": 1,
+            "coverage_binomial_se": 0.0,
+            "mae": 0.5696263565080102,
+            "mean_probability_mc_se": 0.031074491911319124,
+            "n": 40,
+            "threshold_brier": 0.26705093383789064
+          },
+          "TO": {
+            "coverage_80": 1,
+            "coverage_binomial_se": 0.0,
+            "mae": 0.8643568831339975,
+            "mean_probability_mc_se": 0.031058318237088458,
+            "n": 40,
+            "threshold_brier": 0.22628936767578126
+          }
+        }
+      },
+      "shrinkage": {
+        "forecast_cases": 40,
+        "per_stat": {
+          "3PM": {
+            "coverage_80": 1,
+            "coverage_binomial_se": 0.0,
+            "mae": 0.9149321102273529,
+            "mean_probability_mc_se": 0.030618961078547773,
+            "n": 40,
+            "threshold_brier": 0.265069580078125
+          },
+          "AST": {
+            "coverage_80": 1,
+            "coverage_binomial_se": 0.0,
+            "mae": 1.345216799376477,
+            "mean_probability_mc_se": 0.030964592135669704,
+            "n": 40,
+            "threshold_brier": 0.2321636199951172
+          },
+          "BLK": {
+            "coverage_80": 1,
+            "coverage_binomial_se": 0.0,
+            "mae": 0.6009088808953502,
+            "mean_probability_mc_se": 0.0301013657718355,
+            "n": 40,
+            "threshold_brier": 0.24704971313476562
+          },
+          "FGA": {
+            "coverage_80": 1,
+            "coverage_binomial_se": 0.0,
+            "mae": 7.860607727891968,
+            "mean_probability_mc_se": 0.03105231661753831,
+            "n": 40,
+            "threshold_brier": 0.2720817565917969
+          },
+          "FGM": {
+            "coverage_80": 1,
+            "coverage_binomial_se": 0.0,
+            "mae": 4.035057243351497,
+            "mean_probability_mc_se": 0.03095592345864646,
+            "n": 40,
+            "threshold_brier": 0.2713481903076172
+          },
+          "FTA": {
+            "coverage_80": 1,
+            "coverage_binomial_se": 0.0,
+            "mae": 1.5352047792579617,
+            "mean_probability_mc_se": 0.03098808574970437,
+            "n": 40,
+            "threshold_brier": 0.24476318359375
+          },
+          "FTM": {
+            "coverage_80": 1,
+            "coverage_binomial_se": 0.0,
+            "mae": 1.2005503429864692,
+            "mean_probability_mc_se": 0.030981000610314845,
+            "n": 40,
+            "threshold_brier": 0.24574546813964843
+          },
+          "PTS": {
+            "coverage_80": 1,
+            "coverage_binomial_se": 0.0,
+            "mae": 9.140005246699353,
+            "mean_probability_mc_se": 0.03095180994860495,
+            "n": 40,
+            "threshold_brier": 0.25754661560058595
+          },
+          "REB": {
+            "coverage_80": 1,
+            "coverage_binomial_se": 0.0,
+            "mae": 2.10805079127108,
+            "mean_probability_mc_se": 0.03086132198367871,
+            "n": 40,
+            "threshold_brier": 0.22459907531738282
+          },
+          "STL": {
+            "coverage_80": 1,
+            "coverage_binomial_se": 0.0,
+            "mae": 0.6009088808953502,
+            "mean_probability_mc_se": 0.030768789699454433,
+            "n": 40,
+            "threshold_brier": 0.24865455627441407
+          },
+          "TO": {
+            "coverage_80": 1,
+            "coverage_binomial_se": 0.0,
+            "mae": 0.914932110227353,
+            "mean_probability_mc_se": 0.03098863739753147,
+            "n": 40,
+            "threshold_brier": 0.2647869110107422
+          }
+        }
+      }
+    },
+    "synthetic": true
+  },
+  "scope": "Existing synthetic forecasting audit only; no NBA forecasts or model promotion",
+  "seconds": 1.1051031050010351,
+  "source_hashes": {
+    "src/fantasy_optimizer/context.py": "2996d23cc9cbc0577b85e44ec99f87fb3e77208a4278da06f931c8f3346719e0",
+    "src/fantasy_optimizer/forecast_fixture.py": "e5bcaec1828b70b129a4c901218273d4612317ecb666b8f37f9e330d6f0fcbb8",
+    "src/fantasy_optimizer/forecasting.py": "3c5d1622c15b5128e193f56b6994c744922f1a6980cf4ec2d1bf1f61e9a14def",
+    "src/fantasy_optimizer/learning.py": "bd43e63176a46443f38bad8250e397961bf3d38e8b59349583f93a5cbc6b8fbc",
+    "src/fantasy_optimizer/learning_fixture.py": "b99ebd6c950dc4c91c7c1c41fe80206d0eafecd99df965e1ffe139fa4ff33e8d",
+    "src/fantasy_optimizer/operations.py": "0d31fbfaa1ae3859e85f82673faf8f5964ffc5999a3cf33e686c33bd0189f6a3",
+    "src/fantasy_optimizer/storage.py": "66a1458593765a661a273ca517a652a6545dfb260ad9d5216f84c37d2269894e"
+  }
+}

@@ -1,5 +1,8 @@
 # Offline learning and model lifecycle
 
+For real NBA count configurations and all-count promotion checks, see the separate
+[NBA pipeline](REAL_DATA_PIPELINE.md). The original fixture lifecycle below is preserved.
+
 Stage 07 evaluates existing handmade weekly counts, with no Yahoo request or new
 dependency. `train`, `backtest`, `run` and `model` require `--fixture`. These are
 forecasting experiments: historical waiver availability/ownership is absent, so
@@ -103,3 +106,10 @@ revision rather than silent overwrite. Outcome logs never promote or penalize a
 model. A single lucky/unlucky win says little about policy quality. Counterfactual
 transactions remain approximations, even if an outcome is logged. No live decision
 outcome ingestion or new DuckDB migration is asserted; this is a fixture contract.
+
+
+Advanced forecasting milestone (2026-10-13): [actual LightGBM/PyTorch training,
+fresh chronological comparisons, conditional minutes/rates/uncertainty and native
+fixture integration](ADVANCED_FORECASTING.md) are complete. The selected candidate
+fails its frozen practical promotion threshold; recency and previous evidence
+remain unchanged. No Yahoo integration or real future schedule was added.

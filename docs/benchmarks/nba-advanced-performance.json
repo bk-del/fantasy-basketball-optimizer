@@ -1,0 +1,125 @@
+{
+  "all_observations": 64695,
+  "as_of": "2026-10-13T03:40:00+00:00",
+  "cached_data_preparation_seconds": 5.427358214998094,
+  "component_diagnostics": {
+    "lgbm_small": {
+      "availability_probability": null,
+      "conditional_minutes_bias": 0.2480027885408443,
+      "conditional_minutes_mae": 4.844760037767282,
+      "coverage_80": 0.7904744820163243,
+      "mean_width_80": 15.031609782653561,
+      "minutes_target": "known >=1 minute, nonzero box-score rows only; missing minutes never set to zero",
+      "n": 11149,
+      "nonzero_boxscore_brier": 0.09724654788410823,
+      "per_minute_mae": {
+        "2PA": 0.08697400738166323,
+        "3PA": 0.06826619127826601,
+        "AST": 0.06211741450824014,
+        "BLK": 0.02589293621290008,
+        "FTA": 0.07595928414828515,
+        "REB": 0.08793803191766901,
+        "STL": 0.03557343405090346,
+        "TO": 0.04540447733008576
+      }
+    },
+    "mlp_small": {
+      "availability_probability": null,
+      "conditional_minutes_bias": -0.10022974360063513,
+      "conditional_minutes_mae": 4.83742352653907,
+      "coverage_80": 0.7911920351601041,
+      "mean_width_80": 15.078070950613549,
+      "minutes_target": "known >=1 minute, nonzero box-score rows only; missing minutes never set to zero",
+      "n": 11149,
+      "nonzero_boxscore_brier": 0.09816270727607257,
+      "per_minute_mae": {
+        "2PA": 0.0875397483197413,
+        "3PA": 0.0694200101836261,
+        "AST": 0.06395414379739761,
+        "BLK": 0.025606695225157416,
+        "FTA": 0.07872777123575722,
+        "REB": 0.08783877653144065,
+        "STL": 0.03585326662577086,
+        "TO": 0.0453398704686833
+      }
+    },
+    "recency_components": {
+      "availability_probability": null,
+      "conditional_minutes_bias": -0.20430536548628264,
+      "conditional_minutes_mae": 4.8438202412899765,
+      "coverage_80": 0.7933446945914432,
+      "mean_width_80": 15.077782929902266,
+      "minutes_target": "known >=1 minute, nonzero box-score rows only; missing minutes never set to zero",
+      "n": 11149,
+      "nonzero_boxscore_brier": 0.10524544199454518,
+      "per_minute_mae": {
+        "2PA": 0.0883362512733776,
+        "3PA": 0.06902937351138273,
+        "AST": 0.062432649216401244,
+        "BLK": 0.024894929741838025,
+        "FTA": 0.07799482810271884,
+        "REB": 0.08945969771064755,
+        "STL": 0.03572260927489774,
+        "TO": 0.046667716305056256
+      }
+    }
+  },
+  "current_all_player_features_seconds": 3.1543309959961334,
+  "current_supported_players": 697,
+  "eligible_training_cases": 63955,
+  "eligible_training_players": 689,
+  "freeze_hash": "039b5610de975046696b6cf9144f2bcf25a4077feb4185872e55eec6cab3b711",
+  "limits": [
+    "Component baseline diagnostics are descriptive post-evaluation analysis, not model selection.",
+    "Full-history neural refit is not evaluated on prior held-out outcomes or promoted.",
+    "Pure model inference excludes data loading, feature preparation, sampling and JSON persistence.",
+    "Specific owner laptop/GPU not benchmarked."
+  ],
+  "neural_all_player_inference_seconds": 0.005263978004222736,
+  "neural_fitted_model": {
+    "path": "models/advanced/full-population-mlp-039b5610de975046696b6cf9144f2bcf25a4077feb4185872e55eec6cab3b711.json",
+    "sha256": "a8738c0bcc4dfa6cca07b01be71d085e99574a1610105352927e3c4ac51d349c"
+  },
+  "neural_full_population_fit_seconds": 16.559513776999665,
+  "neural_parameters": 8013,
+  "peak_rss_mib": 903.10546875,
+  "scope": "CPU-only local diagnostic; actual NBA learners/distributions, hypothetical fixture schedule; no model selection or promotion",
+  "selected_all_player_inference_seconds": 0.09329231599986088,
+  "simulation": {
+    "1000": {
+      "exact_category_parity": true,
+      "input_moments_within_five_mc_se": null,
+      "kernel_median_seconds": {
+        "cpp": 0.0004603440029313788,
+        "python": 0.0382904080033768
+      },
+      "preparation_seconds": 0.05623105599806877,
+      "raw_bank_bytes": 2112000,
+      "scenario_hash": "90923bdcb8291debd71174dc641929664aaa9d77a7fccced891d9a05245a0fa3"
+    },
+    "10000": {
+      "exact_category_parity": true,
+      "input_moments_within_five_mc_se": null,
+      "kernel_median_seconds": {
+        "cpp": 0.004946132001350634,
+        "python": 0.3885881899986998
+      },
+      "preparation_seconds": 0.133196142000088,
+      "raw_bank_bytes": 21120000,
+      "scenario_hash": "1d6c9d05fcec5f329556ad696f620ff6421757ec46a37c5dbf3526baecfb5e15"
+    },
+    "20000": {
+      "exact_category_parity": true,
+      "input_moments_within_five_mc_se": true,
+      "kernel_median_seconds": {
+        "cpp": 0.009152579004876316,
+        "python": 0.8564417509987834
+      },
+      "preparation_seconds": 0.17400379700120538,
+      "raw_bank_bytes": 42240000,
+      "scenario_hash": "159a82974a90eda186380ace45cd0ff9ae5ff94b718a680414b8b4895d8b55bc"
+    }
+  },
+  "source_hash": "57760f7a9ddac3f0371d3eff75b7ff9d79de851d206929ac3f6063888d751cf8",
+  "total_seconds": 51.34554456699698
+}

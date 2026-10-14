@@ -34,3 +34,6 @@ callgrind.out.*
 .agents/
 .codex/
 .aws/
+
+# Local advisory locks for benchmark report writers.
+/docs/benchmarks/*.json.lock

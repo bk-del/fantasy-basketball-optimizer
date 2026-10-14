@@ -34,6 +34,7 @@ from fantasy_optimizer.operations import (
 from fantasy_optimizer.optimization_fixture import SCENARIOS, optimize_fixture
 from fantasy_optimizer.registry import Registry, RegistryError
 from fantasy_optimizer.storage import StorageError, timestamp
+from fantasy_optimizer.tradeoffs import TradeoffError, render_text, tradeoff_view
 from fantasy_optimizer.yahoo import (
     FixtureYahooClient,
     HttpYahooClient,
@@ -57,10 +58,84 @@ def main(argv: Sequence[str] | None = None) -> int:
         description="Personal, read-only fantasy basketball optimizer (planned).",
     )
     commands = parser.add_subparsers(dest="command", required=True)
+    advanced = commands.add_parser("advanced", help="CPU NBA forecasting challengers")
+    advanced.add_argument(
+        "action", choices=("backtest", "train", "forecast", "run", "model")
+    )
+    advanced.add_argument("--data", type=Path, default=Path("data/nba_data"))
+    advanced.add_argument(
+        "--registry", type=Path, default=Path("models/advanced-registry.json")
+    )
+    advanced.add_argument(
+        "--baseline-registry", type=Path, default=Path("models/nba-registry.json")
+    )
+    advanced.add_argument(
+        "--report", type=Path, default=Path("docs/benchmarks/nba-advanced.json")
+    )
+    advanced.add_argument(
+        "--protocol",
+        type=Path,
+        default=Path("docs/benchmarks/nba-advanced-protocol.json"),
+    )
+    advanced.add_argument("--output", type=Path, default=Path("data/advanced-runs"))
+    advanced.add_argument("--as-of", type=parse_as_of)
+    advanced.add_argument("--seed", type=int, default=42)
+    advanced.add_argument("--samples", type=int, default=256)
+    advanced.add_argument("--screening-samples", type=int, default=256)
+    advanced.add_argument("--finalist-samples", type=int, default=4096)
+    advanced.add_argument("--backend", choices=("python", "cpp"), default="cpp")
+    advanced.add_argument("--fixture", action="store_true")
+    advanced.add_argument(
+        "--candidate",
+        action="store_true",
+        help="Explicit read-only challenger evaluation, without promotion",
+    )
+    advanced.add_argument("--prepare-only", action="store_true")
+    advanced.add_argument(
+        "--model-action", choices=("status", "promote", "rollback"), default="status"
+    )
+    advanced.add_argument("--id")
+    nba_command = commands.add_parser("nba", help="Cached real NBA research pipeline")
+    nba_command.add_argument(
+        "action", choices=("backtest", "train", "forecast", "run", "model")
+    )
+    nba_command.add_argument("--data", type=Path, default=Path("data/nba_data"))
+    nba_command.add_argument(
+        "--registry", type=Path, default=Path("models/nba-registry.json")
+    )
+    nba_command.add_argument(
+        "--benchmark-report",
+        type=Path,
+        default=Path("docs/benchmarks/nba-population.json"),
+    )
+    nba_command.add_argument("--output", type=Path, default=Path("data/nba-runs"))
+    nba_command.add_argument("--as-of", type=parse_as_of)
+    nba_command.add_argument("--seed", type=int, default=42)
+    nba_command.add_argument("--samples", type=int, default=256)
+    nba_command.add_argument("--screening-samples", type=int, default=256)
+    nba_command.add_argument("--finalist-samples", type=int, default=4096)
+    nba_command.add_argument("--backend", choices=("python", "cpp"), default="cpp")
+    nba_command.add_argument(
+        "--fixture", action="store_true", help="Explicit hypothetical league for run"
+    )
+    nba_command.add_argument(
+        "--prepare-only",
+        action="store_true",
+        help="Freeze selection/calibration without opening final period",
+    )
+    nba_command.add_argument(
+        "--model-action", choices=("status", "promote", "rollback"), default="status"
+    )
+    nba_command.add_argument("--id")
     status_command = commands.add_parser(
         "status", help="Show project and data-access status"
     )
     status_command.add_argument("--fixture", action="store_true")
+    dashboard_command = commands.add_parser(
+        "dashboard", help="Open the local fixture browser interface"
+    )
+    dashboard_command.add_argument("--fixture", action="store_true")
+    dashboard_command.add_argument("--port", type=int, default=8765)
     status_command.add_argument(
         "--registry", type=Path, default=Path("models/fixture-registry.json")
     )
@@ -109,6 +184,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         "optimize", help="Read-only handmade add/drop/HOLD suggestions"
     )
     optimize_command.add_argument("--fixture", action="store_true")
+    optimize_command.add_argument("--tradeoffs", action="store_true")
     optimize_command.add_argument("--as-of", type=parse_as_of)
     optimize_command.add_argument("--seed", type=int, default=42)
     optimize_command.add_argument("--screening-samples", type=int, default=256)
@@ -126,6 +202,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             "--registry", type=Path, default=Path("models/fixture-registry.json")
         )
         if name == "run":
+            command.add_argument("--tradeoffs", action="store_true")
             command.add_argument(
                 "--database", type=Path, default=Path("data/operations-fixture.duckdb")
             )
@@ -157,10 +234,180 @@ def main(argv: Sequence[str] | None = None) -> int:
             )
             command.add_argument("--id")
             command.add_argument("--outcome", type=Path)
+    tradeoffs_command = commands.add_parser(
+        "tradeoffs", help="Read-only fixture category/Pareto display"
+    )
+    tradeoffs_command.add_argument("--fixture", action="store_true")
+    tradeoffs_command.add_argument("--input", type=Path, required=True)
+    tradeoffs_command.add_argument("--format", choices=("text", "json"), default="text")
+    tradeoffs_command.add_argument(
+        "--categories", default="FG%,FT%,3PM,PTS,REB,AST,STL,BLK,TO"
+    )
     args = parser.parse_args(argv)
+    if args.command == "advanced":
+        from contextlib import redirect_stdout
+        from datetime import UTC
+
+        from fantasy_optimizer import advanced_benchmark, advanced_pipeline
+        from fantasy_optimizer.optimization import SearchConfig
+
+        try:
+            registry = Registry(args.registry)
+            baseline_registry = Registry(args.baseline_registry)
+            as_of = args.as_of or datetime.now(UTC)
+            if args.action == "backtest":
+                with instance_lock(args.report), redirect_stdout(sys.stderr):
+                    result = advanced_benchmark.run(
+                        args.data,
+                        args.protocol,
+                        args.report,
+                        prepare_only=args.prepare_only,
+                    )
+            elif args.action == "train":
+                result = advanced_pipeline.train(
+                    args.data, registry, baseline_registry, args.report, as_of
+                )
+            elif args.action == "forecast":
+                result = advanced_pipeline.forecast(
+                    args.data,
+                    registry,
+                    baseline_registry,
+                    args.output,
+                    as_of,
+                    seed=args.seed,
+                    samples=args.samples,
+                    candidate=args.candidate,
+                )
+            elif args.action == "model":
+                with instance_lock(args.registry):
+                    if args.model_action == "promote":
+                        if not args.id:
+                            raise ValueError("Promotion requires --id.")
+                        registry.promote(args.id)
+                    elif args.model_action == "rollback":
+                        registry.rollback()
+                result = registry.read()
+            else:
+                if not args.fixture:
+                    raise ValueError(
+                        "Use --fixture; this milestone has no live league "
+                        "or verified schedule."
+                    )
+                result = advanced_pipeline.run(
+                    args.data,
+                    registry,
+                    baseline_registry,
+                    args.output,
+                    as_of,
+                    config=SearchConfig(
+                        seed=args.seed,
+                        screening_samples=args.screening_samples,
+                        finalist_samples=args.finalist_samples,
+                        backend=args.backend,
+                    ),
+                    samples=args.samples,
+                    candidate=args.candidate,
+                )
+            print(json.dumps(result, sort_keys=True, indent=2))
+            return 0
+        except (ValueError, OSError, ImportError, duckdb.Error) as error:
+            print(
+                json.dumps(
+                    {"error": "advanced_pipeline_failed", "message": str(error)}
+                ),
+                file=sys.stderr,
+            )
+            return 1
+    if args.command == "nba":
+        from datetime import UTC
+
+        from fantasy_optimizer import nba_pipeline
+        from fantasy_optimizer.optimization import SearchConfig
+        from fantasy_optimizer.population_benchmark import run as population_run
+
+        try:
+            registry = Registry(args.registry)
+            as_of = args.as_of or datetime.now(UTC)
+            if args.action == "backtest":
+                from contextlib import redirect_stdout
+
+                with redirect_stdout(sys.stderr):
+                    result = population_run(
+                        args.data,
+                        Path("docs/benchmarks/nba-population-protocol.json"),
+                        args.benchmark_report,
+                        prepare_only=args.prepare_only,
+                    )
+            elif args.action == "train":
+                result = nba_pipeline.train(
+                    args.data, registry, args.benchmark_report, as_of
+                )
+            elif args.action == "forecast":
+                result = nba_pipeline.forecasts(
+                    args.data,
+                    registry,
+                    args.output,
+                    as_of,
+                    seed=args.seed,
+                    samples=args.samples,
+                )
+            elif args.action == "model":
+                state = registry.read()
+                active = state["models"].get(state["active"])
+                if active and active.get("scope") != "nba_research":
+                    raise ValueError("Use a separate NBA registry.")
+                with instance_lock(args.registry):
+                    if args.model_action == "promote":
+                        if not args.id:
+                            raise ValueError("Promotion requires --id.")
+                        registry.promote(args.id)
+                    elif args.model_action == "rollback":
+                        registry.rollback()
+                result = registry.read()
+            else:
+                if not args.fixture:
+                    raise ValueError(
+                        "Use --fixture: live Yahoo league/schedule "
+                        "inputs are unavailable."
+                    )
+                result = nba_pipeline.run(
+                    args.data,
+                    registry,
+                    args.output,
+                    as_of,
+                    config=SearchConfig(
+                        seed=args.seed,
+                        screening_samples=args.screening_samples,
+                        finalist_samples=args.finalist_samples,
+                        backend=args.backend,
+                    ),
+                    samples=args.samples,
+                )
+            print(json.dumps(result, sort_keys=True, indent=2))
+            return 0
+        except (ValueError, OSError, ForecastError, ImportError, duckdb.Error) as error:
+            print(
+                json.dumps({"error": "nba_pipeline_failed", "message": str(error)}),
+                file=sys.stderr,
+            )
+            return 1
+    if args.command == "dashboard":
+        if not args.fixture:
+            print("Use --fixture; live dashboard data is unavailable.", file=sys.stderr)
+            return 1
+        if not 1 <= args.port <= 65535:
+            parser.error("--port must be between 1 and 65535")
+        from fantasy_optimizer.dashboard import serve
+
+        try:
+            serve(args.port)
+        except OSError:
+            print("Cannot start local dashboard; try another --port.", file=sys.stderr)
+            return 1
+        return 0
     if args.command == "status":
         print(
-            "Stage 08: manual fixture pipeline; "
+            "Stage 09: optional fixture tradeoff display; "
             "recency baseline retained; live access unverified."
         )
         print("Yahoo access is unconfirmed until audited; fixtures are synthetic.")
@@ -168,6 +415,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             "Next: run fantasy run --fixture; review category effects and uncertainty."
         )
         print("Owner validation required; live history/rules/availability unverified.")
+        print("Browser interface: fantasy dashboard --fixture (127.0.0.1:8765).")
         try:
             state = Registry(args.registry).read()
             active_label = state["active"] or "provisional recency (uninitialized)"
@@ -182,6 +430,26 @@ def main(argv: Sequence[str] | None = None) -> int:
     token_path = Path(os.environ.get("YAHOO_TOKEN_FILE", ".oauth/tokens.json"))
     approved = os.environ.get("YAHOO_ACCESS_APPROVED") == "1"
     try:
+        if args.command == "tradeoffs":
+            if not args.fixture:
+                raise TradeoffError(
+                    "Use --fixture; live tradeoff reports are unverified."
+                )
+            try:
+                report = json.loads(args.input.read_text())
+            except (OSError, ValueError) as error:
+                raise TradeoffError(
+                    "Cannot read report; provide saved fixture JSON."
+                ) from error
+            if not isinstance(report, dict):
+                raise TradeoffError("Report must be a JSON object.")
+            view = tradeoff_view(report, args.categories.split(","))
+            print(
+                render_text(view)
+                if args.format == "text"
+                else json.dumps(view, sort_keys=True, indent=2)
+            )
+            return 0
         if args.command in ("train", "backtest", "run", "model"):
             if not args.fixture:
                 print(
@@ -389,6 +657,14 @@ def main(argv: Sequence[str] | None = None) -> int:
                     team_key=os.environ.get("YAHOO_TEAM_KEY", ""),
                 )
             result = audit(client)
+        if args.command in ("run", "optimize") and args.tradeoffs:
+            result = {**result, "tradeoffs": tradeoff_view(result)}
+    except TradeoffError as error:
+        print(
+            json.dumps({"error": "tradeoffs_failed", "message": str(error)}),
+            file=sys.stderr,
+        )
+        return 1
     except YahooError as error:
         print(json.dumps({"error": error.code, "message": str(error)}), file=sys.stderr)
         return 1

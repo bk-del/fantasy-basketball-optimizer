@@ -1,5 +1,13 @@
 # Stage 03: weekly count baselines
 
+Conditional actual NBA per-game forecasts and full-population validation now use
+[the real-data pipeline](REAL_DATA_PIPELINE.md); this page retains the original fixture contract.
+
+This page describes the original fixture path. The authorized NBA research path
+now reuses this engine; see the [historical benchmark](HISTORICAL_FORECAST_BENCHMARK.md)
+for the adapter, temporal assumptions and real-data results. Fixture/live command
+behavior remains as documented below.
+
 This is an offline, synthetic baseline. Live Yahoo access, comparable weekly
 history and schedule/availability fields remain unverified. `forecast.json`
 contains 48 handmade seven-day vectors for four fictional players. It is separate
@@ -112,3 +120,10 @@ unverified schedule/availability and weak empirical tail support. Warnings and
 missingness stay in the output. No forecasts from live Stage 02 storage are
 produced until a verified adapter establishes coverage and point-in-time identity.
 Stage 04 matchup simulation and roster optimization are not implemented.
+
+
+Advanced forecasting milestone (2026-10-13): [actual LightGBM/PyTorch training,
+fresh chronological comparisons, conditional minutes/rates/uncertainty and native
+fixture integration](ADVANCED_FORECASTING.md) are complete. The selected candidate
+fails its frozen practical promotion threshold; recency and previous evidence
+remain unchanged. No Yahoo integration or real future schedule was added.

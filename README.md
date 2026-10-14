@@ -1,5 +1,17 @@
 # Fantasy Basketball Optimizer
 
+## Browser interface
+
+```bash
+uv run fantasy dashboard --fixture
+```
+
+Open **http://127.0.0.1:8765**. Choose a scenario, compare actions and category
+tradeoffs, inspect lineups and download the report. Keep the terminal open;
+Ctrl+C stops the server. Use `--port 8766` if the default port is busy.
+The dashboard uses handmade fixtures and temporary storage; live Yahoo data is
+not connected. See [dashboard usage and scope](docs/DASHBOARD.md).
+
 **Status: fixture forecasts, simulation and read-only add/drop/HOLD suggestions implemented; live access unconfirmed.** Stage 00 provides
 the Python/C++20 foundation. Stage 01 adds local authorization metadata, a
 deterministic synthetic capability audit and a gated read-only live probe client.
@@ -179,8 +191,8 @@ The original guides stay in their own folder. Read
 | [05](fantasy-basketball-optimizer-guides/docs/stages/05-waiver-optimization.md) | Waiver optimization |
 | [06](fantasy-basketball-optimizer-guides/docs/stages/06-context-and-breakouts.md) | Context and breakout signals |
 | [07](fantasy-basketball-optimizer-guides/docs/stages/07-learning-and-backtesting.md) | Learning and backtesting |
-| [08](fantasy-basketball-optimizer-guides/docs/stages/08-cli-and-operations.md) | CLI and operations (current, fixture-only) |
-| [09](fantasy-basketball-optimizer-guides/docs/stages/09-optional-extensions.md) | Optional extensions |
+| [08](fantasy-basketball-optimizer-guides/docs/stages/08-cli-and-operations.md) | CLI and operations |
+| [09](fantasy-basketball-optimizer-guides/docs/stages/09-optional-extensions.md) | Optional extensions (selected: tradeoff display) |
 
 [Yahoo access request draft](docs/API_REQUEST.md). Publication requires owner
 approval; application submission is manual by the owner. Stop at each stage gate.
@@ -261,3 +273,78 @@ sync/run writes. Repeated runs reuse derived caches without retraining or changi
 models. Output reports freshness, unknown live rules, category effects and uncertainty.
 Live runs remain disabled. Read [operations, historical boundaries, recovery and
 migration](docs/OPERATIONS.md), then validate actual outputs before live deployment.
+
+
+## Category tradeoffs (selected Stage 09 extension)
+
+```bash
+uv run fantasy optimize --fixture --tradeoffs
+uv run fantasy run --fixture --tradeoffs
+uv run fantasy tradeoffs --fixture --input data/fixture-runs/RUN_HASH.json
+```
+
+Opt-in point-estimate frontiers show category gains/losses, matchup sampling
+uncertainty and roster-value cost for comparable refined actions. The display
+preserves the optimizer recommendation and its constraints. Saved reports can be
+viewed without writes or simulation. See [proposal, limits and rollback](docs/TRADEOFFS.md).
+
+NBA research data is downloaded and queryable locally. See
+[setup, offline queries and coverage limitations](fantasy-basketball-optimizer-guides/docs/NBA_DATA.md).
+Rebuild/verify with `uv run python scripts/prepare_nba_data.py --offline`.
+The [forecasting audit](docs/FORECAST_AUDIT.md) documents current decay/shrinkage,
+synthetic validation, integration gaps and the proposed next scope.
+
+## Historical NBA forecasting research
+
+Use the existing local NBA snapshot with the season-scoped adapter and frozen
+real-data benchmark (no new download or Yahoo credentials):
+
+```bash
+uv run --offline --no-sync python -m fantasy_optimizer.historical_benchmark
+```
+
+The [historical forecasting report](docs/HISTORICAL_FORECAST_BENCHMARK.md) records
+source schema, exact identity mapping, strict versus assumed retrospective
+availability, chronological half-life selection, eleven-category MAE and
+calibration, reproduction and limitations. Existing live/fixture runtime gates
+remain in place; this research does not activate historical data in the optimizer.
+
+### Actual NBA research pipeline
+
+The cached authorized NBA snapshot now supports full-population chronological
+validation, conditional per-game predictions and an explicitly hypothetical
+fixture league using real forecast distributions. See [pipeline/limits](docs/REAL_DATA_PIPELINE.md)
+and [benchmark results](docs/HISTORICAL_FORECAST_BENCHMARK.md). No live Yahoo advice
+or seven-day game counts are fabricated.
+
+```bash
+uv run --offline --no-sync fantasy nba backtest > /tmp/nba-backtest.json
+uv run --offline --no-sync fantasy nba train --as-of 2026-10-13T03:40:00Z
+uv run --offline --no-sync fantasy nba forecast --as-of 2026-10-13T03:40:00Z > /tmp/nba-forecasts.json
+uv run --offline --no-sync fantasy nba run --fixture --as-of 2026-10-13T03:40:00Z
+```
+
+Training reads the frozen validated configuration. Ordinary runs retain it and
+reuse derived forecasts/decisions; no automatic promotion, live transaction,
+background scheduler or additional model architecture is enabled.
+
+### Advanced forecasting research
+
+LightGBM and a small CPU PyTorch challenger have been trained and evaluated on a
+new chronological period. The selected tree model's 0.58% nine-category gain fails
+the frozen 2% promotion threshold; **recency stays active**. Shooting and interval
+scores improve, while counting-statistic/minute errors remain mixed. See
+[actual results, limits and commands](docs/ADVANCED_FORECASTING.md).
+
+```bash
+uv sync --locked --extra advanced --group dev
+uv run --offline --no-sync fantasy advanced backtest
+uv run --offline --no-sync python scripts/rebuild_advanced_models.py
+uv run --offline --no-sync fantasy advanced train --as-of 2026-10-13T03:40:00Z
+uv run --offline --no-sync fantasy advanced run --fixture --as-of 2026-10-13T03:40:00Z
+# Explicit unpromoted candidate simulation; no active-model change:
+uv run --offline --no-sync fantasy advanced run --fixture --candidate --as-of 2026-10-13T03:40:00Z
+```
+
+The optional extra uses the configured official CPU wheel index. No Yahoo access,
+verified future schedule, automatic training or live recommendations are enabled.

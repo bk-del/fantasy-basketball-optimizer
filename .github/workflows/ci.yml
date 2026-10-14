@@ -30,6 +30,7 @@ jobs:
           uv run --offline --no-sync pytest -q
           uv run --offline --no-sync fantasy simulate --fixture > /tmp/matchup.json
           uv run --offline --no-sync fantasy optimize --fixture > /tmp/optimization.json
+          uv run --offline --no-sync fantasy tradeoffs --fixture --input /tmp/optimization.json --format json > /tmp/tradeoffs.json
           uv run --offline --no-sync fantasy context --fixture > /tmp/context.json
           uv run --offline --no-sync fantasy train --fixture --registry /tmp/models.json > /tmp/training.json
           uv run --offline --no-sync fantasy backtest --fixture --registry /tmp/models.json > /tmp/backtest.json
@@ -37,6 +38,7 @@ jobs:
           uv run --offline --no-sync fantasy run --fixture --registry /tmp/models.json --database /tmp/run.duckdb --output /tmp/fixture-runs > /tmp/run.json
           uv run --offline --no-sync fantasy run --fixture --registry /tmp/models.json --database /tmp/run.duckdb --output /tmp/fixture-runs > /tmp/run-again.json
           uv run --offline --no-sync fantasy --help
+          uv run --offline --no-sync fantasy dashboard --help
           uv run --offline --no-sync fantasy status
           uv run --offline --no-sync fantasy auth status
           uv run --offline --no-sync fantasy audit --fixture > /tmp/yahoo-fixture-audit.json

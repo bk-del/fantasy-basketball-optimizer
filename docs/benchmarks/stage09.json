@@ -1,0 +1,150 @@
+{
+  "baseline_recommendation": "ADD:target/DROP:streamer",
+  "budget_passed": true,
+  "budget_seconds": 0.1,
+  "code_hash": "bfd71d79dd646d952baca876b51f060a82c7d48ea08098b9a131d09e3686354f",
+  "decision_uplift": null,
+  "decision_uplift_reason": "Read-only display; no verified historical outcomes or owner usability measurement.",
+  "mode": "fixture",
+  "real_view_bytes": 3556,
+  "real_view_median_seconds": 0.0003933179978048429,
+  "recommendation_unchanged": true,
+  "seed": 42,
+  "source_input_hash": "f0a5630c5a75b92dd0bcafa6463fa35563471eb2b8f40315edf03af46eabffb1",
+  "source_unchanged": true,
+  "stress_median_seconds": 0.00798935800412437,
+  "stress_rows": 256,
+  "stress_timings_seconds": [
+    0.008625285998277832,
+    0.00825682700087782,
+    0.00798935800412437,
+    0.007562256003438961,
+    0.007817501995305065
+  ],
+  "stress_type": "handmade mutually incomparable points; no live actions",
+  "stress_view_bytes": 161833,
+  "synthetic": true,
+  "version": "category-tradeoffs-v1",
+  "view": {
+    "actions": [
+      {
+        "action": "ADD:target/DROP:streamer",
+        "category_tie_deltas": {
+          "3PM": 0.1298828125,
+          "AST": 0.1298828125,
+          "BLK": 0.37109375,
+          "FG%": 0.0,
+          "FT%": 0.0,
+          "PTS": 0.0,
+          "REB": 0.0,
+          "STL": 0.1298828125,
+          "TO": 0.0
+        },
+        "category_win_deltas": {
+          "3PM": 0.0,
+          "AST": 0.0,
+          "BLK": 0.500244140625,
+          "FG%": 1.0,
+          "FT%": 0.0,
+          "PTS": 0.1298828125,
+          "REB": 0.1298828125,
+          "STL": 0.0,
+          "TO": 0.0
+        },
+        "explanation": "Positive paired matchup gain within the explicit value-loss limit.",
+        "long_term_value_loss": 0.0,
+        "matchup_credit": 0.1298828125,
+        "matchup_credit_gain": 0.1298828125,
+        "paired_gain_mc_se": 0.005253367255916996,
+        "recommendable": true,
+        "samples": 4096,
+        "win_probability": 0.1298828125,
+        "win_probability_mc_se": 0.005253367255916996
+      },
+      {
+        "action": "HOLD",
+        "category_tie_deltas": {
+          "3PM": 0.0,
+          "AST": 0.0,
+          "BLK": 0.0,
+          "FG%": 0.0,
+          "FT%": 0.0,
+          "PTS": 0.0,
+          "REB": 0.0,
+          "STL": 0.0,
+          "TO": 0.0
+        },
+        "category_win_deltas": {
+          "3PM": 0.0,
+          "AST": 0.0,
+          "BLK": 0.0,
+          "FG%": 0.0,
+          "FT%": 0.0,
+          "PTS": 0.0,
+          "REB": 0.0,
+          "STL": 0.0,
+          "TO": 0.0
+        },
+        "explanation": "HOLD preserves roster value and uses no acquisition.",
+        "long_term_value_loss": 0,
+        "matchup_credit": 0.0,
+        "matchup_credit_gain": 0.0,
+        "paired_gain_mc_se": 0.0,
+        "recommendable": true,
+        "samples": 4096,
+        "win_probability": 0.0,
+        "win_probability_mc_se": 0.0
+      }
+    ],
+    "categories": [
+      "FG%",
+      "FT%",
+      "3PM",
+      "PTS",
+      "REB",
+      "AST",
+      "STL",
+      "BLK",
+      "TO"
+    ],
+    "category_frontier": [
+      "ADD:target/DROP:streamer"
+    ],
+    "code_hash": "bfd71d79dd646d952baca876b51f060a82c7d48ea08098b9a131d09e3686354f",
+    "config_hash": "0242df1b86bfbcdaada12d3387eba81ec9945950b2c685ea9aa920da5f6a2ffc",
+    "excluded": [
+      {
+        "action": "ADD:bad-target/DROP:streamer",
+        "reason": "Screening-only or different-budget estimate is not comparable."
+      }
+    ],
+    "fixture_only": true,
+    "limitations": [
+      "Point-estimate dominance is not statistical certainty or advice.",
+      "Selected category axes change this display only, not the objective.",
+      "Category tie effects are separate; no missing calibration is invented.",
+      "Sampling SE excludes model uncertainty; roster cost is an ordinal proxy."
+    ],
+    "read_only": true,
+    "recommended_action": "ADD:target/DROP:streamer",
+    "samples": 4096,
+    "seed": 42,
+    "source_input_hash": "f0a5630c5a75b92dd0bcafa6463fa35563471eb2b8f40315edf03af46eabffb1",
+    "source_provenance": {
+      "code_hash": "aa0e667165c3e60b6f9f6d3ce7fb559dbe6754616040e7ba606f287e3eb2e9dc",
+      "config_hash": "be87f69ae0358fb07b1d7a25e1a0be6ec2e215971e0fb683338549ffeee508a5",
+      "forecast_input_hash": "b594cf7d3f191de5544f03ffc07c3acd5f682d23b1307292f7c3a865aa977524",
+      "input_hash": "f0a5630c5a75b92dd0bcafa6463fa35563471eb2b8f40315edf03af46eabffb1",
+      "model_versions": [
+        "handmade-waiver-games-v1"
+      ],
+      "optimizer_version": "waiver-fixture-v1",
+      "scenario_hash": "6ecdefbbd5ecdb39b99e7c9d78071313f154bca8aa26629b0c2383e33c201d01",
+      "simulator_version": "joint-matchup-v1"
+    },
+    "utility_frontier": [
+      "ADD:target/DROP:streamer"
+    ],
+    "version": "category-tradeoffs-v1"
+  }
+}

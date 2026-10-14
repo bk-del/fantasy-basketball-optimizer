@@ -1,0 +1,46 @@
+{
+  "version": "nba-advanced-v1",
+  "seed": 42,
+  "threads": 2,
+  "availability_policy": "retrospective_next_day",
+  "minimum_history": 1,
+  "development_folds": [
+    ["2024-11-25T00:00:00Z", "2024-12-16T00:00:00Z"],
+    ["2024-12-16T00:00:00Z", "2025-01-06T00:00:00Z"]
+  ],
+  "fit_end": "2025-01-06T00:00:00Z",
+  "calibration_end": "2025-02-17T00:00:00Z",
+  "holdout_start": "2025-10-21T00:00:00Z",
+  "holdout_end": "2026-01-05T00:00:00Z",
+  "previously_examined_target_periods_excluded_from_selection": [
+    ["2025-03-24T00:00:00Z", "2025-04-15T00:00:00Z"],
+    ["2026-01-05T00:00:00Z", "2026-04-15T00:00:00Z"]
+  ],
+  "eligibility": "all historical players with >=1 origin-known prior row, across seasons; zero rows retained; no membership or positive-count filter",
+  "context": "only lagged player and last-observed-team history; target team/opponent/home/lineup/status/minutes never used as features; no verified future schedule",
+  "minutes_missingness": "blank minutes remain unknown, not imputed to zero; source blank-minute rows have all zero counts; nonzero-row probability is a box-score proxy, not availability",
+  "candidates": {
+    "lgbm_small": {"kind": "lightgbm", "leaves": 15, "rounds": 120, "features": "full", "factorized": true},
+    "lgbm_medium": {"kind": "lightgbm", "leaves": 31, "rounds": 180, "features": "full", "factorized": true},
+    "mlp_small": {"kind": "torch", "hidden": [64, 32], "epochs": 32, "batch_size": 256, "features": "full", "factorized": true},
+    "ablate_context": {"kind": "lightgbm", "leaves": 15, "rounds": 120, "features": "no_context", "factorized": true},
+    "ablate_minutes_rates": {"kind": "lightgbm", "leaves": 15, "rounds": 120, "features": "no_minutes_rates", "factorized": false},
+    "ablate_shot_priors": {"kind": "lightgbm", "leaves": 15, "rounds": 120, "features": "no_shot_priors", "factorized": true}
+  },
+  "selection": "lowest mean relative MAE over seven count categories plus FG%/FT%, relative to fixed recency14 on pooled development folds; tie by label; ablations diagnostic only",
+  "samples": 256,
+  "shot_prior_attempts": 50,
+  "calibration": "chronologically later whole primitive-count residual factors, conditional on origin-known minutes/history; minimum 100 per cell, otherwise minute group then pooled; normalized positive factors plus Poisson noise; no holdout calibration",
+  "promotion_gate": {
+    "minimum_relative_nine_category_gain": 0.02,
+    "paired_player_cluster_upper_95_below_zero": true,
+    "maximum_single_category_relative_mae_increase": 0.05,
+    "maximum_shooting_ratio_relative_mae_increase": 0.01,
+    "maximum_mean_interval_score_ratio": 1.05,
+    "coverage_80_range": [0.70, 0.90],
+    "maximum_mean_count_brier_ratio": 1.02
+  },
+  "bootstrap_repetitions": 1000,
+  "production_policy": "recency registry unchanged unless selected challenger passes frozen holdout gate; all-history refit remains explicitly versioned; no automatic retraining; no Yahoo",
+  "holdout_policy": "freeze code/config/data and development selection/calibration before consume_holdout; no alternate selection or retuning after opening; retain guard and saved report"
+}

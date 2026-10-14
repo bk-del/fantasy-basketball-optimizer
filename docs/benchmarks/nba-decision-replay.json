@@ -1,0 +1,41 @@
+{
+  "execution_status": "NOT_EXECUTED",
+  "reason": "Owner usage-limit steering: preserve work and resume after review; no historical decision metrics have been generated.",
+  "protocol": {
+    "version": "hypothetical-nba-decisions-v1",
+    "registered_before_execution": "2026-10-13",
+    "evaluation_label": "previously examined chronological descriptive research",
+    "first_origin": "2025-10-27T00:00:00+00:00",
+    "origins": 12,
+    "horizon_days": 7,
+    "leagues_per_origin": 4,
+    "roster_size": 8,
+    "opponent_size": 8,
+    "free_agents": 8,
+    "draft_population": 96,
+    "minimum_same_season_rows": 5,
+    "maximum_staleness_days": 14,
+    "samples": 256,
+    "seed": 142,
+    "bootstrap_replicates": 2000,
+    "eligibility": "all UTIL; every rostered player active for every actual game",
+    "transactions": "one immediate add/drop or HOLD; no waiver delay, cap, or IR",
+    "ownership": "independent deterministic synthetic draft each origin and league",
+    "selection": "matchup credit then category credit; HOLD then action order on ties",
+    "schedule": "unknown; empirical four past 7-day row-count bins; no future games",
+    "uncertainty": "independent player empirical primitive-vector bootstrap",
+    "models": "HOLD, season_to_date, recency, frozen lgbm_small and mlp_small",
+    "model_cutoff": "frozen research fit and calibration precede first replay origin",
+    "missing_rows": "no recorded subsequent statistics; never labelled injury or DNP",
+    "publication_policy": "retrospective_next_day assumption; original timing unknown",
+    "unsupported": [
+      "historical Yahoo ownership/transactions/positions",
+      "opponent responses or persistent league trajectory",
+      "calibrated joint matchup odds or championship probability",
+      "verified future schedule, current roster, injuries or causal effects"
+    ]
+  },
+  "protocol_sha256": "aac51683b1cb23132762c6b38d2284910e9baef867f8eb8ed0c394615e002ce4",
+  "resume_command": "UV_CACHE_DIR=/tmp/fantasy-stage01-uv-cache uv run --offline --no-sync python scripts/backtest_nba_decisions.py",
+  "focused_validation": "4 tiny contract tests pass; full cached real-NBA replay remains unverified."
+}

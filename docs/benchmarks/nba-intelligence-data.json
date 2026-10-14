@@ -1,0 +1,266 @@
+{
+  "commit": "62df92a05f16b57498851167b8289cf9ec316aea",
+  "espn_seasons": {
+    "2019": {
+      "complete": true,
+      "duplicate_or_multiplied_player_game_rows": 0,
+      "first_game_date": "2018-10-16",
+      "games": 1230,
+      "last_game_date": "2019-04-10",
+      "missing_games": 0,
+      "nba_duplicate_team_rows": 0,
+      "nba_games": 1230,
+      "nba_team_rows": 2460,
+      "nba_teams": 30,
+      "played_not_one_rows": 0,
+      "players": 530,
+      "points_identity_failures": 0,
+      "rows": 26098,
+      "shooting_failures": 0,
+      "source_null_team_ids": 0,
+      "team_identity_disagreements": 0,
+      "unknown_starter_or_played_rows": 0,
+      "unmatched_team_rows": 0
+    },
+    "2020": {
+      "complete": false,
+      "duplicate_or_multiplied_player_game_rows": 0,
+      "first_game_date": "2019-10-22",
+      "games": 971,
+      "last_game_date": "2020-08-14",
+      "missing_games": 88,
+      "nba_duplicate_team_rows": 0,
+      "nba_games": 1059,
+      "nba_team_rows": 2118,
+      "nba_teams": 30,
+      "played_not_one_rows": 0,
+      "players": 514,
+      "points_identity_failures": 0,
+      "rows": 20498,
+      "shooting_failures": 0,
+      "source_null_team_ids": 0,
+      "team_identity_disagreements": 0,
+      "unknown_starter_or_played_rows": 0,
+      "unmatched_team_rows": 0
+    },
+    "2021": {
+      "complete": true,
+      "duplicate_or_multiplied_player_game_rows": 0,
+      "first_game_date": "2020-12-22",
+      "games": 1080,
+      "last_game_date": "2021-05-16",
+      "missing_games": 0,
+      "nba_duplicate_team_rows": 0,
+      "nba_games": 1080,
+      "nba_team_rows": 2160,
+      "nba_teams": 30,
+      "played_not_one_rows": 0,
+      "players": 540,
+      "points_identity_failures": 0,
+      "rows": 23053,
+      "shooting_failures": 0,
+      "source_null_team_ids": 0,
+      "team_identity_disagreements": 0,
+      "unknown_starter_or_played_rows": 0,
+      "unmatched_team_rows": 0
+    },
+    "2022": {
+      "complete": true,
+      "duplicate_or_multiplied_player_game_rows": 0,
+      "first_game_date": "2021-10-19",
+      "games": 1230,
+      "last_game_date": "2022-04-10",
+      "missing_games": 0,
+      "nba_duplicate_team_rows": 0,
+      "nba_games": 1230,
+      "nba_team_rows": 2460,
+      "nba_teams": 30,
+      "played_not_one_rows": 0,
+      "players": 605,
+      "points_identity_failures": 0,
+      "rows": 25972,
+      "shooting_failures": 0,
+      "source_null_team_ids": 25972,
+      "team_identity_disagreements": 0,
+      "unknown_starter_or_played_rows": 0,
+      "unmatched_team_rows": 0
+    },
+    "2023": {
+      "complete": true,
+      "duplicate_or_multiplied_player_game_rows": 0,
+      "first_game_date": "2022-10-18",
+      "games": 1230,
+      "last_game_date": "2023-04-09",
+      "missing_games": 0,
+      "nba_duplicate_team_rows": 0,
+      "nba_games": 1230,
+      "nba_team_rows": 2460,
+      "nba_teams": 30,
+      "played_not_one_rows": 0,
+      "players": 539,
+      "points_identity_failures": 0,
+      "rows": 25830,
+      "shooting_failures": 0,
+      "source_null_team_ids": 25830,
+      "team_identity_disagreements": 0,
+      "unknown_starter_or_played_rows": 0,
+      "unmatched_team_rows": 0
+    },
+    "2024": {
+      "complete": true,
+      "duplicate_or_multiplied_player_game_rows": 0,
+      "first_game_date": "2023-10-24",
+      "games": 1230,
+      "last_game_date": "2024-04-14",
+      "missing_games": 0,
+      "nba_duplicate_team_rows": 0,
+      "nba_games": 1230,
+      "nba_team_rows": 2460,
+      "nba_teams": 30,
+      "played_not_one_rows": 8,
+      "players": 571,
+      "points_identity_failures": 0,
+      "rows": 26290,
+      "shooting_failures": 0,
+      "source_null_team_ids": 26290,
+      "team_identity_disagreements": 0,
+      "unknown_starter_or_played_rows": 0,
+      "unmatched_team_rows": 0
+    },
+    "2025": {
+      "complete": true,
+      "duplicate_or_multiplied_player_game_rows": 0,
+      "first_game_date": "2024-10-22",
+      "games": 1230,
+      "last_game_date": "2025-04-13",
+      "missing_games": 0,
+      "nba_duplicate_team_rows": 0,
+      "nba_games": 1230,
+      "nba_team_rows": 2460,
+      "nba_teams": 30,
+      "played_not_one_rows": 0,
+      "players": 569,
+      "points_identity_failures": 0,
+      "rows": 26303,
+      "shooting_failures": 0,
+      "source_null_team_ids": 26303,
+      "team_identity_disagreements": 0,
+      "unknown_starter_or_played_rows": 0,
+      "unmatched_team_rows": 0
+    },
+    "2026": {
+      "complete": false,
+      "duplicate_or_multiplied_player_game_rows": 0,
+      "first_game_date": "2025-10-21",
+      "games": 1228,
+      "last_game_date": "2026-04-12",
+      "missing_games": 2,
+      "nba_duplicate_team_rows": 0,
+      "nba_games": 1230,
+      "nba_team_rows": 2460,
+      "nba_teams": 30,
+      "played_not_one_rows": 0,
+      "players": 582,
+      "points_identity_failures": 0,
+      "rows": 26605,
+      "shooting_failures": 0,
+      "source_null_team_ids": 0,
+      "team_identity_disagreements": 0,
+      "unknown_starter_or_played_rows": 0,
+      "unmatched_team_rows": 0
+    }
+  },
+  "historical_publication_timestamp": null,
+  "manifest_sha256": "9d2f26ec1d229d4ad5d6eac8781babbc01ce3d96b2c344beb3203fc8a21f1c18",
+  "nba_playerlog_seasons": {
+    "2010": {
+      "duplicate_player_games": 1008,
+      "games": 14,
+      "rows": 1344
+    },
+    "2011": {
+      "duplicate_player_games": 1080,
+      "games": 15,
+      "rows": 1440
+    },
+    "2012": {
+      "duplicate_player_games": 1002,
+      "games": 13,
+      "rows": 1336
+    },
+    "2013": {
+      "duplicate_player_games": 1152,
+      "games": 15,
+      "rows": 1536
+    },
+    "2014": {
+      "duplicate_player_games": 1152,
+      "games": 15,
+      "rows": 1536
+    },
+    "2015": {
+      "duplicate_player_games": 1077,
+      "games": 14,
+      "rows": 1436
+    },
+    "2016": {
+      "duplicate_player_games": 1074,
+      "games": 14,
+      "rows": 1432
+    },
+    "2017": {
+      "duplicate_player_games": 1077,
+      "games": 14,
+      "rows": 1436
+    },
+    "2018": {
+      "duplicate_player_games": 912,
+      "games": 12,
+      "rows": 1216
+    },
+    "2019": {
+      "duplicate_player_games": 825,
+      "games": 11,
+      "rows": 1100
+    },
+    "2020": {
+      "duplicate_player_games": 300,
+      "games": 4,
+      "rows": 400
+    },
+    "2021": {
+      "duplicate_player_games": 1200,
+      "games": 15,
+      "rows": 1600
+    },
+    "2022": {
+      "duplicate_player_games": 1092,
+      "games": 15,
+      "rows": 1456
+    },
+    "2023": {
+      "duplicate_player_games": 1110,
+      "games": 15,
+      "rows": 1480
+    },
+    "2024": {
+      "duplicate_player_games": 1200,
+      "games": 15,
+      "rows": 1600
+    },
+    "2025": {
+      "duplicate_player_games": 0,
+      "games": 1230,
+      "rows": 32516
+    },
+    "2026": {
+      "duplicate_player_games": 0,
+      "games": 1230,
+      "rows": 32179
+    }
+  },
+  "retrieved_at": "2026-10-13T02:04:28.124793+00:00",
+  "verified_bytes": 99882513,
+  "verified_files": 115,
+  "version": "cached-espn-nba-intelligence-v1"
+}

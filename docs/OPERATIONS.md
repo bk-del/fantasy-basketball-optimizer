@@ -180,3 +180,10 @@ Or a user crontab example with an explicit working directory and absolute execut
 
 Review local timezone, permissions, logs/retention and paths before opting in. A fixed
 fixture report does not become current live advice merely because a timer runs it.
+
+
+Advanced forecasting milestone (2026-10-13): [actual LightGBM/PyTorch training,
+fresh chronological comparisons, conditional minutes/rates/uncertainty and native
+fixture integration](ADVANCED_FORECASTING.md) are complete. The selected candidate
+fails its frozen practical promotion threshold; recency and previous evidence
+remain unchanged. No Yahoo integration or real future schedule was added.

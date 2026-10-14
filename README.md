@@ -327,3 +327,24 @@ uv run --offline --no-sync fantasy nba run --fixture --as-of 2026-10-13T03:40:00
 Training reads the frozen validated configuration. Ordinary runs retain it and
 reuse derived forecasts/decisions; no automatic promotion, live transaction,
 background scheduler or additional model architecture is enabled.
+
+### Advanced forecasting research
+
+LightGBM and a small CPU PyTorch challenger have been trained and evaluated on a
+new chronological period. The selected tree model's 0.58% nine-category gain fails
+the frozen 2% promotion threshold; **recency stays active**. Shooting and interval
+scores improve, while counting-statistic/minute errors remain mixed. See
+[actual results, limits and commands](docs/ADVANCED_FORECASTING.md).
+
+```bash
+uv sync --locked --extra advanced --group dev
+uv run --offline --no-sync fantasy advanced backtest
+uv run --offline --no-sync python scripts/rebuild_advanced_models.py
+uv run --offline --no-sync fantasy advanced train --as-of 2026-10-13T03:40:00Z
+uv run --offline --no-sync fantasy advanced run --fixture --as-of 2026-10-13T03:40:00Z
+# Explicit unpromoted candidate simulation; no active-model change:
+uv run --offline --no-sync fantasy advanced run --fixture --candidate --as-of 2026-10-13T03:40:00Z
+```
+
+The optional extra uses the configured official CPU wheel index. No Yahoo access,
+verified future schedule, automatic training or live recommendations are enabled.

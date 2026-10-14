@@ -106,3 +106,10 @@ revision rather than silent overwrite. Outcome logs never promote or penalize a
 model. A single lucky/unlucky win says little about policy quality. Counterfactual
 transactions remain approximations, even if an outcome is logged. No live decision
 outcome ingestion or new DuckDB migration is asserted; this is a fixture contract.
+
+
+Advanced forecasting milestone (2026-10-13): [actual LightGBM/PyTorch training,
+fresh chronological comparisons, conditional minutes/rates/uncertainty and native
+fixture integration](ADVANCED_FORECASTING.md) are complete. The selected candidate
+fails its frozen practical promotion threshold; recency and previous evidence
+remain unchanged. No Yahoo integration or real future schedule was added.

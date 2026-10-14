@@ -1,0 +1,3350 @@
+{
+  "active_model": "original recency14; advanced selected candidate failed frozen 2% promotion threshold",
+  "all_history_fit": {
+    "active_id": "f56431befaf0a9792c23bf57c78acdcc3b5b4fd4c58156472d10f19134fd4063",
+    "available_observations": 64695,
+    "baseline_id": "f56431befaf0a9792c23bf57c78acdcc3b5b4fd4c58156472d10f19134fd4063",
+    "cache_hit": false,
+    "candidate_id": "9faeac6d3fc5965cc88678652a259064cbd8cfaa2f7f1e1caae3f847174e46aa",
+    "external_cli_seconds": 36.65,
+    "external_peak_rss_kib": 572580,
+    "fitted_cases": 63955,
+    "fitted_players": 689,
+    "learner_bytes": 2803573,
+    "model_fitting_seconds": 25.55772743300622,
+    "peak_rss_mib": 559.16015625,
+    "promoted": false,
+    "reason": "Frozen holdout gate failed; original recency retained.",
+    "registry_bytes": 3763,
+    "selected": "lgbm_small",
+    "total_seconds": 36.35265695799899
+  },
+  "all_source_observations": 64695,
+  "as_of": "2026-10-13T03:40:00+00:00",
+  "current_forecast_players": 697,
+  "current_registry_ids": {
+    "active_id": "f56431befaf0a9792c23bf57c78acdcc3b5b4fd4c58156472d10f19134fd4063",
+    "baseline_id": "f56431befaf0a9792c23bf57c78acdcc3b5b4fd4c58156472d10f19134fd4063",
+    "candidate_id": "9faeac6d3fc5965cc88678652a259064cbd8cfaa2f7f1e1caae3f847174e46aa"
+  },
+  "development_and_calibration": {
+    "external_cli_seconds": 82.78999999999999,
+    "external_peak_rss_kib": 602272,
+    "internal_seconds": 82.93239292399812
+  },
+  "feature_preparation": {
+    "all_observations": 64695,
+    "cache_hit": false,
+    "cases": 63955,
+    "external_cli_seconds": 166.84,
+    "external_peak_rss_kib": 656784,
+    "features": [
+      63955,
+      85
+    ],
+    "identity": "4da05657470fa70f3e82cb2da8559a202baa44f972707c313327da7f585fe0ad",
+    "peak_rss_mib": 641.390625,
+    "players": 697,
+    "seconds": 169.4007827089954
+  },
+  "final_evaluation": {
+    "external_cli_seconds": 146.42000000000002,
+    "external_peak_rss_kib": 744860,
+    "internal_seconds": 147.6629078019978,
+    "peak_rss_mib": 727.40234375
+  },
+  "fixture_runs": {
+    "baseline-run": {
+      "artifact": "data/advanced-runs/run-01126c932c7187404d0c9bc7a06b4952cb9bfefbeab3f0bac425e6aa9a84764d.json",
+      "decision_cache_hit": false,
+      "external_cli_seconds": 5.93,
+      "external_peak_rss_kib": 337572,
+      "forecast_cache_hit": true,
+      "inference_seconds": 4.599099295002816,
+      "optimization_seconds": 0.2644518790039001,
+      "peak_rss_mib": 329.66015625,
+      "report": {
+        "active_selection_id": "f56431befaf0a9792c23bf57c78acdcc3b5b4fd4c58156472d10f19134fd4063",
+        "as_of": "2026-10-13T03:40:00+00:00",
+        "data": {
+          "adapter_version": "nba-weekly-v1",
+          "availability_policy": "strict",
+          "code_hash": "3bd5f234e21805ce928dc18b2b947853232e47f6eda256484625b21aed47acce",
+          "retrieved_at": "2026-10-13T02:04:28.124793+00:00",
+          "seasons": {
+            "2025": {
+              "duplicate_player_games": 0,
+              "first_date": "2024-10-22",
+              "last_date": "2025-04-13",
+              "player_rows": 32516,
+              "players": 577,
+              "publication_timestamps_known": 0,
+              "regular_season_games": 1230,
+              "unmatched_dates": 0
+            },
+            "2026": {
+              "duplicate_player_games": 0,
+              "first_date": "2025-10-21",
+              "last_date": "2026-04-12",
+              "player_rows": 32179,
+              "players": 591,
+              "publication_timestamps_known": 0,
+              "regular_season_games": 1230,
+              "unmatched_dates": 0
+            }
+          },
+          "source_hash": "57760f7a9ddac3f0371d3eff75b7ff9d79de851d206929ac3f6063888d751cf8"
+        },
+        "fixture_identity_bindings": {
+          "anchor": 2544,
+          "bad-target": 200768,
+          "opponent-f": 201142,
+          "opponent-g": 101108,
+          "streamer": 201145,
+          "target": 201143,
+          "waiver-target": 201144,
+          "wrong-position": 201572
+        },
+        "forecast_artifact": "data/nba-runs/forecast-cc11c60ede72dd78cf458895a1d3e3612712caa8fde3d7bc3fd5be57f467e54e.json",
+        "limitations": [
+          "Candidate evaluation is explicit and does not promote a model.",
+          "Joint distributions are real-data-derived; simulated win odds are not calibrated live odds."
+        ],
+        "live_yahoo_recommendation": false,
+        "mode": "fixture league simulation with actual NBA advanced-research distributions",
+        "model_id": "ef43c29259d05e398713f6fc0dd732b0960e97abb6395966b3a7fd8662bbe450",
+        "optimization": {
+          "as_of": "2026-10-13T03:40:00+00:00",
+          "code_hash": "aa0e667165c3e60b6f9f6d3ce7fb559dbe6754616040e7ba606f287e3eb2e9dc",
+          "config_hash": "be87f69ae0358fb07b1d7a25e1a0be6ec2e215971e0fb683338549ffeee508a5",
+          "constraints_source": "fixture",
+          "constraints_version": "handmade-transaction-rules-v1",
+          "data_versions": [
+            "fixture-nba-id-bindings-v1"
+          ],
+          "diagnostics": [
+            "Synthetic fixture suggestions; no transactions submitted or claimed.",
+            "Long-term value is an explicit ordinal proxy, not calibrated economic value.",
+            "Daily maximum-cardinality lineups and earliest-game caps are deterministic heuristics, not matchup-optimal lineup search.",
+            "Paired Monte Carlo SE is sampling precision, not calibration; screening can miss an improvement.",
+            "Waiver claims and live Yahoo rules remain unverified."
+          ],
+          "evaluated_actions": 3,
+          "filtered_actions": [
+            {
+              "action": "ADD:nba:200768/DROP:-",
+              "feasibility": "rejected",
+              "reasons": [
+                "Roster is full; a drop is required."
+              ]
+            },
+            {
+              "action": "ADD:nba:200768/DROP:nba:2544",
+              "feasibility": "rejected",
+              "reasons": [
+                "Protected player cannot be dropped."
+              ]
+            },
+            {
+              "action": "ADD:nba:201143/DROP:-",
+              "feasibility": "rejected",
+              "reasons": [
+                "Roster is full; a drop is required."
+              ]
+            },
+            {
+              "action": "ADD:nba:201143/DROP:nba:2544",
+              "feasibility": "rejected",
+              "reasons": [
+                "Protected player cannot be dropped."
+              ]
+            },
+            {
+              "action": "ADD:nba:201144/DROP:-",
+              "feasibility": "rejected",
+              "reasons": [
+                "Waiver claims require verified priority/FAB and resolution; not an immediate free-agent add.",
+                "Roster is full; a drop is required."
+              ]
+            },
+            {
+              "action": "ADD:nba:201144/DROP:nba:201145",
+              "feasibility": "rejected",
+              "reasons": [
+                "Waiver claims require verified priority/FAB and resolution; not an immediate free-agent add."
+              ]
+            },
+            {
+              "action": "ADD:nba:201144/DROP:nba:2544",
+              "feasibility": "rejected",
+              "reasons": [
+                "Waiver claims require verified priority/FAB and resolution; not an immediate free-agent add.",
+                "Protected player cannot be dropped."
+              ]
+            },
+            {
+              "action": "ADD:nba:201572/DROP:-",
+              "feasibility": "rejected",
+              "reasons": [
+                "No eligible active roster position.",
+                "Roster is full; a drop is required."
+              ]
+            },
+            {
+              "action": "ADD:nba:201572/DROP:nba:201145",
+              "feasibility": "rejected",
+              "reasons": [
+                "No eligible active roster position."
+              ]
+            },
+            {
+              "action": "ADD:nba:201572/DROP:nba:2544",
+              "feasibility": "rejected",
+              "reasons": [
+                "No eligible active roster position.",
+                "Protected player cannot be dropped."
+              ]
+            }
+          ],
+          "finalist_samples": 4096,
+          "fixture_only": true,
+          "forecast_input_hash": "ae37eccbfd5f4f7121f6324919cbd1ed7dffb02d60e59eaf34ed434223a31638",
+          "input_hash": "241d9ca9f7c6671c58080b35483ab93b99c5b421d3f5fa60161cbac98c084cf4",
+          "max_value_loss": 0.0,
+          "model_versions": [
+            "ef43c29259d05e398713f6fc0dd732b0960e97abb6395966b3a7fd8662bbe450"
+          ],
+          "numpy_version": "2.2.6",
+          "optimizer_version": "waiver-fixture-v1",
+          "ranked_actions": [
+            {
+              "action": "ADD:nba:201143/DROP:nba:201145",
+              "active_lineup": [
+                {
+                  "game_key": "fixture:nba:201143:target-1",
+                  "slot": "F",
+                  "team": 0
+                },
+                {
+                  "game_key": "fixture:nba:201143:target-2",
+                  "slot": "F",
+                  "team": 0
+                },
+                {
+                  "game_key": "fixture:nba:201143:target-3",
+                  "slot": "F",
+                  "team": 0
+                },
+                {
+                  "game_key": "fixture:nba:2544:anchor-1",
+                  "slot": "G",
+                  "team": 0
+                },
+                {
+                  "game_key": "fixture:nba:2544:anchor-2",
+                  "slot": "G",
+                  "team": 0
+                },
+                {
+                  "game_key": "fixture:nba:2544:anchor-3",
+                  "slot": "G",
+                  "team": 0
+                },
+                {
+                  "game_key": "fixture:nba:101108:opponent-g-1",
+                  "slot": "G",
+                  "team": 1
+                },
+                {
+                  "game_key": "fixture:nba:101108:opponent-g-2",
+                  "slot": "G",
+                  "team": 1
+                },
+                {
+                  "game_key": "fixture:nba:101108:opponent-g-3",
+                  "slot": "G",
+                  "team": 1
+                },
+                {
+                  "game_key": "fixture:nba:201142:opponent-f-1",
+                  "slot": "F",
+                  "team": 1
+                },
+                {
+                  "game_key": "fixture:nba:201142:opponent-f-2",
+                  "slot": "F",
+                  "team": 1
+                },
+                {
+                  "game_key": "fixture:nba:201142:opponent-f-3",
+                  "slot": "F",
+                  "team": 1
+                }
+              ],
+              "add": "nba:201143",
+              "added_long_term_value": 2.0,
+              "category_tie_deltas": {
+                "3PM": 0.0615234375,
+                "AST": -0.010009765625,
+                "BLK": -0.02294921875,
+                "FG%": 0.00048828125,
+                "FT%": -0.001953125,
+                "PTS": 0.0107421875,
+                "REB": -0.021484375,
+                "STL": -0.000732421875,
+                "TO": -0.00048828125
+              },
+              "category_win_deltas": {
+                "3PM": 0.245849609375,
+                "AST": 0.21240234375,
+                "BLK": 0.333251953125,
+                "FG%": -0.075439453125,
+                "FT%": -0.013916015625,
+                "PTS": 0.299072265625,
+                "REB": 0.312255859375,
+                "STL": 0.0048828125,
+                "TO": -0.11865234375
+              },
+              "drop": "nba:201145",
+              "dropped_long_term_value": 1.0,
+              "evidence_versions": {
+                "nba:201143": "fixture-nba-id-bindings-v1",
+                "nba:2544": "fixture-nba-id-bindings-v1"
+              },
+              "explanation": "Positive paired matchup gain within the explicit value-loss limit.",
+              "feasibility": "feasible",
+              "legal_reasons": [
+                "Explicit fixture ownership, addability, eligibility, IR, locks, capacity and acquisition budgets passed.",
+                "Free-agent add is effective at the supplied transaction time; no waiver claim is assumed."
+              ],
+              "long_term_value_loss": 0.0,
+              "matchup_credit_after": 0.4990234375,
+              "matchup_credit_before": 0.1875,
+              "matchup_credit_gain": 0.3115234375,
+              "paired_gain_mc_se": 0.007822971057288311,
+              "recommendable": true,
+              "refined": true,
+              "roster_after": [
+                "nba:201143",
+                "nba:2544"
+              ],
+              "roster_before": [
+                "nba:201145",
+                "nba:2544"
+              ],
+              "samples": 4096,
+              "win_probability_after": 0.4990234375,
+              "win_probability_before": 0.1875,
+              "win_probability_mc_se": 0.007813438945980194
+            },
+            {
+              "action": "HOLD",
+              "active_lineup": [
+                {
+                  "game_key": "fixture:nba:201145:streamer-1",
+                  "slot": "F",
+                  "team": 0
+                },
+                {
+                  "game_key": "fixture:nba:201145:streamer-2",
+                  "slot": "F",
+                  "team": 0
+                },
+                {
+                  "game_key": "fixture:nba:201145:streamer-3",
+                  "slot": "F",
+                  "team": 0
+                },
+                {
+                  "game_key": "fixture:nba:2544:anchor-1",
+                  "slot": "G",
+                  "team": 0
+                },
+                {
+                  "game_key": "fixture:nba:2544:anchor-2",
+                  "slot": "G",
+                  "team": 0
+                },
+                {
+                  "game_key": "fixture:nba:2544:anchor-3",
+                  "slot": "G",
+                  "team": 0
+                },
+                {
+                  "game_key": "fixture:nba:101108:opponent-g-1",
+                  "slot": "G",
+                  "team": 1
+                },
+                {
+                  "game_key": "fixture:nba:101108:opponent-g-2",
+                  "slot": "G",
+                  "team": 1
+                },
+                {
+                  "game_key": "fixture:nba:101108:opponent-g-3",
+                  "slot": "G",
+                  "team": 1
+                },
+                {
+                  "game_key": "fixture:nba:201142:opponent-f-1",
+                  "slot": "F",
+                  "team": 1
+                },
+                {
+                  "game_key": "fixture:nba:201142:opponent-f-2",
+                  "slot": "F",
+                  "team": 1
+                },
+                {
+                  "game_key": "fixture:nba:201142:opponent-f-3",
+                  "slot": "F",
+                  "team": 1
+                }
+              ],
+              "add": null,
+              "added_long_term_value": null,
+              "category_tie_deltas": {
+                "3PM": 0.0,
+                "AST": 0.0,
+                "BLK": 0.0,
+                "FG%": 0.0,
+                "FT%": 0.0,
+                "PTS": 0.0,
+                "REB": 0.0,
+                "STL": 0.0,
+                "TO": 0.0
+              },
+              "category_win_deltas": {
+                "3PM": 0.0,
+                "AST": 0.0,
+                "BLK": 0.0,
+                "FG%": 0.0,
+                "FT%": 0.0,
+                "PTS": 0.0,
+                "REB": 0.0,
+                "STL": 0.0,
+                "TO": 0.0
+              },
+              "drop": null,
+              "dropped_long_term_value": null,
+              "evidence_versions": {
+                "nba:201145": "fixture-nba-id-bindings-v1",
+                "nba:2544": "fixture-nba-id-bindings-v1"
+              },
+              "explanation": "HOLD preserves roster value and uses no acquisition.",
+              "feasibility": "feasible",
+              "legal_reasons": [
+                "HOLD uses no acquisition or budget."
+              ],
+              "long_term_value_loss": 0,
+              "matchup_credit_after": 0.1875,
+              "matchup_credit_before": 0.1875,
+              "matchup_credit_gain": 0.0,
+              "paired_gain_mc_se": 0.0,
+              "recommendable": true,
+              "refined": true,
+              "roster_after": [
+                "nba:201145",
+                "nba:2544"
+              ],
+              "roster_before": [
+                "nba:201145",
+                "nba:2544"
+              ],
+              "samples": 4096,
+              "win_probability_after": 0.1875,
+              "win_probability_before": 0.1875,
+              "win_probability_mc_se": 0.006099375455928333
+            },
+            {
+              "action": "ADD:nba:200768/DROP:nba:201145",
+              "active_lineup": [
+                {
+                  "game_key": "fixture:nba:200768:bad-target-1",
+                  "slot": "F",
+                  "team": 0
+                },
+                {
+                  "game_key": "fixture:nba:200768:bad-target-2",
+                  "slot": "F",
+                  "team": 0
+                },
+                {
+                  "game_key": "fixture:nba:200768:bad-target-3",
+                  "slot": "F",
+                  "team": 0
+                },
+                {
+                  "game_key": "fixture:nba:2544:anchor-1",
+                  "slot": "G",
+                  "team": 0
+                },
+                {
+                  "game_key": "fixture:nba:2544:anchor-2",
+                  "slot": "G",
+                  "team": 0
+                },
+                {
+                  "game_key": "fixture:nba:2544:anchor-3",
+                  "slot": "G",
+                  "team": 0
+                },
+                {
+                  "game_key": "fixture:nba:101108:opponent-g-1",
+                  "slot": "G",
+                  "team": 1
+                },
+                {
+                  "game_key": "fixture:nba:101108:opponent-g-2",
+                  "slot": "G",
+                  "team": 1
+                },
+                {
+                  "game_key": "fixture:nba:101108:opponent-g-3",
+                  "slot": "G",
+                  "team": 1
+                },
+                {
+                  "game_key": "fixture:nba:201142:opponent-f-1",
+                  "slot": "F",
+                  "team": 1
+                },
+                {
+                  "game_key": "fixture:nba:201142:opponent-f-2",
+                  "slot": "F",
+                  "team": 1
+                },
+                {
+                  "game_key": "fixture:nba:201142:opponent-f-3",
+                  "slot": "F",
+                  "team": 1
+                }
+              ],
+              "add": "nba:200768",
+              "added_long_term_value": 0.5,
+              "category_tie_deltas": {
+                "3PM": 0.00390625,
+                "AST": 0.0,
+                "BLK": 0.00390625,
+                "FG%": 0.0,
+                "FT%": 0.0,
+                "PTS": 0.0078125,
+                "REB": -0.0078125,
+                "STL": 0.0078125,
+                "TO": -0.00390625
+              },
+              "category_win_deltas": {
+                "3PM": -0.00390625,
+                "AST": -0.00390625,
+                "BLK": -0.015625,
+                "FG%": -0.03125,
+                "FT%": -0.01171875,
+                "PTS": -0.01953125,
+                "REB": -0.05859375,
+                "STL": -0.01953125,
+                "TO": 0.0078125
+              },
+              "drop": "nba:201145",
+              "dropped_long_term_value": 1.0,
+              "evidence_versions": {
+                "nba:200768": "fixture-nba-id-bindings-v1",
+                "nba:2544": "fixture-nba-id-bindings-v1"
+              },
+              "explanation": "Value loss 0.5 exceeds limit 0.0; retain HOLD.",
+              "feasibility": "feasible",
+              "legal_reasons": [
+                "Explicit fixture ownership, addability, eligibility, IR, locks, capacity and acquisition budgets passed.",
+                "Free-agent add is effective at the supplied transaction time; no waiver claim is assumed."
+              ],
+              "long_term_value_loss": 0.5,
+              "matchup_credit_after": 0.125,
+              "matchup_credit_before": 0.15234375,
+              "matchup_credit_gain": -0.02734375,
+              "paired_gain_mc_se": 0.014007500698811544,
+              "recommendable": false,
+              "refined": false,
+              "roster_after": [
+                "nba:200768",
+                "nba:2544"
+              ],
+              "roster_before": [
+                "nba:201145",
+                "nba:2544"
+              ],
+              "samples": 256,
+              "win_probability_after": 0.125,
+              "win_probability_before": 0.15234375,
+              "win_probability_mc_se": 0.02071042173948785
+            }
+          ],
+          "read_only": true,
+          "recommended_action": "ADD:nba:201143/DROP:nba:201145",
+          "refined_actions": 2,
+          "scenario_hash": "f621ed6ac84e1cf2500ee95367cbac23e24d93c0f7d0479660b6a4f6583a0f86",
+          "screening_samples": 256,
+          "seed": 42,
+          "simulator_code_hash": "d5a27d47eb2496b60f07678d7cb58de8b5b5b96f3ef17c2fc016915712d105a5",
+          "simulator_version": "joint-matchup-v1"
+        },
+        "scope": "Hypothetical schedule/ownership/eligibility/value proxies; no verified real seven-day games.",
+        "using_candidate": false
+      },
+      "total_seconds": 5.392891485993459
+    },
+    "candidate-cached": {
+      "artifact": "data/advanced-runs/run-9e8ad2d0dd8e31672fc7b9a2d2ec2bb02524de01f25286b206632bba2dff0e95.json",
+      "decision_cache_hit": true,
+      "external_cli_seconds": 6.79,
+      "external_peak_rss_kib": 306300,
+      "forecast_cache_hit": true,
+      "inference_seconds": 6.08679453899822,
+      "optimization_seconds": 0.000956067000515759,
+      "peak_rss_mib": 299.12109375,
+      "report": {
+        "active_selection_id": "9faeac6d3fc5965cc88678652a259064cbd8cfaa2f7f1e1caae3f847174e46aa",
+        "as_of": "2026-10-13T03:40:00+00:00",
+        "data": {
+          "adapter_version": "nba-weekly-v1",
+          "availability_policy": "strict",
+          "code_hash": "3bd5f234e21805ce928dc18b2b947853232e47f6eda256484625b21aed47acce",
+          "context_source": "same verified player/team Parquet; lagged only",
+          "retrieved_at": "2026-10-13T02:04:28.124793+00:00",
+          "seasons": {
+            "2025": {
+              "duplicate_player_games": 0,
+              "first_date": "2024-10-22",
+              "last_date": "2025-04-13",
+              "player_rows": 32516,
+              "players": 577,
+              "publication_timestamps_known": 0,
+              "regular_season_games": 1230,
+              "unmatched_dates": 0
+            },
+            "2026": {
+              "duplicate_player_games": 0,
+              "first_date": "2025-10-21",
+              "last_date": "2026-04-12",
+              "player_rows": 32179,
+              "players": 591,
+              "publication_timestamps_known": 0,
+              "regular_season_games": 1230,
+              "unmatched_dates": 0
+            }
+          },
+          "source_hash": "57760f7a9ddac3f0371d3eff75b7ff9d79de851d206929ac3f6063888d751cf8",
+          "unknown_minute_rows": 11865,
+          "unknown_minutes_nonzero_rows": 125
+        },
+        "fixture_identity_bindings": {
+          "anchor": 2544,
+          "bad-target": 200768,
+          "opponent-f": 201142,
+          "opponent-g": 101108,
+          "streamer": 201145,
+          "target": 201143,
+          "waiver-target": 201144,
+          "wrong-position": 201572
+        },
+        "forecast_artifact": "data/advanced-runs/forecast-87b6f6cf90e3bab2094d204a4f5773fb0a3b100150e6e7284d2dc1d83075df3f.json",
+        "limitations": [
+          "Candidate evaluation is explicit and does not promote a model.",
+          "Joint distributions are real-data-derived; simulated win odds are not calibrated live odds."
+        ],
+        "live_yahoo_recommendation": false,
+        "mode": "fixture league simulation with actual NBA advanced-research distributions",
+        "model_id": "9faeac6d3fc5965cc88678652a259064cbd8cfaa2f7f1e1caae3f847174e46aa",
+        "optimization": {
+          "as_of": "2026-10-13T03:40:00+00:00",
+          "code_hash": "aa0e667165c3e60b6f9f6d3ce7fb559dbe6754616040e7ba606f287e3eb2e9dc",
+          "config_hash": "be87f69ae0358fb07b1d7a25e1a0be6ec2e215971e0fb683338549ffeee508a5",
+          "constraints_source": "fixture",
+          "constraints_version": "handmade-transaction-rules-v1",
+          "data_versions": [
+            "fixture-nba-id-bindings-v1"
+          ],
+          "diagnostics": [
+            "Synthetic fixture suggestions; no transactions submitted or claimed.",
+            "Long-term value is an explicit ordinal proxy, not calibrated economic value.",
+            "Daily maximum-cardinality lineups and earliest-game caps are deterministic heuristics, not matchup-optimal lineup search.",
+            "Paired Monte Carlo SE is sampling precision, not calibration; screening can miss an improvement.",
+            "Waiver claims and live Yahoo rules remain unverified."
+          ],
+          "evaluated_actions": 3,
+          "filtered_actions": [
+            {
+              "action": "ADD:nba:200768/DROP:-",
+              "feasibility": "rejected",
+              "reasons": [
+                "Roster is full; a drop is required."
+              ]
+            },
+            {
+              "action": "ADD:nba:200768/DROP:nba:2544",
+              "feasibility": "rejected",
+              "reasons": [
+                "Protected player cannot be dropped."
+              ]
+            },
+            {
+              "action": "ADD:nba:201143/DROP:-",
+              "feasibility": "rejected",
+              "reasons": [
+                "Roster is full; a drop is required."
+              ]
+            },
+            {
+              "action": "ADD:nba:201143/DROP:nba:2544",
+              "feasibility": "rejected",
+              "reasons": [
+                "Protected player cannot be dropped."
+              ]
+            },
+            {
+              "action": "ADD:nba:201144/DROP:-",
+              "feasibility": "rejected",
+              "reasons": [
+                "Waiver claims require verified priority/FAB and resolution; not an immediate free-agent add.",
+                "Roster is full; a drop is required."
+              ]
+            },
+            {
+              "action": "ADD:nba:201144/DROP:nba:201145",
+              "feasibility": "rejected",
+              "reasons": [
+                "Waiver claims require verified priority/FAB and resolution; not an immediate free-agent add."
+              ]
+            },
+            {
+              "action": "ADD:nba:201144/DROP:nba:2544",
+              "feasibility": "rejected",
+              "reasons": [
+                "Waiver claims require verified priority/FAB and resolution; not an immediate free-agent add.",
+                "Protected player cannot be dropped."
+              ]
+            },
+            {
+              "action": "ADD:nba:201572/DROP:-",
+              "feasibility": "rejected",
+              "reasons": [
+                "No eligible active roster position.",
+                "Roster is full; a drop is required."
+              ]
+            },
+            {
+              "action": "ADD:nba:201572/DROP:nba:201145",
+              "feasibility": "rejected",
+              "reasons": [
+                "No eligible active roster position."
+              ]
+            },
+            {
+              "action": "ADD:nba:201572/DROP:nba:2544",
+              "feasibility": "rejected",
+              "reasons": [
+                "No eligible active roster position.",
+                "Protected player cannot be dropped."
+              ]
+            }
+          ],
+          "finalist_samples": 4096,
+          "fixture_only": true,
+          "forecast_input_hash": "dd017c6a7ada14495d2303308db06bb51f6e943dc21718cd7d5f940c44c0521a",
+          "input_hash": "241d9ca9f7c6671c58080b35483ab93b99c5b421d3f5fa60161cbac98c084cf4",
+          "max_value_loss": 0.0,
+          "model_versions": [
+            "9faeac6d3fc5965cc88678652a259064cbd8cfaa2f7f1e1caae3f847174e46aa"
+          ],
+          "numpy_version": "2.2.6",
+          "optimizer_version": "waiver-fixture-v1",
+          "ranked_actions": [
+            {
+              "action": "ADD:nba:201143/DROP:nba:201145",
+              "active_lineup": [
+                {
+                  "game_key": "fixture:nba:201143:target-1",
+                  "slot": "F",
+                  "team": 0
+                },
+                {
+                  "game_key": "fixture:nba:201143:target-2",
+                  "slot": "F",
+                  "team": 0
+                },
+                {
+                  "game_key": "fixture:nba:201143:target-3",
+                  "slot": "F",
+                  "team": 0
+                },
+                {
+                  "game_key": "fixture:nba:2544:anchor-1",
+                  "slot": "G",
+                  "team": 0
+                },
+                {
+                  "game_key": "fixture:nba:2544:anchor-2",
+                  "slot": "G",
+                  "team": 0
+                },
+                {
+                  "game_key": "fixture:nba:2544:anchor-3",
+                  "slot": "G",
+                  "team": 0
+                },
+                {
+                  "game_key": "fixture:nba:101108:opponent-g-1",
+                  "slot": "G",
+                  "team": 1
+                },
+                {
+                  "game_key": "fixture:nba:101108:opponent-g-2",
+                  "slot": "G",
+                  "team": 1
+                },
+                {
+                  "game_key": "fixture:nba:101108:opponent-g-3",
+                  "slot": "G",
+                  "team": 1
+                },
+                {
+                  "game_key": "fixture:nba:201142:opponent-f-1",
+                  "slot": "F",
+                  "team": 1
+                },
+                {
+                  "game_key": "fixture:nba:201142:opponent-f-2",
+                  "slot": "F",
+                  "team": 1
+                },
+                {
+                  "game_key": "fixture:nba:201142:opponent-f-3",
+                  "slot": "F",
+                  "team": 1
+                }
+              ],
+              "add": "nba:201143",
+              "added_long_term_value": 2.0,
+              "category_tie_deltas": {
+                "3PM": 0.020263671875,
+                "AST": -0.006591796875,
+                "BLK": -0.033447265625,
+                "FG%": -0.001708984375,
+                "FT%": -0.004638671875,
+                "PTS": -0.00439453125,
+                "REB": -0.019775390625,
+                "STL": -0.01513671875,
+                "TO": -0.005615234375
+              },
+              "category_win_deltas": {
+                "3PM": 0.20556640625,
+                "AST": 0.167236328125,
+                "BLK": 0.239501953125,
+                "FG%": 0.02099609375,
+                "FT%": -0.003662109375,
+                "PTS": 0.196533203125,
+                "REB": 0.2109375,
+                "STL": 0.097900390625,
+                "TO": -0.06103515625
+              },
+              "drop": "nba:201145",
+              "dropped_long_term_value": 1.0,
+              "evidence_versions": {
+                "nba:201143": "fixture-nba-id-bindings-v1",
+                "nba:2544": "fixture-nba-id-bindings-v1"
+              },
+              "explanation": "Positive paired matchup gain within the explicit value-loss limit.",
+              "feasibility": "feasible",
+              "legal_reasons": [
+                "Explicit fixture ownership, addability, eligibility, IR, locks, capacity and acquisition budgets passed.",
+                "Free-agent add is effective at the supplied transaction time; no waiver claim is assumed."
+              ],
+              "long_term_value_loss": 0.0,
+              "matchup_credit_after": 0.50439453125,
+              "matchup_credit_before": 0.254150390625,
+              "matchup_credit_gain": 0.250244140625,
+              "paired_gain_mc_se": 0.007551539609782149,
+              "recommendable": true,
+              "refined": true,
+              "roster_after": [
+                "nba:201143",
+                "nba:2544"
+              ],
+              "roster_before": [
+                "nba:201145",
+                "nba:2544"
+              ],
+              "samples": 4096,
+              "win_probability_after": 0.50439453125,
+              "win_probability_before": 0.254150390625,
+              "win_probability_mc_se": 0.007813152057791192
+            },
+            {
+              "action": "HOLD",
+              "active_lineup": [
+                {
+                  "game_key": "fixture:nba:201145:streamer-1",
+                  "slot": "F",
+                  "team": 0
+                },
+                {
+                  "game_key": "fixture:nba:201145:streamer-2",
+                  "slot": "F",
+                  "team": 0
+                },
+                {
+                  "game_key": "fixture:nba:201145:streamer-3",
+                  "slot": "F",
+                  "team": 0
+                },
+                {
+                  "game_key": "fixture:nba:2544:anchor-1",
+                  "slot": "G",
+                  "team": 0
+                },
+                {
+                  "game_key": "fixture:nba:2544:anchor-2",
+                  "slot": "G",
+                  "team": 0
+                },
+                {
+                  "game_key": "fixture:nba:2544:anchor-3",
+                  "slot": "G",
+                  "team": 0
+                },
+                {
+                  "game_key": "fixture:nba:101108:opponent-g-1",
+                  "slot": "G",
+                  "team": 1
+                },
+                {
+                  "game_key": "fixture:nba:101108:opponent-g-2",
+                  "slot": "G",
+                  "team": 1
+                },
+                {
+                  "game_key": "fixture:nba:101108:opponent-g-3",
+                  "slot": "G",
+                  "team": 1
+                },
+                {
+                  "game_key": "fixture:nba:201142:opponent-f-1",
+                  "slot": "F",
+                  "team": 1
+                },
+                {
+                  "game_key": "fixture:nba:201142:opponent-f-2",
+                  "slot": "F",
+                  "team": 1
+                },
+                {
+                  "game_key": "fixture:nba:201142:opponent-f-3",
+                  "slot": "F",
+                  "team": 1
+                }
+              ],
+              "add": null,
+              "added_long_term_value": null,
+              "category_tie_deltas": {
+                "3PM": 0.0,
+                "AST": 0.0,
+                "BLK": 0.0,
+                "FG%": 0.0,
+                "FT%": 0.0,
+                "PTS": 0.0,
+                "REB": 0.0,
+                "STL": 0.0,
+                "TO": 0.0
+              },
+              "category_win_deltas": {
+                "3PM": 0.0,
+                "AST": 0.0,
+                "BLK": 0.0,
+                "FG%": 0.0,
+                "FT%": 0.0,
+                "PTS": 0.0,
+                "REB": 0.0,
+                "STL": 0.0,
+                "TO": 0.0
+              },
+              "drop": null,
+              "dropped_long_term_value": null,
+              "evidence_versions": {
+                "nba:201145": "fixture-nba-id-bindings-v1",
+                "nba:2544": "fixture-nba-id-bindings-v1"
+              },
+              "explanation": "HOLD preserves roster value and uses no acquisition.",
+              "feasibility": "feasible",
+              "legal_reasons": [
+                "HOLD uses no acquisition or budget."
+              ],
+              "long_term_value_loss": 0,
+              "matchup_credit_after": 0.254150390625,
+              "matchup_credit_before": 0.254150390625,
+              "matchup_credit_gain": 0.0,
+              "paired_gain_mc_se": 0.0,
+              "recommendable": true,
+              "refined": true,
+              "roster_after": [
+                "nba:201145",
+                "nba:2544"
+              ],
+              "roster_before": [
+                "nba:201145",
+                "nba:2544"
+              ],
+              "samples": 4096,
+              "win_probability_after": 0.254150390625,
+              "win_probability_before": 0.254150390625,
+              "win_probability_mc_se": 0.006803683006955535
+            },
+            {
+              "action": "ADD:nba:200768/DROP:nba:201145",
+              "active_lineup": [
+                {
+                  "game_key": "fixture:nba:200768:bad-target-1",
+                  "slot": "F",
+                  "team": 0
+                },
+                {
+                  "game_key": "fixture:nba:200768:bad-target-2",
+                  "slot": "F",
+                  "team": 0
+                },
+                {
+                  "game_key": "fixture:nba:200768:bad-target-3",
+                  "slot": "F",
+                  "team": 0
+                },
+                {
+                  "game_key": "fixture:nba:2544:anchor-1",
+                  "slot": "G",
+                  "team": 0
+                },
+                {
+                  "game_key": "fixture:nba:2544:anchor-2",
+                  "slot": "G",
+                  "team": 0
+                },
+                {
+                  "game_key": "fixture:nba:2544:anchor-3",
+                  "slot": "G",
+                  "team": 0
+                },
+                {
+                  "game_key": "fixture:nba:101108:opponent-g-1",
+                  "slot": "G",
+                  "team": 1
+                },
+                {
+                  "game_key": "fixture:nba:101108:opponent-g-2",
+                  "slot": "G",
+                  "team": 1
+                },
+                {
+                  "game_key": "fixture:nba:101108:opponent-g-3",
+                  "slot": "G",
+                  "team": 1
+                },
+                {
+                  "game_key": "fixture:nba:201142:opponent-f-1",
+                  "slot": "F",
+                  "team": 1
+                },
+                {
+                  "game_key": "fixture:nba:201142:opponent-f-2",
+                  "slot": "F",
+                  "team": 1
+                },
+                {
+                  "game_key": "fixture:nba:201142:opponent-f-3",
+                  "slot": "F",
+                  "team": 1
+                }
+              ],
+              "add": "nba:200768",
+              "added_long_term_value": 0.5,
+              "category_tie_deltas": {
+                "3PM": -0.046875,
+                "AST": 0.0078125,
+                "BLK": -0.0078125,
+                "FG%": -0.01171875,
+                "FT%": 0.00390625,
+                "PTS": -0.0078125,
+                "REB": 0.015625,
+                "STL": -0.015625,
+                "TO": 0.0
+              },
+              "category_win_deltas": {
+                "3PM": 0.046875,
+                "AST": 0.0078125,
+                "BLK": -0.01171875,
+                "FG%": -0.0234375,
+                "FT%": -0.01171875,
+                "PTS": -0.015625,
+                "REB": -0.1015625,
+                "STL": 0.0234375,
+                "TO": 0.05078125
+              },
+              "drop": "nba:201145",
+              "dropped_long_term_value": 1.0,
+              "evidence_versions": {
+                "nba:200768": "fixture-nba-id-bindings-v1",
+                "nba:2544": "fixture-nba-id-bindings-v1"
+              },
+              "explanation": "Value loss 0.5 exceeds limit 0.0; retain HOLD.",
+              "feasibility": "feasible",
+              "legal_reasons": [
+                "Explicit fixture ownership, addability, eligibility, IR, locks, capacity and acquisition budgets passed.",
+                "Free-agent add is effective at the supplied transaction time; no waiver claim is assumed."
+              ],
+              "long_term_value_loss": 0.5,
+              "matchup_credit_after": 0.26171875,
+              "matchup_credit_before": 0.2578125,
+              "matchup_credit_gain": 0.00390625,
+              "paired_gain_mc_se": 0.024441084922722945,
+              "recommendable": false,
+              "refined": false,
+              "roster_after": [
+                "nba:200768",
+                "nba:2544"
+              ],
+              "roster_before": [
+                "nba:201145",
+                "nba:2544"
+              ],
+              "samples": 256,
+              "win_probability_after": 0.26171875,
+              "win_probability_before": 0.2578125,
+              "win_probability_mc_se": 0.027526959754524398
+            }
+          ],
+          "read_only": true,
+          "recommended_action": "ADD:nba:201143/DROP:nba:201145",
+          "refined_actions": 2,
+          "scenario_hash": "d32935de0014aecac4b718264d48a83731e9d64fd2970e006fc83403613ab970",
+          "screening_samples": 256,
+          "seed": 42,
+          "simulator_code_hash": "d5a27d47eb2496b60f07678d7cb58de8b5b5b96f3ef17c2fc016915712d105a5",
+          "simulator_version": "joint-matchup-v1"
+        },
+        "scope": "Hypothetical schedule/ownership/eligibility/value proxies; no verified real seven-day games.",
+        "using_candidate": true
+      },
+      "total_seconds": 6.781538574003207
+    },
+    "candidate-python": {
+      "artifact": "data/advanced-runs/run-1675875b474acf0d67a2d858a077f3111826389da4011b9203c774e2cd01ead8.json",
+      "decision_cache_hit": false,
+      "external_cli_seconds": 7.82,
+      "external_peak_rss_kib": 305596,
+      "forecast_cache_hit": true,
+      "inference_seconds": 5.765020879000076,
+      "optimization_seconds": 0.7221867650005152,
+      "peak_rss_mib": 298.43359375,
+      "report": {
+        "active_selection_id": "9faeac6d3fc5965cc88678652a259064cbd8cfaa2f7f1e1caae3f847174e46aa",
+        "as_of": "2026-10-13T03:40:00+00:00",
+        "data": {
+          "adapter_version": "nba-weekly-v1",
+          "availability_policy": "strict",
+          "code_hash": "3bd5f234e21805ce928dc18b2b947853232e47f6eda256484625b21aed47acce",
+          "context_source": "same verified player/team Parquet; lagged only",
+          "retrieved_at": "2026-10-13T02:04:28.124793+00:00",
+          "seasons": {
+            "2025": {
+              "duplicate_player_games": 0,
+              "first_date": "2024-10-22",
+              "last_date": "2025-04-13",
+              "player_rows": 32516,
+              "players": 577,
+              "publication_timestamps_known": 0,
+              "regular_season_games": 1230,
+              "unmatched_dates": 0
+            },
+            "2026": {
+              "duplicate_player_games": 0,
+              "first_date": "2025-10-21",
+              "last_date": "2026-04-12",
+              "player_rows": 32179,
+              "players": 591,
+              "publication_timestamps_known": 0,
+              "regular_season_games": 1230,
+              "unmatched_dates": 0
+            }
+          },
+          "source_hash": "57760f7a9ddac3f0371d3eff75b7ff9d79de851d206929ac3f6063888d751cf8",
+          "unknown_minute_rows": 11865,
+          "unknown_minutes_nonzero_rows": 125
+        },
+        "fixture_identity_bindings": {
+          "anchor": 2544,
+          "bad-target": 200768,
+          "opponent-f": 201142,
+          "opponent-g": 101108,
+          "streamer": 201145,
+          "target": 201143,
+          "waiver-target": 201144,
+          "wrong-position": 201572
+        },
+        "forecast_artifact": "data/advanced-runs/forecast-87b6f6cf90e3bab2094d204a4f5773fb0a3b100150e6e7284d2dc1d83075df3f.json",
+        "limitations": [
+          "Candidate evaluation is explicit and does not promote a model.",
+          "Joint distributions are real-data-derived; simulated win odds are not calibrated live odds."
+        ],
+        "live_yahoo_recommendation": false,
+        "mode": "fixture league simulation with actual NBA advanced-research distributions",
+        "model_id": "9faeac6d3fc5965cc88678652a259064cbd8cfaa2f7f1e1caae3f847174e46aa",
+        "optimization": {
+          "as_of": "2026-10-13T03:40:00+00:00",
+          "code_hash": "aa0e667165c3e60b6f9f6d3ce7fb559dbe6754616040e7ba606f287e3eb2e9dc",
+          "config_hash": "d860ede97bc7ae778214b8c13641b7dc3f6ec7bb6506b3ce8b17e3437e471f67",
+          "constraints_source": "fixture",
+          "constraints_version": "handmade-transaction-rules-v1",
+          "data_versions": [
+            "fixture-nba-id-bindings-v1"
+          ],
+          "diagnostics": [
+            "Synthetic fixture suggestions; no transactions submitted or claimed.",
+            "Long-term value is an explicit ordinal proxy, not calibrated economic value.",
+            "Daily maximum-cardinality lineups and earliest-game caps are deterministic heuristics, not matchup-optimal lineup search.",
+            "Paired Monte Carlo SE is sampling precision, not calibration; screening can miss an improvement.",
+            "Waiver claims and live Yahoo rules remain unverified."
+          ],
+          "evaluated_actions": 3,
+          "filtered_actions": [
+            {
+              "action": "ADD:nba:200768/DROP:-",
+              "feasibility": "rejected",
+              "reasons": [
+                "Roster is full; a drop is required."
+              ]
+            },
+            {
+              "action": "ADD:nba:200768/DROP:nba:2544",
+              "feasibility": "rejected",
+              "reasons": [
+                "Protected player cannot be dropped."
+              ]
+            },
+            {
+              "action": "ADD:nba:201143/DROP:-",
+              "feasibility": "rejected",
+              "reasons": [
+                "Roster is full; a drop is required."
+              ]
+            },
+            {
+              "action": "ADD:nba:201143/DROP:nba:2544",
+              "feasibility": "rejected",
+              "reasons": [
+                "Protected player cannot be dropped."
+              ]
+            },
+            {
+              "action": "ADD:nba:201144/DROP:-",
+              "feasibility": "rejected",
+              "reasons": [
+                "Waiver claims require verified priority/FAB and resolution; not an immediate free-agent add.",
+                "Roster is full; a drop is required."
+              ]
+            },
+            {
+              "action": "ADD:nba:201144/DROP:nba:201145",
+              "feasibility": "rejected",
+              "reasons": [
+                "Waiver claims require verified priority/FAB and resolution; not an immediate free-agent add."
+              ]
+            },
+            {
+              "action": "ADD:nba:201144/DROP:nba:2544",
+              "feasibility": "rejected",
+              "reasons": [
+                "Waiver claims require verified priority/FAB and resolution; not an immediate free-agent add.",
+                "Protected player cannot be dropped."
+              ]
+            },
+            {
+              "action": "ADD:nba:201572/DROP:-",
+              "feasibility": "rejected",
+              "reasons": [
+                "No eligible active roster position.",
+                "Roster is full; a drop is required."
+              ]
+            },
+            {
+              "action": "ADD:nba:201572/DROP:nba:201145",
+              "feasibility": "rejected",
+              "reasons": [
+                "No eligible active roster position."
+              ]
+            },
+            {
+              "action": "ADD:nba:201572/DROP:nba:2544",
+              "feasibility": "rejected",
+              "reasons": [
+                "No eligible active roster position.",
+                "Protected player cannot be dropped."
+              ]
+            }
+          ],
+          "finalist_samples": 4096,
+          "fixture_only": true,
+          "forecast_input_hash": "dd017c6a7ada14495d2303308db06bb51f6e943dc21718cd7d5f940c44c0521a",
+          "input_hash": "241d9ca9f7c6671c58080b35483ab93b99c5b421d3f5fa60161cbac98c084cf4",
+          "max_value_loss": 0.0,
+          "model_versions": [
+            "9faeac6d3fc5965cc88678652a259064cbd8cfaa2f7f1e1caae3f847174e46aa"
+          ],
+          "numpy_version": "2.2.6",
+          "optimizer_version": "waiver-fixture-v1",
+          "ranked_actions": [
+            {
+              "action": "ADD:nba:201143/DROP:nba:201145",
+              "active_lineup": [
+                {
+                  "game_key": "fixture:nba:201143:target-1",
+                  "slot": "F",
+                  "team": 0
+                },
+                {
+                  "game_key": "fixture:nba:201143:target-2",
+                  "slot": "F",
+                  "team": 0
+                },
+                {
+                  "game_key": "fixture:nba:201143:target-3",
+                  "slot": "F",
+                  "team": 0
+                },
+                {
+                  "game_key": "fixture:nba:2544:anchor-1",
+                  "slot": "G",
+                  "team": 0
+                },
+                {
+                  "game_key": "fixture:nba:2544:anchor-2",
+                  "slot": "G",
+                  "team": 0
+                },
+                {
+                  "game_key": "fixture:nba:2544:anchor-3",
+                  "slot": "G",
+                  "team": 0
+                },
+                {
+                  "game_key": "fixture:nba:101108:opponent-g-1",
+                  "slot": "G",
+                  "team": 1
+                },
+                {
+                  "game_key": "fixture:nba:101108:opponent-g-2",
+                  "slot": "G",
+                  "team": 1
+                },
+                {
+                  "game_key": "fixture:nba:101108:opponent-g-3",
+                  "slot": "G",
+                  "team": 1
+                },
+                {
+                  "game_key": "fixture:nba:201142:opponent-f-1",
+                  "slot": "F",
+                  "team": 1
+                },
+                {
+                  "game_key": "fixture:nba:201142:opponent-f-2",
+                  "slot": "F",
+                  "team": 1
+                },
+                {
+                  "game_key": "fixture:nba:201142:opponent-f-3",
+                  "slot": "F",
+                  "team": 1
+                }
+              ],
+              "add": "nba:201143",
+              "added_long_term_value": 2.0,
+              "category_tie_deltas": {
+                "3PM": 0.020263671875,
+                "AST": -0.006591796875,
+                "BLK": -0.033447265625,
+                "FG%": -0.001708984375,
+                "FT%": -0.004638671875,
+                "PTS": -0.00439453125,
+                "REB": -0.019775390625,
+                "STL": -0.01513671875,
+                "TO": -0.005615234375
+              },
+              "category_win_deltas": {
+                "3PM": 0.20556640625,
+                "AST": 0.167236328125,
+                "BLK": 0.239501953125,
+                "FG%": 0.02099609375,
+                "FT%": -0.003662109375,
+                "PTS": 0.196533203125,
+                "REB": 0.2109375,
+                "STL": 0.097900390625,
+                "TO": -0.06103515625
+              },
+              "drop": "nba:201145",
+              "dropped_long_term_value": 1.0,
+              "evidence_versions": {
+                "nba:201143": "fixture-nba-id-bindings-v1",
+                "nba:2544": "fixture-nba-id-bindings-v1"
+              },
+              "explanation": "Positive paired matchup gain within the explicit value-loss limit.",
+              "feasibility": "feasible",
+              "legal_reasons": [
+                "Explicit fixture ownership, addability, eligibility, IR, locks, capacity and acquisition budgets passed.",
+                "Free-agent add is effective at the supplied transaction time; no waiver claim is assumed."
+              ],
+              "long_term_value_loss": 0.0,
+              "matchup_credit_after": 0.50439453125,
+              "matchup_credit_before": 0.254150390625,
+              "matchup_credit_gain": 0.250244140625,
+              "paired_gain_mc_se": 0.007551539609782149,
+              "recommendable": true,
+              "refined": true,
+              "roster_after": [
+                "nba:201143",
+                "nba:2544"
+              ],
+              "roster_before": [
+                "nba:201145",
+                "nba:2544"
+              ],
+              "samples": 4096,
+              "win_probability_after": 0.50439453125,
+              "win_probability_before": 0.254150390625,
+              "win_probability_mc_se": 0.007813152057791192
+            },
+            {
+              "action": "HOLD",
+              "active_lineup": [
+                {
+                  "game_key": "fixture:nba:201145:streamer-1",
+                  "slot": "F",
+                  "team": 0
+                },
+                {
+                  "game_key": "fixture:nba:201145:streamer-2",
+                  "slot": "F",
+                  "team": 0
+                },
+                {
+                  "game_key": "fixture:nba:201145:streamer-3",
+                  "slot": "F",
+                  "team": 0
+                },
+                {
+                  "game_key": "fixture:nba:2544:anchor-1",
+                  "slot": "G",
+                  "team": 0
+                },
+                {
+                  "game_key": "fixture:nba:2544:anchor-2",
+                  "slot": "G",
+                  "team": 0
+                },
+                {
+                  "game_key": "fixture:nba:2544:anchor-3",
+                  "slot": "G",
+                  "team": 0
+                },
+                {
+                  "game_key": "fixture:nba:101108:opponent-g-1",
+                  "slot": "G",
+                  "team": 1
+                },
+                {
+                  "game_key": "fixture:nba:101108:opponent-g-2",
+                  "slot": "G",
+                  "team": 1
+                },
+                {
+                  "game_key": "fixture:nba:101108:opponent-g-3",
+                  "slot": "G",
+                  "team": 1
+                },
+                {
+                  "game_key": "fixture:nba:201142:opponent-f-1",
+                  "slot": "F",
+                  "team": 1
+                },
+                {
+                  "game_key": "fixture:nba:201142:opponent-f-2",
+                  "slot": "F",
+                  "team": 1
+                },
+                {
+                  "game_key": "fixture:nba:201142:opponent-f-3",
+                  "slot": "F",
+                  "team": 1
+                }
+              ],
+              "add": null,
+              "added_long_term_value": null,
+              "category_tie_deltas": {
+                "3PM": 0.0,
+                "AST": 0.0,
+                "BLK": 0.0,
+                "FG%": 0.0,
+                "FT%": 0.0,
+                "PTS": 0.0,
+                "REB": 0.0,
+                "STL": 0.0,
+                "TO": 0.0
+              },
+              "category_win_deltas": {
+                "3PM": 0.0,
+                "AST": 0.0,
+                "BLK": 0.0,
+                "FG%": 0.0,
+                "FT%": 0.0,
+                "PTS": 0.0,
+                "REB": 0.0,
+                "STL": 0.0,
+                "TO": 0.0
+              },
+              "drop": null,
+              "dropped_long_term_value": null,
+              "evidence_versions": {
+                "nba:201145": "fixture-nba-id-bindings-v1",
+                "nba:2544": "fixture-nba-id-bindings-v1"
+              },
+              "explanation": "HOLD preserves roster value and uses no acquisition.",
+              "feasibility": "feasible",
+              "legal_reasons": [
+                "HOLD uses no acquisition or budget."
+              ],
+              "long_term_value_loss": 0,
+              "matchup_credit_after": 0.254150390625,
+              "matchup_credit_before": 0.254150390625,
+              "matchup_credit_gain": 0.0,
+              "paired_gain_mc_se": 0.0,
+              "recommendable": true,
+              "refined": true,
+              "roster_after": [
+                "nba:201145",
+                "nba:2544"
+              ],
+              "roster_before": [
+                "nba:201145",
+                "nba:2544"
+              ],
+              "samples": 4096,
+              "win_probability_after": 0.254150390625,
+              "win_probability_before": 0.254150390625,
+              "win_probability_mc_se": 0.006803683006955535
+            },
+            {
+              "action": "ADD:nba:200768/DROP:nba:201145",
+              "active_lineup": [
+                {
+                  "game_key": "fixture:nba:200768:bad-target-1",
+                  "slot": "F",
+                  "team": 0
+                },
+                {
+                  "game_key": "fixture:nba:200768:bad-target-2",
+                  "slot": "F",
+                  "team": 0
+                },
+                {
+                  "game_key": "fixture:nba:200768:bad-target-3",
+                  "slot": "F",
+                  "team": 0
+                },
+                {
+                  "game_key": "fixture:nba:2544:anchor-1",
+                  "slot": "G",
+                  "team": 0
+                },
+                {
+                  "game_key": "fixture:nba:2544:anchor-2",
+                  "slot": "G",
+                  "team": 0
+                },
+                {
+                  "game_key": "fixture:nba:2544:anchor-3",
+                  "slot": "G",
+                  "team": 0
+                },
+                {
+                  "game_key": "fixture:nba:101108:opponent-g-1",
+                  "slot": "G",
+                  "team": 1
+                },
+                {
+                  "game_key": "fixture:nba:101108:opponent-g-2",
+                  "slot": "G",
+                  "team": 1
+                },
+                {
+                  "game_key": "fixture:nba:101108:opponent-g-3",
+                  "slot": "G",
+                  "team": 1
+                },
+                {
+                  "game_key": "fixture:nba:201142:opponent-f-1",
+                  "slot": "F",
+                  "team": 1
+                },
+                {
+                  "game_key": "fixture:nba:201142:opponent-f-2",
+                  "slot": "F",
+                  "team": 1
+                },
+                {
+                  "game_key": "fixture:nba:201142:opponent-f-3",
+                  "slot": "F",
+                  "team": 1
+                }
+              ],
+              "add": "nba:200768",
+              "added_long_term_value": 0.5,
+              "category_tie_deltas": {
+                "3PM": -0.046875,
+                "AST": 0.0078125,
+                "BLK": -0.0078125,
+                "FG%": -0.01171875,
+                "FT%": 0.00390625,
+                "PTS": -0.0078125,
+                "REB": 0.015625,
+                "STL": -0.015625,
+                "TO": 0.0
+              },
+              "category_win_deltas": {
+                "3PM": 0.046875,
+                "AST": 0.0078125,
+                "BLK": -0.01171875,
+                "FG%": -0.0234375,
+                "FT%": -0.01171875,
+                "PTS": -0.015625,
+                "REB": -0.1015625,
+                "STL": 0.0234375,
+                "TO": 0.05078125
+              },
+              "drop": "nba:201145",
+              "dropped_long_term_value": 1.0,
+              "evidence_versions": {
+                "nba:200768": "fixture-nba-id-bindings-v1",
+                "nba:2544": "fixture-nba-id-bindings-v1"
+              },
+              "explanation": "Value loss 0.5 exceeds limit 0.0; retain HOLD.",
+              "feasibility": "feasible",
+              "legal_reasons": [
+                "Explicit fixture ownership, addability, eligibility, IR, locks, capacity and acquisition budgets passed.",
+                "Free-agent add is effective at the supplied transaction time; no waiver claim is assumed."
+              ],
+              "long_term_value_loss": 0.5,
+              "matchup_credit_after": 0.26171875,
+              "matchup_credit_before": 0.2578125,
+              "matchup_credit_gain": 0.00390625,
+              "paired_gain_mc_se": 0.024441084922722945,
+              "recommendable": false,
+              "refined": false,
+              "roster_after": [
+                "nba:200768",
+                "nba:2544"
+              ],
+              "roster_before": [
+                "nba:201145",
+                "nba:2544"
+              ],
+              "samples": 256,
+              "win_probability_after": 0.26171875,
+              "win_probability_before": 0.2578125,
+              "win_probability_mc_se": 0.027526959754524398
+            }
+          ],
+          "read_only": true,
+          "recommended_action": "ADD:nba:201143/DROP:nba:201145",
+          "refined_actions": 2,
+          "scenario_hash": "d32935de0014aecac4b718264d48a83731e9d64fd2970e006fc83403613ab970",
+          "screening_samples": 256,
+          "seed": 42,
+          "simulator_code_hash": "d5a27d47eb2496b60f07678d7cb58de8b5b5b96f3ef17c2fc016915712d105a5",
+          "simulator_version": "joint-matchup-v1"
+        },
+        "scope": "Hypothetical schedule/ownership/eligibility/value proxies; no verified real seven-day games.",
+        "using_candidate": true
+      },
+      "total_seconds": 7.29144264000206
+    },
+    "candidate-run": {
+      "artifact": "data/advanced-runs/run-9e8ad2d0dd8e31672fc7b9a2d2ec2bb02524de01f25286b206632bba2dff0e95.json",
+      "decision_cache_hit": false,
+      "external_cli_seconds": 20.94,
+      "external_peak_rss_kib": 661140,
+      "forecast_cache_hit": false,
+      "inference_seconds": 19.490274178999243,
+      "optimization_seconds": 0.2395284520025598,
+      "peak_rss_mib": 645.64453125,
+      "report": {
+        "active_selection_id": "9faeac6d3fc5965cc88678652a259064cbd8cfaa2f7f1e1caae3f847174e46aa",
+        "as_of": "2026-10-13T03:40:00+00:00",
+        "data": {
+          "adapter_version": "nba-weekly-v1",
+          "availability_policy": "strict",
+          "code_hash": "3bd5f234e21805ce928dc18b2b947853232e47f6eda256484625b21aed47acce",
+          "context_source": "same verified player/team Parquet; lagged only",
+          "retrieved_at": "2026-10-13T02:04:28.124793+00:00",
+          "seasons": {
+            "2025": {
+              "duplicate_player_games": 0,
+              "first_date": "2024-10-22",
+              "last_date": "2025-04-13",
+              "player_rows": 32516,
+              "players": 577,
+              "publication_timestamps_known": 0,
+              "regular_season_games": 1230,
+              "unmatched_dates": 0
+            },
+            "2026": {
+              "duplicate_player_games": 0,
+              "first_date": "2025-10-21",
+              "last_date": "2026-04-12",
+              "player_rows": 32179,
+              "players": 591,
+              "publication_timestamps_known": 0,
+              "regular_season_games": 1230,
+              "unmatched_dates": 0
+            }
+          },
+          "source_hash": "57760f7a9ddac3f0371d3eff75b7ff9d79de851d206929ac3f6063888d751cf8",
+          "unknown_minute_rows": 11865,
+          "unknown_minutes_nonzero_rows": 125
+        },
+        "fixture_identity_bindings": {
+          "anchor": 2544,
+          "bad-target": 200768,
+          "opponent-f": 201142,
+          "opponent-g": 101108,
+          "streamer": 201145,
+          "target": 201143,
+          "waiver-target": 201144,
+          "wrong-position": 201572
+        },
+        "forecast_artifact": "data/advanced-runs/forecast-87b6f6cf90e3bab2094d204a4f5773fb0a3b100150e6e7284d2dc1d83075df3f.json",
+        "limitations": [
+          "Candidate evaluation is explicit and does not promote a model.",
+          "Joint distributions are real-data-derived; simulated win odds are not calibrated live odds."
+        ],
+        "live_yahoo_recommendation": false,
+        "mode": "fixture league simulation with actual NBA advanced-research distributions",
+        "model_id": "9faeac6d3fc5965cc88678652a259064cbd8cfaa2f7f1e1caae3f847174e46aa",
+        "optimization": {
+          "as_of": "2026-10-13T03:40:00+00:00",
+          "code_hash": "aa0e667165c3e60b6f9f6d3ce7fb559dbe6754616040e7ba606f287e3eb2e9dc",
+          "config_hash": "be87f69ae0358fb07b1d7a25e1a0be6ec2e215971e0fb683338549ffeee508a5",
+          "constraints_source": "fixture",
+          "constraints_version": "handmade-transaction-rules-v1",
+          "data_versions": [
+            "fixture-nba-id-bindings-v1"
+          ],
+          "diagnostics": [
+            "Synthetic fixture suggestions; no transactions submitted or claimed.",
+            "Long-term value is an explicit ordinal proxy, not calibrated economic value.",
+            "Daily maximum-cardinality lineups and earliest-game caps are deterministic heuristics, not matchup-optimal lineup search.",
+            "Paired Monte Carlo SE is sampling precision, not calibration; screening can miss an improvement.",
+            "Waiver claims and live Yahoo rules remain unverified."
+          ],
+          "evaluated_actions": 3,
+          "filtered_actions": [
+            {
+              "action": "ADD:nba:200768/DROP:-",
+              "feasibility": "rejected",
+              "reasons": [
+                "Roster is full; a drop is required."
+              ]
+            },
+            {
+              "action": "ADD:nba:200768/DROP:nba:2544",
+              "feasibility": "rejected",
+              "reasons": [
+                "Protected player cannot be dropped."
+              ]
+            },
+            {
+              "action": "ADD:nba:201143/DROP:-",
+              "feasibility": "rejected",
+              "reasons": [
+                "Roster is full; a drop is required."
+              ]
+            },
+            {
+              "action": "ADD:nba:201143/DROP:nba:2544",
+              "feasibility": "rejected",
+              "reasons": [
+                "Protected player cannot be dropped."
+              ]
+            },
+            {
+              "action": "ADD:nba:201144/DROP:-",
+              "feasibility": "rejected",
+              "reasons": [
+                "Waiver claims require verified priority/FAB and resolution; not an immediate free-agent add.",
+                "Roster is full; a drop is required."
+              ]
+            },
+            {
+              "action": "ADD:nba:201144/DROP:nba:201145",
+              "feasibility": "rejected",
+              "reasons": [
+                "Waiver claims require verified priority/FAB and resolution; not an immediate free-agent add."
+              ]
+            },
+            {
+              "action": "ADD:nba:201144/DROP:nba:2544",
+              "feasibility": "rejected",
+              "reasons": [
+                "Waiver claims require verified priority/FAB and resolution; not an immediate free-agent add.",
+                "Protected player cannot be dropped."
+              ]
+            },
+            {
+              "action": "ADD:nba:201572/DROP:-",
+              "feasibility": "rejected",
+              "reasons": [
+                "No eligible active roster position.",
+                "Roster is full; a drop is required."
+              ]
+            },
+            {
+              "action": "ADD:nba:201572/DROP:nba:201145",
+              "feasibility": "rejected",
+              "reasons": [
+                "No eligible active roster position."
+              ]
+            },
+            {
+              "action": "ADD:nba:201572/DROP:nba:2544",
+              "feasibility": "rejected",
+              "reasons": [
+                "No eligible active roster position.",
+                "Protected player cannot be dropped."
+              ]
+            }
+          ],
+          "finalist_samples": 4096,
+          "fixture_only": true,
+          "forecast_input_hash": "dd017c6a7ada14495d2303308db06bb51f6e943dc21718cd7d5f940c44c0521a",
+          "input_hash": "241d9ca9f7c6671c58080b35483ab93b99c5b421d3f5fa60161cbac98c084cf4",
+          "max_value_loss": 0.0,
+          "model_versions": [
+            "9faeac6d3fc5965cc88678652a259064cbd8cfaa2f7f1e1caae3f847174e46aa"
+          ],
+          "numpy_version": "2.2.6",
+          "optimizer_version": "waiver-fixture-v1",
+          "ranked_actions": [
+            {
+              "action": "ADD:nba:201143/DROP:nba:201145",
+              "active_lineup": [
+                {
+                  "game_key": "fixture:nba:201143:target-1",
+                  "slot": "F",
+                  "team": 0
+                },
+                {
+                  "game_key": "fixture:nba:201143:target-2",
+                  "slot": "F",
+                  "team": 0
+                },
+                {
+                  "game_key": "fixture:nba:201143:target-3",
+                  "slot": "F",
+                  "team": 0
+                },
+                {
+                  "game_key": "fixture:nba:2544:anchor-1",
+                  "slot": "G",
+                  "team": 0
+                },
+                {
+                  "game_key": "fixture:nba:2544:anchor-2",
+                  "slot": "G",
+                  "team": 0
+                },
+                {
+                  "game_key": "fixture:nba:2544:anchor-3",
+                  "slot": "G",
+                  "team": 0
+                },
+                {
+                  "game_key": "fixture:nba:101108:opponent-g-1",
+                  "slot": "G",
+                  "team": 1
+                },
+                {
+                  "game_key": "fixture:nba:101108:opponent-g-2",
+                  "slot": "G",
+                  "team": 1
+                },
+                {
+                  "game_key": "fixture:nba:101108:opponent-g-3",
+                  "slot": "G",
+                  "team": 1
+                },
+                {
+                  "game_key": "fixture:nba:201142:opponent-f-1",
+                  "slot": "F",
+                  "team": 1
+                },
+                {
+                  "game_key": "fixture:nba:201142:opponent-f-2",
+                  "slot": "F",
+                  "team": 1
+                },
+                {
+                  "game_key": "fixture:nba:201142:opponent-f-3",
+                  "slot": "F",
+                  "team": 1
+                }
+              ],
+              "add": "nba:201143",
+              "added_long_term_value": 2.0,
+              "category_tie_deltas": {
+                "3PM": 0.020263671875,
+                "AST": -0.006591796875,
+                "BLK": -0.033447265625,
+                "FG%": -0.001708984375,
+                "FT%": -0.004638671875,
+                "PTS": -0.00439453125,
+                "REB": -0.019775390625,
+                "STL": -0.01513671875,
+                "TO": -0.005615234375
+              },
+              "category_win_deltas": {
+                "3PM": 0.20556640625,
+                "AST": 0.167236328125,
+                "BLK": 0.239501953125,
+                "FG%": 0.02099609375,
+                "FT%": -0.003662109375,
+                "PTS": 0.196533203125,
+                "REB": 0.2109375,
+                "STL": 0.097900390625,
+                "TO": -0.06103515625
+              },
+              "drop": "nba:201145",
+              "dropped_long_term_value": 1.0,
+              "evidence_versions": {
+                "nba:201143": "fixture-nba-id-bindings-v1",
+                "nba:2544": "fixture-nba-id-bindings-v1"
+              },
+              "explanation": "Positive paired matchup gain within the explicit value-loss limit.",
+              "feasibility": "feasible",
+              "legal_reasons": [
+                "Explicit fixture ownership, addability, eligibility, IR, locks, capacity and acquisition budgets passed.",
+                "Free-agent add is effective at the supplied transaction time; no waiver claim is assumed."
+              ],
+              "long_term_value_loss": 0.0,
+              "matchup_credit_after": 0.50439453125,
+              "matchup_credit_before": 0.254150390625,
+              "matchup_credit_gain": 0.250244140625,
+              "paired_gain_mc_se": 0.007551539609782149,
+              "recommendable": true,
+              "refined": true,
+              "roster_after": [
+                "nba:201143",
+                "nba:2544"
+              ],
+              "roster_before": [
+                "nba:201145",
+                "nba:2544"
+              ],
+              "samples": 4096,
+              "win_probability_after": 0.50439453125,
+              "win_probability_before": 0.254150390625,
+              "win_probability_mc_se": 0.007813152057791192
+            },
+            {
+              "action": "HOLD",
+              "active_lineup": [
+                {
+                  "game_key": "fixture:nba:201145:streamer-1",
+                  "slot": "F",
+                  "team": 0
+                },
+                {
+                  "game_key": "fixture:nba:201145:streamer-2",
+                  "slot": "F",
+                  "team": 0
+                },
+                {
+                  "game_key": "fixture:nba:201145:streamer-3",
+                  "slot": "F",
+                  "team": 0
+                },
+                {
+                  "game_key": "fixture:nba:2544:anchor-1",
+                  "slot": "G",
+                  "team": 0
+                },
+                {
+                  "game_key": "fixture:nba:2544:anchor-2",
+                  "slot": "G",
+                  "team": 0
+                },
+                {
+                  "game_key": "fixture:nba:2544:anchor-3",
+                  "slot": "G",
+                  "team": 0
+                },
+                {
+                  "game_key": "fixture:nba:101108:opponent-g-1",
+                  "slot": "G",
+                  "team": 1
+                },
+                {
+                  "game_key": "fixture:nba:101108:opponent-g-2",
+                  "slot": "G",
+                  "team": 1
+                },
+                {
+                  "game_key": "fixture:nba:101108:opponent-g-3",
+                  "slot": "G",
+                  "team": 1
+                },
+                {
+                  "game_key": "fixture:nba:201142:opponent-f-1",
+                  "slot": "F",
+                  "team": 1
+                },
+                {
+                  "game_key": "fixture:nba:201142:opponent-f-2",
+                  "slot": "F",
+                  "team": 1
+                },
+                {
+                  "game_key": "fixture:nba:201142:opponent-f-3",
+                  "slot": "F",
+                  "team": 1
+                }
+              ],
+              "add": null,
+              "added_long_term_value": null,
+              "category_tie_deltas": {
+                "3PM": 0.0,
+                "AST": 0.0,
+                "BLK": 0.0,
+                "FG%": 0.0,
+                "FT%": 0.0,
+                "PTS": 0.0,
+                "REB": 0.0,
+                "STL": 0.0,
+                "TO": 0.0
+              },
+              "category_win_deltas": {
+                "3PM": 0.0,
+                "AST": 0.0,
+                "BLK": 0.0,
+                "FG%": 0.0,
+                "FT%": 0.0,
+                "PTS": 0.0,
+                "REB": 0.0,
+                "STL": 0.0,
+                "TO": 0.0
+              },
+              "drop": null,
+              "dropped_long_term_value": null,
+              "evidence_versions": {
+                "nba:201145": "fixture-nba-id-bindings-v1",
+                "nba:2544": "fixture-nba-id-bindings-v1"
+              },
+              "explanation": "HOLD preserves roster value and uses no acquisition.",
+              "feasibility": "feasible",
+              "legal_reasons": [
+                "HOLD uses no acquisition or budget."
+              ],
+              "long_term_value_loss": 0,
+              "matchup_credit_after": 0.254150390625,
+              "matchup_credit_before": 0.254150390625,
+              "matchup_credit_gain": 0.0,
+              "paired_gain_mc_se": 0.0,
+              "recommendable": true,
+              "refined": true,
+              "roster_after": [
+                "nba:201145",
+                "nba:2544"
+              ],
+              "roster_before": [
+                "nba:201145",
+                "nba:2544"
+              ],
+              "samples": 4096,
+              "win_probability_after": 0.254150390625,
+              "win_probability_before": 0.254150390625,
+              "win_probability_mc_se": 0.006803683006955535
+            },
+            {
+              "action": "ADD:nba:200768/DROP:nba:201145",
+              "active_lineup": [
+                {
+                  "game_key": "fixture:nba:200768:bad-target-1",
+                  "slot": "F",
+                  "team": 0
+                },
+                {
+                  "game_key": "fixture:nba:200768:bad-target-2",
+                  "slot": "F",
+                  "team": 0
+                },
+                {
+                  "game_key": "fixture:nba:200768:bad-target-3",
+                  "slot": "F",
+                  "team": 0
+                },
+                {
+                  "game_key": "fixture:nba:2544:anchor-1",
+                  "slot": "G",
+                  "team": 0
+                },
+                {
+                  "game_key": "fixture:nba:2544:anchor-2",
+                  "slot": "G",
+                  "team": 0
+                },
+                {
+                  "game_key": "fixture:nba:2544:anchor-3",
+                  "slot": "G",
+                  "team": 0
+                },
+                {
+                  "game_key": "fixture:nba:101108:opponent-g-1",
+                  "slot": "G",
+                  "team": 1
+                },
+                {
+                  "game_key": "fixture:nba:101108:opponent-g-2",
+                  "slot": "G",
+                  "team": 1
+                },
+                {
+                  "game_key": "fixture:nba:101108:opponent-g-3",
+                  "slot": "G",
+                  "team": 1
+                },
+                {
+                  "game_key": "fixture:nba:201142:opponent-f-1",
+                  "slot": "F",
+                  "team": 1
+                },
+                {
+                  "game_key": "fixture:nba:201142:opponent-f-2",
+                  "slot": "F",
+                  "team": 1
+                },
+                {
+                  "game_key": "fixture:nba:201142:opponent-f-3",
+                  "slot": "F",
+                  "team": 1
+                }
+              ],
+              "add": "nba:200768",
+              "added_long_term_value": 0.5,
+              "category_tie_deltas": {
+                "3PM": -0.046875,
+                "AST": 0.0078125,
+                "BLK": -0.0078125,
+                "FG%": -0.01171875,
+                "FT%": 0.00390625,
+                "PTS": -0.0078125,
+                "REB": 0.015625,
+                "STL": -0.015625,
+                "TO": 0.0
+              },
+              "category_win_deltas": {
+                "3PM": 0.046875,
+                "AST": 0.0078125,
+                "BLK": -0.01171875,
+                "FG%": -0.0234375,
+                "FT%": -0.01171875,
+                "PTS": -0.015625,
+                "REB": -0.1015625,
+                "STL": 0.0234375,
+                "TO": 0.05078125
+              },
+              "drop": "nba:201145",
+              "dropped_long_term_value": 1.0,
+              "evidence_versions": {
+                "nba:200768": "fixture-nba-id-bindings-v1",
+                "nba:2544": "fixture-nba-id-bindings-v1"
+              },
+              "explanation": "Value loss 0.5 exceeds limit 0.0; retain HOLD.",
+              "feasibility": "feasible",
+              "legal_reasons": [
+                "Explicit fixture ownership, addability, eligibility, IR, locks, capacity and acquisition budgets passed.",
+                "Free-agent add is effective at the supplied transaction time; no waiver claim is assumed."
+              ],
+              "long_term_value_loss": 0.5,
+              "matchup_credit_after": 0.26171875,
+              "matchup_credit_before": 0.2578125,
+              "matchup_credit_gain": 0.00390625,
+              "paired_gain_mc_se": 0.024441084922722945,
+              "recommendable": false,
+              "refined": false,
+              "roster_after": [
+                "nba:200768",
+                "nba:2544"
+              ],
+              "roster_before": [
+                "nba:201145",
+                "nba:2544"
+              ],
+              "samples": 256,
+              "win_probability_after": 0.26171875,
+              "win_probability_before": 0.2578125,
+              "win_probability_mc_se": 0.027526959754524398
+            }
+          ],
+          "read_only": true,
+          "recommended_action": "ADD:nba:201143/DROP:nba:201145",
+          "refined_actions": 2,
+          "scenario_hash": "d32935de0014aecac4b718264d48a83731e9d64fd2970e006fc83403613ab970",
+          "screening_samples": 256,
+          "seed": 42,
+          "simulator_code_hash": "d5a27d47eb2496b60f07678d7cb58de8b5b5b96f3ef17c2fc016915712d105a5",
+          "simulator_version": "joint-matchup-v1"
+        },
+        "scope": "Hypothetical schedule/ownership/eligibility/value proxies; no verified real seven-day games.",
+        "using_candidate": true
+      },
+      "total_seconds": 20.367180242996255
+    }
+  },
+  "forecast_artifact": "data/advanced-runs/forecast-87b6f6cf90e3bab2094d204a4f5773fb0a3b100150e6e7284d2dc1d83075df3f.json",
+  "forecast_artifact_bytes": 45452465,
+  "forecast_artifact_sha256": "88594b61bd8b251600b2bfc94849889b215dfc722a2d17d150bbbc30eaf90e92",
+  "forecast_examples": [
+    {
+      "assumptions": {
+        "availability_probability": null,
+        "context": "last observed team history, not confirmed upcoming matchup",
+        "expected_minutes_unconditional": null,
+        "game_count": null
+      },
+      "code_hash": "68e05045c2785d3e03bc686d2d3b5c0f2c332f61a710a4185ee4bc411fa5a008",
+      "data_cutoff": "2026-10-13T03:40:00+00:00",
+      "dataset_version": "57760f7a9ddac3f0371d3eff75b7ff9d79de851d206929ac3f6063888d751cf8",
+      "expected_counts": {
+        "3PM": 0.46970665351587104,
+        "AST": 2.030447498419978,
+        "BLK": 0.04607831970763212,
+        "FGA": 2.706331053501493,
+        "FGM": 1.051534572926784,
+        "FTA": 0.29602891305690143,
+        "FTM": 0.2352963056648748,
+        "PTS": 2.808072105034314,
+        "REB": 1.0764957748992454,
+        "STL": 0.35113037645278733,
+        "TO": 0.5375458786824868
+      },
+      "historical_display_name": "Chris Paul",
+      "history_observations": 103,
+      "horizon": "next_recorded_player_game_conditional",
+      "input_hash": "1ab1549b4d7db249f57b4fadab48f346dab97c1e0f450c05ffb314240bb19c25",
+      "intervals_80": {
+        "3PM": [
+          0.0,
+          1.0
+        ],
+        "AST": [
+          0.0,
+          4.0
+        ],
+        "BLK": [
+          0.0,
+          0.0
+        ],
+        "FGA": [
+          1.0,
+          5.0
+        ],
+        "FGM": [
+          0.0,
+          2.0
+        ],
+        "FTA": [
+          0.0,
+          1.0
+        ],
+        "FTM": [
+          0.0,
+          1.0
+        ],
+        "PTS": [
+          0.0,
+          6.0
+        ],
+        "REB": [
+          0.0,
+          3.0
+        ],
+        "STL": [
+          0.0,
+          1.0
+        ],
+        "TO": [
+          0.0,
+          1.5
+        ]
+      },
+      "latest_observation": "2025-12-02T00:00:00+00:00",
+      "minutes_given_nonzero_record": {
+        "interval_80": [
+          4.563518346304747,
+          20.45033723429676
+        ],
+        "mean": 12.040677600981478
+      },
+      "minutes_group": "medium",
+      "model": "lgbm_small",
+      "model_id": "9faeac6d3fc5965cc88678652a259064cbd8cfaa2f7f1e1caae3f847174e46aa",
+      "model_version": "nba-advanced-v1",
+      "nba_player_id": 101108,
+      "nonzero_record_probability": 0.7479493957628256,
+      "per_minute_production": {
+        "2PA": 0.15294780071643713,
+        "3PA": 0.14756140265286496,
+        "AST": 0.22545954215170194,
+        "BLK": 0.005116506027605577,
+        "FTA": 0.03287085396367631,
+        "REB": 0.11953337612811503,
+        "STL": 0.038989283875699374,
+        "TO": 0.059688737476638686
+      },
+      "player_key": "nba:101108",
+      "prediction_timestamp": "2026-10-13T03:40:00+00:00",
+      "sample_mean": {
+        "3PM": 0.3984375,
+        "AST": 2.04296875,
+        "BLK": 0.04296875,
+        "FGA": 2.8359375,
+        "FGM": 1.06640625,
+        "FTA": 0.27734375,
+        "FTM": 0.20703125,
+        "PTS": 2.73828125,
+        "REB": 1.06640625,
+        "STL": 0.33203125,
+        "TO": 0.5234375
+      },
+      "sample_sd": {
+        "3PM": 0.624215193537563,
+        "AST": 1.699512437291885,
+        "BLK": 0.20318390925561047,
+        "FGA": 1.8161685321728547,
+        "FGM": 1.0550924013991363,
+        "FTA": 0.5361759798541418,
+        "FTM": 0.4931982210978844,
+        "PTS": 2.546404496116659,
+        "REB": 1.1373707101701456,
+        "STL": 0.5833552166763656,
+        "TO": 0.7967073785643155
+      },
+      "seed": 42,
+      "shooting_probabilities": {
+        "2P": 0.4224041508041881,
+        "3P": 0.35345228506168447,
+        "FT": 0.7948423119725712
+      },
+      "warnings": [
+        "Conditional statistical estimates, not verified playing-time/availability assumptions.",
+        "Snapshot newest games April 2026; current roster and role unknown.",
+        "Joint count calibration has no guaranteed player-specific coverage or live matchup calibration."
+      ]
+    },
+    {
+      "assumptions": {
+        "availability_probability": null,
+        "context": "last observed team history, not confirmed upcoming matchup",
+        "expected_minutes_unconditional": null,
+        "game_count": null
+      },
+      "code_hash": "68e05045c2785d3e03bc686d2d3b5c0f2c332f61a710a4185ee4bc411fa5a008",
+      "data_cutoff": "2026-10-13T03:40:00+00:00",
+      "dataset_version": "57760f7a9ddac3f0371d3eff75b7ff9d79de851d206929ac3f6063888d751cf8",
+      "expected_counts": {
+        "3PM": 0.5679770630766031,
+        "AST": 0.5751875137341901,
+        "BLK": 0.08127499331442403,
+        "FGA": 2.1606676198930304,
+        "FGM": 0.7593586053120893,
+        "FTA": 0.251633051720029,
+        "FTM": 0.19981539441563945,
+        "PTS": 2.286509668116421,
+        "REB": 0.5840276704400589,
+        "STL": 0.21989614156870327,
+        "TO": 0.22001066739957145
+      },
+      "historical_display_name": "Kyle Lowry",
+      "history_observations": 120,
+      "horizon": "next_recorded_player_game_conditional",
+      "input_hash": "70c7f715a3f1498e5fb61e60dab6aab4c9e77ec919ed6e8ce0b46f7c345daf41",
+      "intervals_80": {
+        "3PM": [
+          0.0,
+          2.0
+        ],
+        "AST": [
+          0.0,
+          1.5
+        ],
+        "BLK": [
+          0.0,
+          0.0
+        ],
+        "FGA": [
+          0.0,
+          4.5
+        ],
+        "FGM": [
+          0.0,
+          2.0
+        ],
+        "FTA": [
+          0.0,
+          1.0
+        ],
+        "FTM": [
+          0.0,
+          1.0
+        ],
+        "PTS": [
+          0.0,
+          6.0
+        ],
+        "REB": [
+          0.0,
+          1.0
+        ],
+        "STL": [
+          0.0,
+          1.0
+        ],
+        "TO": [
+          0.0,
+          1.0
+        ]
+      },
+      "latest_observation": "2026-04-13T00:00:00+00:00",
+      "minutes_given_nonzero_record": {
+        "interval_80": [
+          3.9006508516441336,
+          19.787469739636148
+        ],
+        "mean": 11.377810106320865
+      },
+      "minutes_group": "medium",
+      "model": "lgbm_small",
+      "model_id": "9faeac6d3fc5965cc88678652a259064cbd8cfaa2f7f1e1caae3f847174e46aa",
+      "model_version": "nba-advanced-v1",
+      "nba_player_id": 200768,
+      "nonzero_record_probability": 0.4754631183612289,
+      "per_minute_production": {
+        "2PA": 0.07184240819285974,
+        "3PA": 0.32756162676478956,
+        "AST": 0.10632464323877236,
+        "BLK": 0.015023856502530467,
+        "FTA": 0.04651490829055055,
+        "REB": 0.1079587651302999,
+        "STL": 0.040648272508710385,
+        "TO": 0.040669442853716015
+      },
+      "player_key": "nba:200768",
+      "prediction_timestamp": "2026-10-13T03:40:00+00:00",
+      "sample_mean": {
+        "3PM": 0.578125,
+        "AST": 0.51171875,
+        "BLK": 0.0859375,
+        "FGA": 2.26171875,
+        "FGM": 0.75,
+        "FTA": 0.2578125,
+        "FTM": 0.1953125,
+        "PTS": 2.2734375,
+        "REB": 0.48828125,
+        "STL": 0.2109375,
+        "TO": 0.19140625
+      },
+      "sample_sd": {
+        "3PM": 0.8411884683087889,
+        "AST": 0.7617442413406788,
+        "BLK": 0.29445446400513103,
+        "FGA": 1.759528506084937,
+        "FGM": 0.941421536721952,
+        "FTA": 0.5125269002983275,
+        "FTM": 0.46960298208626583,
+        "PTS": 2.777260164192012,
+        "REB": 0.8067481171405384,
+        "STL": 0.4955067716836105,
+        "TO": 0.40400492013117373
+      },
+      "seed": 42,
+      "shooting_probabilities": {
+        "2P": 0.49242903557390244,
+        "3P": 0.32052526126459896,
+        "FT": 0.794074518628647
+      },
+      "warnings": [
+        "Conditional statistical estimates, not verified playing-time/availability assumptions.",
+        "Snapshot newest games April 2026; current roster and role unknown.",
+        "Joint count calibration has no guaranteed player-specific coverage or live matchup calibration."
+      ]
+    },
+    {
+      "assumptions": {
+        "availability_probability": null,
+        "context": "last observed team history, not confirmed upcoming matchup",
+        "expected_minutes_unconditional": null,
+        "game_count": null
+      },
+      "code_hash": "68e05045c2785d3e03bc686d2d3b5c0f2c332f61a710a4185ee4bc411fa5a008",
+      "data_cutoff": "2026-10-13T03:40:00+00:00",
+      "dataset_version": "57760f7a9ddac3f0371d3eff75b7ff9d79de851d206929ac3f6063888d751cf8",
+      "expected_counts": {
+        "3PM": 1.867207375731347,
+        "AST": 4.746902437580949,
+        "BLK": 0.7414184461601009,
+        "FGA": 14.406998909279501,
+        "FGM": 7.42009903204603,
+        "FTA": 5.2098478699851,
+        "FTM": 4.343606414090074,
+        "PTS": 21.05101185391348,
+        "REB": 4.644950529736901,
+        "STL": 0.632941881513501,
+        "TO": 2.4143769200640897
+      },
+      "historical_display_name": "Kevin Durant",
+      "history_observations": 140,
+      "horizon": "next_recorded_player_game_conditional",
+      "input_hash": "5998b9afbdd25d3233114f9099b69209dae21a3e00d938b39294f58aaac9c594",
+      "intervals_80": {
+        "3PM": [
+          0.0,
+          3.0
+        ],
+        "AST": [
+          2.0,
+          9.0
+        ],
+        "BLK": [
+          0.0,
+          2.0
+        ],
+        "FGA": [
+          8.5,
+          20.0
+        ],
+        "FGM": [
+          3.0,
+          11.0
+        ],
+        "FTA": [
+          1.0,
+          10.0
+        ],
+        "FTM": [
+          0.0,
+          9.0
+        ],
+        "PTS": [
+          10.0,
+          30.0
+        ],
+        "REB": [
+          2.0,
+          8.0
+        ],
+        "STL": [
+          0.0,
+          2.0
+        ],
+        "TO": [
+          1.0,
+          5.0
+        ]
+      },
+      "latest_observation": "2026-04-11T00:00:00+00:00",
+      "minutes_given_nonzero_record": {
+        "interval_80": [
+          25.38666638327026,
+          37.4631113238639
+        ],
+        "mean": 32.09443900248309
+      },
+      "minutes_group": "high",
+      "model": "lgbm_small",
+      "model_id": "9faeac6d3fc5965cc88678652a259064cbd8cfaa2f7f1e1caae3f847174e46aa",
+      "model_version": "nba-advanced-v1",
+      "nba_player_id": 201142,
+      "nonzero_record_probability": 0.9219090912703364,
+      "per_minute_production": {
+        "2PA": 0.32714144783506904,
+        "3PA": 0.1597763360796456,
+        "AST": 0.16043252518590384,
+        "BLK": 0.025057947809327744,
+        "FTA": 0.17607883469415808,
+        "REB": 0.1569868251240175,
+        "STL": 0.021391731909888544,
+        "TO": 0.08159944113657415
+      },
+      "player_key": "nba:201142",
+      "prediction_timestamp": "2026-10-13T03:40:00+00:00",
+      "sample_mean": {
+        "3PM": 1.7890625,
+        "AST": 4.9453125,
+        "BLK": 0.66015625,
+        "FGA": 14.0234375,
+        "FGM": 7.140625,
+        "FTA": 4.859375,
+        "FTM": 4.13671875,
+        "PTS": 20.20703125,
+        "REB": 4.76171875,
+        "STL": 0.640625,
+        "TO": 2.5078125
+      },
+      "sample_sd": {
+        "3PM": 1.3556119738071848,
+        "AST": 2.826509227256247,
+        "BLK": 0.815135243800852,
+        "FGA": 4.545137188119137,
+        "FGM": 3.2460760625594665,
+        "FTA": 3.7599215156598107,
+        "FTM": 3.561347422772212,
+        "PTS": 8.15824552066743,
+        "REB": 2.500560598910478,
+        "STL": 0.8423531465658639,
+        "TO": 1.5916256025911149
+      },
+      "seed": 42,
+      "shooting_probabilities": {
+        "2P": 0.573674759176761,
+        "3P": 0.3949682718918608,
+        "FT": 0.8337299902967218
+      },
+      "warnings": [
+        "Conditional statistical estimates, not verified playing-time/availability assumptions.",
+        "Snapshot newest games April 2026; current roster and role unknown.",
+        "Joint count calibration has no guaranteed player-specific coverage or live matchup calibration."
+      ]
+    },
+    {
+      "assumptions": {
+        "availability_probability": null,
+        "context": "last observed team history, not confirmed upcoming matchup",
+        "expected_minutes_unconditional": null,
+        "game_count": null
+      },
+      "code_hash": "68e05045c2785d3e03bc686d2d3b5c0f2c332f61a710a4185ee4bc411fa5a008",
+      "data_cutoff": "2026-10-13T03:40:00+00:00",
+      "dataset_version": "57760f7a9ddac3f0371d3eff75b7ff9d79de851d206929ac3f6063888d751cf8",
+      "expected_counts": {
+        "3PM": 1.1480049120989195,
+        "AST": 1.5879576179060337,
+        "BLK": 0.47559136845003214,
+        "FGA": 5.303414758096759,
+        "FGM": 2.353068353066696,
+        "FTA": 0.45587377560508496,
+        "FTM": 0.3467501401150537,
+        "PTS": 6.200891758347366,
+        "REB": 2.827419640194799,
+        "STL": 0.3772932024349132,
+        "TO": 0.6257816840933195
+      },
+      "historical_display_name": "Al Horford",
+      "history_observations": 119,
+      "horizon": "next_recorded_player_game_conditional",
+      "input_hash": "6e9da23ec3282fbbb13d0a02a542f20abf5a0b269e280517f9512d6cd8b6e07d",
+      "intervals_80": {
+        "3PM": [
+          0.0,
+          3.0
+        ],
+        "AST": [
+          0.0,
+          4.0
+        ],
+        "BLK": [
+          0.0,
+          1.5
+        ],
+        "FGA": [
+          2.0,
+          8.5
+        ],
+        "FGM": [
+          0.5,
+          5.0
+        ],
+        "FTA": [
+          0.0,
+          1.0
+        ],
+        "FTM": [
+          0.0,
+          1.0
+        ],
+        "PTS": [
+          2.0,
+          13.0
+        ],
+        "REB": [
+          0.0,
+          7.0
+        ],
+        "STL": [
+          0.0,
+          1.0
+        ],
+        "TO": [
+          0.0,
+          2.0
+        ]
+      },
+      "latest_observation": "2026-04-13T00:00:00+00:00",
+      "minutes_given_nonzero_record": {
+        "interval_80": [
+          10.756995220308731,
+          26.643814108300745
+        ],
+        "mean": 18.234154474985463
+      },
+      "minutes_group": "medium",
+      "model": "lgbm_small",
+      "model_id": "9faeac6d3fc5965cc88678652a259064cbd8cfaa2f7f1e1caae3f847174e46aa",
+      "model_version": "nba-advanced-v1",
+      "nba_player_id": 201143,
+      "nonzero_record_probability": 0.7676992681903826,
+      "per_minute_production": {
+        "2PA": 0.15498359533261377,
+        "3PA": 0.22387647582246098,
+        "AST": 0.11343893765665514,
+        "BLK": 0.03397482337519098,
+        "FTA": 0.03256625757957059,
+        "REB": 0.20198239340682428,
+        "STL": 0.02695269671348781,
+        "TO": 0.04470396983399805
+      },
+      "player_key": "nba:201143",
+      "prediction_timestamp": "2026-10-13T03:40:00+00:00",
+      "sample_mean": {
+        "3PM": 1.1015625,
+        "AST": 1.609375,
+        "BLK": 0.51953125,
+        "FGA": 5.35546875,
+        "FGM": 2.46875,
+        "FTA": 0.41015625,
+        "FTM": 0.32421875,
+        "PTS": 6.36328125,
+        "REB": 3.109375,
+        "STL": 0.4140625,
+        "TO": 0.58984375
+      },
+      "sample_sd": {
+        "3PM": 1.1671305100334668,
+        "AST": 1.5015514852129108,
+        "BLK": 0.70822158864825,
+        "FGA": 2.5915793834996435,
+        "FGM": 1.7531484283324974,
+        "FTA": 0.6800622628646211,
+        "FTM": 0.5673807856125839,
+        "PTS": 4.463892104496729,
+        "REB": 2.524342275042873,
+        "STL": 0.6450699156513435,
+        "TO": 0.7869862936993174
+      },
+      "seed": 42,
+      "shooting_probabilities": {
+        "2P": 0.5554531362496513,
+        "3P": 0.3663182267465393,
+        "FT": 0.7606275216309808
+      },
+      "warnings": [
+        "Conditional statistical estimates, not verified playing-time/availability assumptions.",
+        "Snapshot newest games April 2026; current roster and role unknown.",
+        "Joint count calibration has no guaranteed player-specific coverage or live matchup calibration."
+      ]
+    },
+    {
+      "assumptions": {
+        "availability_probability": null,
+        "context": "last observed team history, not confirmed upcoming matchup",
+        "expected_minutes_unconditional": null,
+        "game_count": null
+      },
+      "code_hash": "68e05045c2785d3e03bc686d2d3b5c0f2c332f61a710a4185ee4bc411fa5a008",
+      "data_cutoff": "2026-10-13T03:40:00+00:00",
+      "dataset_version": "57760f7a9ddac3f0371d3eff75b7ff9d79de851d206929ac3f6063888d751cf8",
+      "expected_counts": {
+        "3PM": 0.8422070184441643,
+        "AST": 1.8658367933652114,
+        "BLK": 0.1338536544964616,
+        "FGA": 2.8616193437276376,
+        "FGM": 1.1553918650884065,
+        "FTA": 0.44341852637562834,
+        "FTM": 0.36611964524643925,
+        "PTS": 3.519110393867417,
+        "REB": 1.1657944331863677,
+        "STL": 0.5376814469814012,
+        "TO": 0.5221407769278252
+      },
+      "historical_display_name": "Mike Conley",
+      "history_observations": 142,
+      "horizon": "next_recorded_player_game_conditional",
+      "input_hash": "9d10f5bb2b000e0f8fc958cee634f0cf81c361c03ea22f7c38671836761abde9",
+      "intervals_80": {
+        "3PM": [
+          0.0,
+          2.0
+        ],
+        "AST": [
+          0.0,
+          4.0
+        ],
+        "BLK": [
+          0.0,
+          1.0
+        ],
+        "FGA": [
+          1.0,
+          6.0
+        ],
+        "FGM": [
+          0.0,
+          3.0
+        ],
+        "FTA": [
+          0.0,
+          1.0
+        ],
+        "FTM": [
+          0.0,
+          1.0
+        ],
+        "PTS": [
+          0.0,
+          8.0
+        ],
+        "REB": [
+          0.0,
+          3.0
+        ],
+        "STL": [
+          0.0,
+          2.0
+        ],
+        "TO": [
+          0.0,
+          1.0
+        ]
+      },
+      "latest_observation": "2026-04-13T00:00:00+00:00",
+      "minutes_given_nonzero_record": {
+        "interval_80": [
+          10.600565829955155,
+          26.48738471794717
+        ],
+        "mean": 18.077725084631886
+      },
+      "minutes_group": "medium",
+      "model": "lgbm_small",
+      "model_id": "9faeac6d3fc5965cc88678652a259064cbd8cfaa2f7f1e1caae3f847174e46aa",
+      "model_version": "nba-advanced-v1",
+      "nba_player_id": 201144,
+      "nonzero_record_probability": 0.6668468436489802,
+      "per_minute_production": {
+        "2PA": 0.05122235743690291,
+        "3PA": 0.1861564727859492,
+        "AST": 0.15477605586033055,
+        "BLK": 0.011103511721455586,
+        "FTA": 0.036782729792801463,
+        "REB": 0.09670570596213858,
+        "STL": 0.044602086296605434,
+        "TO": 0.04331294695447626
+      },
+      "player_key": "nba:201144",
+      "prediction_timestamp": "2026-10-13T03:40:00+00:00",
+      "sample_mean": {
+        "3PM": 0.9453125,
+        "AST": 1.875,
+        "BLK": 0.12890625,
+        "FGA": 3.01953125,
+        "FGM": 1.3203125,
+        "FTA": 0.453125,
+        "FTM": 0.35546875,
+        "PTS": 3.94140625,
+        "REB": 1.09375,
+        "STL": 0.58203125,
+        "TO": 0.51953125
+      },
+      "sample_sd": {
+        "3PM": 1.0539084586507912,
+        "AST": 1.539034584075482,
+        "BLK": 0.3583518577063172,
+        "FGA": 1.9330990497836653,
+        "FGM": 1.2170913172436175,
+        "FTA": 0.744752887033745,
+        "FTM": 0.6646607383160401,
+        "PTS": 3.4686953493310115,
+        "REB": 1.1576683801639278,
+        "STL": 0.7573880393542419,
+        "TO": 0.7300344975732714
+      },
+      "seed": 42,
+      "shooting_probabilities": {
+        "2P": 0.5071907224270347,
+        "3P": 0.37529332252284114,
+        "FT": 0.825675120611204
+      },
+      "warnings": [
+        "Conditional statistical estimates, not verified playing-time/availability assumptions.",
+        "Snapshot newest games April 2026; current roster and role unknown.",
+        "Joint count calibration has no guaranteed player-specific coverage or live matchup calibration."
+      ]
+    },
+    {
+      "assumptions": {
+        "availability_probability": null,
+        "context": "last observed team history, not confirmed upcoming matchup",
+        "expected_minutes_unconditional": null,
+        "game_count": null
+      },
+      "code_hash": "68e05045c2785d3e03bc686d2d3b5c0f2c332f61a710a4185ee4bc411fa5a008",
+      "data_cutoff": "2026-10-13T03:40:00+00:00",
+      "dataset_version": "57760f7a9ddac3f0371d3eff75b7ff9d79de851d206929ac3f6063888d751cf8",
+      "expected_counts": {
+        "3PM": 0.46380986336940067,
+        "AST": 0.49629719929370614,
+        "BLK": 0.12951283706218114,
+        "FGA": 2.6399215253110566,
+        "FGM": 1.1187843994003615,
+        "FTA": 0.4458417076699694,
+        "FTM": 0.33909763834186646,
+        "PTS": 3.0404763005119904,
+        "REB": 1.1526141541753159,
+        "STL": 0.2170149742641056,
+        "TO": 0.3351170607521037
+      },
+      "historical_display_name": "Jeff Green",
+      "history_observations": 164,
+      "horizon": "next_recorded_player_game_conditional",
+      "input_hash": "8e4c16c2893ee1dc383eeaf945c165d770b144ee253f844d18dfa17050f65fe6",
+      "intervals_80": {
+        "3PM": [
+          0.0,
+          1.0
+        ],
+        "AST": [
+          0.0,
+          1.0
+        ],
+        "BLK": [
+          0.0,
+          0.5
+        ],
+        "FGA": [
+          1.0,
+          5.0
+        ],
+        "FGM": [
+          0.0,
+          3.0
+        ],
+        "FTA": [
+          0.0,
+          1.0
+        ],
+        "FTM": [
+          0.0,
+          1.0
+        ],
+        "PTS": [
+          0.0,
+          7.0
+        ],
+        "REB": [
+          0.0,
+          3.0
+        ],
+        "STL": [
+          0.0,
+          1.0
+        ],
+        "TO": [
+          0.0,
+          1.0
+        ]
+      },
+      "latest_observation": "2026-04-13T00:00:00+00:00",
+      "minutes_given_nonzero_record": {
+        "interval_80": [
+          5.525494982515223,
+          22.90100530970821
+        ],
+        "mean": 13.214090637482485
+      },
+      "minutes_group": "low",
+      "model": "lgbm_small",
+      "model_id": "9faeac6d3fc5965cc88678652a259064cbd8cfaa2f7f1e1caae3f847174e46aa",
+      "model_version": "nba-advanced-v1",
+      "nba_player_id": 201145,
+      "nonzero_record_probability": 0.5535779721562741,
+      "per_minute_production": {
+        "2PA": 0.16812114739030168,
+        "3PA": 0.19276892498421494,
+        "AST": 0.06784623347895596,
+        "BLK": 0.01770503277944683,
+        "FTA": 0.06094872313662234,
+        "REB": 0.15756794341498823,
+        "STL": 0.02966699919585633,
+        "TO": 0.04581212704590217
+      },
+      "player_key": "nba:201145",
+      "prediction_timestamp": "2026-10-13T03:40:00+00:00",
+      "sample_mean": {
+        "3PM": 0.43359375,
+        "AST": 0.4765625,
+        "BLK": 0.10546875,
+        "FGA": 2.74609375,
+        "FGM": 1.09765625,
+        "FTA": 0.50390625,
+        "FTM": 0.421875,
+        "PTS": 3.05078125,
+        "REB": 1.30078125,
+        "STL": 0.1875,
+        "TO": 0.3515625
+      },
+      "sample_sd": {
+        "3PM": 0.7108986131898797,
+        "AST": 0.7717039333736182,
+        "BLK": 0.3202471089398212,
+        "FGA": 2.0431579687567276,
+        "FGM": 1.1956761869827663,
+        "FTA": 0.69732287441075,
+        "FTM": 0.6338104497990782,
+        "PTS": 3.0021821108105,
+        "REB": 1.859622398683742,
+        "STL": 0.4558981654436679,
+        "TO": 0.6147193684607508
+      },
+      "seed": 42,
+      "shooting_probabilities": {
+        "2P": 0.5325813924078161,
+        "3P": 0.32891741833350285,
+        "FT": 0.7605785472921269
+      },
+      "warnings": [
+        "Conditional statistical estimates, not verified playing-time/availability assumptions.",
+        "Snapshot newest games April 2026; current roster and role unknown.",
+        "Joint count calibration has no guaranteed player-specific coverage or live matchup calibration."
+      ]
+    },
+    {
+      "assumptions": {
+        "availability_probability": null,
+        "context": "last observed team history, not confirmed upcoming matchup",
+        "expected_minutes_unconditional": null,
+        "game_count": null
+      },
+      "code_hash": "68e05045c2785d3e03bc686d2d3b5c0f2c332f61a710a4185ee4bc411fa5a008",
+      "data_cutoff": "2026-10-13T03:40:00+00:00",
+      "dataset_version": "57760f7a9ddac3f0371d3eff75b7ff9d79de851d206929ac3f6063888d751cf8",
+      "expected_counts": {
+        "3PM": 1.2938278971291917,
+        "AST": 1.4223072297595776,
+        "BLK": 1.1106440611299924,
+        "FGA": 7.34693748969244,
+        "FGM": 3.3354588234896694,
+        "FTA": 1.1970259531676644,
+        "FTM": 0.9102802265009472,
+        "PTS": 8.875025770609478,
+        "REB": 4.157457143330988,
+        "STL": 0.5143864324196266,
+        "TO": 0.8589489016399845
+      },
+      "historical_display_name": "Brook Lopez",
+      "history_observations": 162,
+      "horizon": "next_recorded_player_game_conditional",
+      "input_hash": "9d5e3dea8825d8af9136fde3094d015692b7a9f1a7e2cc65cc785c2f7569fd31",
+      "intervals_80": {
+        "3PM": [
+          0.0,
+          3.0
+        ],
+        "AST": [
+          0.0,
+          3.0
+        ],
+        "BLK": [
+          0.0,
+          3.0
+        ],
+        "FGA": [
+          3.0,
+          12.0
+        ],
+        "FGM": [
+          1.0,
+          6.0
+        ],
+        "FTA": [
+          0.0,
+          3.0
+        ],
+        "FTM": [
+          0.0,
+          2.5
+        ],
+        "PTS": [
+          3.0,
+          16.0
+        ],
+        "REB": [
+          1.0,
+          7.0
+        ],
+        "STL": [
+          0.0,
+          1.0
+        ],
+        "TO": [
+          0.0,
+          2.0
+        ]
+      },
+      "latest_observation": "2026-04-13T00:00:00+00:00",
+      "minutes_given_nonzero_record": {
+        "interval_80": [
+          16.12901283217559,
+          32.015831720167604
+        ],
+        "mean": 23.60617208685232
+      },
+      "minutes_group": "medium",
+      "model": "lgbm_small",
+      "model_id": "9faeac6d3fc5965cc88678652a259064cbd8cfaa2f7f1e1caae3f847174e46aa",
+      "model_version": "nba-advanced-v1",
+      "nba_player_id": 201572,
+      "nonzero_record_probability": 0.8929657916610927,
+      "per_minute_production": {
+        "2PA": 0.17383676793781425,
+        "3PA": 0.17469787684971994,
+        "AST": 0.06747346711449266,
+        "BLK": 0.052688339035743055,
+        "FTA": 0.0567862481440844,
+        "REB": 0.19722746391992535,
+        "STL": 0.024402207417502698,
+        "TO": 0.04074806009221498
+      },
+      "player_key": "nba:201572",
+      "prediction_timestamp": "2026-10-13T03:40:00+00:00",
+      "sample_mean": {
+        "3PM": 1.43359375,
+        "AST": 1.3515625,
+        "BLK": 1.171875,
+        "FGA": 7.40625,
+        "FGM": 3.59375,
+        "FTA": 1.23046875,
+        "FTM": 0.9765625,
+        "PTS": 9.59765625,
+        "REB": 3.85546875,
+        "STL": 0.51953125,
+        "TO": 0.81640625
+      },
+      "sample_sd": {
+        "3PM": 1.2693538478991864,
+        "AST": 1.4312470566799087,
+        "BLK": 1.0672256501018396,
+        "FGA": 3.395354380996043,
+        "FGM": 2.169078597189211,
+        "FTA": 1.315670773154642,
+        "FTM": 1.1746662020652974,
+        "PTS": 5.4770675543668474,
+        "REB": 2.6343525035091826,
+        "STL": 0.7407001027115243,
+        "TO": 0.8820010531984286
+      },
+      "seed": 42,
+      "shooting_probabilities": {
+        "2P": 0.5571539402470486,
+        "3P": 0.3513407252022004,
+        "FT": 0.7604515374893017
+      },
+      "warnings": [
+        "Conditional statistical estimates, not verified playing-time/availability assumptions.",
+        "Snapshot newest games April 2026; current roster and role unknown.",
+        "Joint count calibration has no guaranteed player-specific coverage or live matchup calibration."
+      ]
+    },
+    {
+      "assumptions": {
+        "availability_probability": null,
+        "context": "last observed team history, not confirmed upcoming matchup",
+        "expected_minutes_unconditional": null,
+        "game_count": null
+      },
+      "code_hash": "68e05045c2785d3e03bc686d2d3b5c0f2c332f61a710a4185ee4bc411fa5a008",
+      "data_cutoff": "2026-10-13T03:40:00+00:00",
+      "dataset_version": "57760f7a9ddac3f0371d3eff75b7ff9d79de851d206929ac3f6063888d751cf8",
+      "expected_counts": {
+        "3PM": 0.9079143613583556,
+        "AST": 6.645082885096512,
+        "BLK": 0.41359325502683386,
+        "FGA": 12.14431986988156,
+        "FGM": 6.236759511691365,
+        "FTA": 4.908576167650845,
+        "FTM": 3.5270422678090227,
+        "PTS": 16.90847565255011,
+        "REB": 5.448932570866371,
+        "STL": 0.9822737324658573,
+        "TO": 2.8327106628171825
+      },
+      "historical_display_name": "LeBron James",
+      "history_observations": 130,
+      "horizon": "next_recorded_player_game_conditional",
+      "input_hash": "f46c5ad22260e425d1150a2465bf666672044dfaea82f53b4f14ec7996f56ff6",
+      "intervals_80": {
+        "3PM": [
+          0.0,
+          2.0
+        ],
+        "AST": [
+          3.0,
+          10.5
+        ],
+        "BLK": [
+          0.0,
+          1.0
+        ],
+        "FGA": [
+          7.0,
+          17.0
+        ],
+        "FGM": [
+          3.0,
+          9.0
+        ],
+        "FTA": [
+          1.0,
+          10.0
+        ],
+        "FTM": [
+          0.0,
+          8.0
+        ],
+        "PTS": [
+          8.0,
+          26.0
+        ],
+        "REB": [
+          2.0,
+          9.0
+        ],
+        "STL": [
+          0.0,
+          2.0
+        ],
+        "TO": [
+          1.0,
+          5.0
+        ]
+      },
+      "latest_observation": "2026-04-13T00:00:00+00:00",
+      "minutes_given_nonzero_record": {
+        "interval_80": [
+          21.935319835036594,
+          34.01176477563023
+        ],
+        "mean": 28.643092454249423
+      },
+      "minutes_group": "high",
+      "model": "lgbm_small",
+      "model_id": "9faeac6d3fc5965cc88678652a259064cbd8cfaa2f7f1e1caae3f847174e46aa",
+      "model_version": "nba-advanced-v1",
+      "nba_player_id": 2544,
+      "nonzero_record_probability": 0.9010211976797695,
+      "per_minute_production": {
+        "2PA": 0.3606881312468651,
+        "3PA": 0.10987541962424996,
+        "AST": 0.2574811789994778,
+        "BLK": 0.01602575630311257,
+        "FTA": 0.19019566809167374,
+        "REB": 0.2111331953107688,
+        "STL": 0.038060774125596664,
+        "TO": 0.10976081018678928
+      },
+      "player_key": "nba:2544",
+      "prediction_timestamp": "2026-10-13T03:40:00+00:00",
+      "sample_mean": {
+        "3PM": 0.84765625,
+        "AST": 6.45703125,
+        "BLK": 0.4140625,
+        "FGA": 12.203125,
+        "FGM": 6.0078125,
+        "FTA": 5.06640625,
+        "FTM": 3.58203125,
+        "PTS": 16.4453125,
+        "REB": 5.5390625,
+        "STL": 0.984375,
+        "TO": 2.72265625
+      },
+      "sample_sd": {
+        "3PM": 0.9352751377714118,
+        "AST": 2.840551826911903,
+        "BLK": 0.626566663902354,
+        "FGA": 3.931490512141524,
+        "FGM": 2.7238844631568813,
+        "FTA": 3.823493471739081,
+        "FTM": 3.1149716542631243,
+        "PTS": 6.855721633617212,
+        "REB": 2.8488796387489645,
+        "STL": 0.9618966150471764,
+        "TO": 1.677192558250537
+      },
+      "seed": 42,
+      "shooting_probabilities": {
+        "2P": 0.5724615674823158,
+        "3P": 0.32017648011829675,
+        "FT": 0.7185469161206886
+      },
+      "warnings": [
+        "Conditional statistical estimates, not verified playing-time/availability assumptions.",
+        "Snapshot newest games April 2026; current roster and role unknown.",
+        "Joint count calibration has no guaranteed player-specific coverage or live matchup calibration."
+      ]
+    }
+  ],
+  "limits": [
+    "Post-evaluation full-history refits have no independent future evaluation.",
+    "Minutes are conditional on observed nonzero >=1-minute row; unconditional availability remains unknown.",
+    "Nonzero-row probability is an auxiliary mean-factorization head, not guaranteed sampler zero-mass.",
+    "Latest source games April2026; no verified current roster/roles/schedule/injuries.",
+    "Counts retain within-vector residual dependence; cross-player/game dependence is unmodelled.",
+    "Scores/odds are research diagnostics, not calibrated live matchup probabilities."
+  ],
+  "model_freeze_hash": "039b5610de975046696b6cf9144f2bcf25a4077feb4185872e55eec6cab3b711",
+  "scope": "Actual advanced NBA training and forecasts; fixture league/schedule/ownership/values only; no live Yahoo advice",
+  "seven_day_projection": {
+    "available": false,
+    "game_count": null,
+    "reason": "Verified future schedule/participation unavailable."
+  },
+  "source_players": 697,
+  "supervised_eligible_cases": 63955,
+  "supervised_eligible_players": 689,
+  "verification": {
+    "candidate_cached_report_equal": true,
+    "ctest_seconds": 1.7,
+    "ctest_targets": 3,
+    "frozen_calibration_artifacts_rebuilt_exact_sha256": 5,
+    "frozen_research_models_retrained_exact_sha256": 2,
+    "full_python_tests": 225,
+    "independent_replay_mae_check": true,
+    "isolated_built_wheel_real_predictions_and_native_parity": true,
+    "matched_model_case_replays_checked": 81936,
+    "native_reference_4096_scenario_ranked_actions_exact": true,
+    "no_local_test_skips": true,
+    "original_nba_registry_and_benchmark_bytes_unchanged": true,
+    "pytest_seconds": 117.95,
+    "repeat_train_registry_bytes_unchanged": true
+  }
+}

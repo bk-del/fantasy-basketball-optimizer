@@ -626,3 +626,10 @@ current roster/participation and authorized Yahoo identity/rules, followed by a 
 chronological protocol for subgroup/ratio/joint calibration. Credentials are
 `missing_auth` with no approved/network-checked live scope; no live recommendation,
 transaction, main merge, external push or publication occurred.
+
+
+Advanced forecasting milestone (2026-10-13): [actual LightGBM/PyTorch training,
+fresh chronological comparisons, conditional minutes/rates/uncertainty and native
+fixture integration](ADVANCED_FORECASTING.md) are complete. The selected candidate
+fails its frozen practical promotion threshold; recency and previous evidence
+remain unchanged. No Yahoo integration or real future schedule was added.

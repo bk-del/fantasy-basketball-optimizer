@@ -178,3 +178,10 @@ reservation and registry safeguards; these were reused rather than duplicated.
 The next exact task is owner review of this audit and selection of the integration
 and temporal contract scope before introducing any forecasting improvement. No
 new stage is automatically started.
+
+
+Advanced forecasting milestone (2026-10-13): [actual LightGBM/PyTorch training,
+fresh chronological comparisons, conditional minutes/rates/uncertainty and native
+fixture integration](ADVANCED_FORECASTING.md) are complete. The selected candidate
+fails its frozen practical promotion threshold; recency and previous evidence
+remain unchanged. No Yahoo integration or real future schedule was added.
